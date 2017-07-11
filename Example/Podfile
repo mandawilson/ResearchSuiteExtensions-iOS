@@ -1,0 +1,13 @@
+use_frameworks!
+platform :ios, '9.0'
+
+target 'ResearchSuiteExtensions_Example' do
+  pod 'ResearchSuiteExtensions', :path => '../'
+  pod 'ResearchKit', '1.4.1'
+
+  target 'ResearchSuiteExtensions_Tests' do
+    inherit! :search_paths
+
+
+  end
+end

@@ -1,0 +1,56 @@
+{
+  "name": "ResearchSuiteExtensions",
+  "version": "0.0.1",
+  "summary": "A short description of ResearchSuiteExtensions.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/jdkizer9/ResearchSuiteExtensions",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "jdkizer9": "jdkizer9@users.noreply.github.com"
+  },
+  "source": {
+    "git": "https://github.com/jdkizer9/ResearchSuiteExtensions.git",
+    "tag": "0.0.1"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "subspecs": [
+    {
+      "name": "Common",
+      "source_files": "source/Common/Classes/**/*",
+      "dependencies": {
+        "ResearchKit": [
+          "~> 1.4"
+        ]
+      }
+    },
+    {
+      "name": "Core",
+      "source_files": "source/Core/Classes/**/*",
+      "dependencies": {
+        "ResearchKit": [
+          "~> 1.4"
+        ]
+      }
+    },
+    {
+      "name": "RSTBSupport",
+      "source_files": "source/RSTBSupport/Classes/**/*",
+      "dependencies": {
+        "ResearchSuiteExtensions/Core": [
+
+        ],
+        "ResearchSuiteTaskBuilder": [
+          "~> 0.4"
+        ],
+        "Gloss": [
+          "~> 1"
+        ]
+      }
+    }
+  ]
+}
