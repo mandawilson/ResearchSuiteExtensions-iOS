@@ -37,6 +37,7 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
 
   s.subspec 'Core' do |core|
     core.source_files = 'source/Core/Classes/**/*'
+    core.dependency 'ResearchSuiteExtensions/Common'
     core.dependency 'ResearchKit', '~> 1.4'
   end
 
