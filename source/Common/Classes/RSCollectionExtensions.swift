@@ -8,9 +8,9 @@
 
 import UIKit
 
-extension Array {
+public extension Array {
     
-    func random() -> Element? {
+    public func random() -> Element? {
         if self.count == 0 {
             return nil
         }
@@ -22,9 +22,9 @@ extension Array {
     }
 }
 
-extension MutableCollection where Indices.Iterator.Element == Index {
+public extension MutableCollection where Indices.Iterator.Element == Index {
     /// Shuffles the contents of this collection.
-    mutating func shuffle() {
+    public mutating func shuffle() {
         let c = count
         guard c > 1 else { return }
         
@@ -37,7 +37,7 @@ extension MutableCollection where Indices.Iterator.Element == Index {
     }
 }
 
-extension Sequence {
+public extension Sequence {
     /// Returns an array with the contents of this sequence, shuffled.
     public func shuffled(shouldShuffle: Bool = true) -> [Iterator.Element] {
         if shouldShuffle {
