@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RSQuestionTableViewController" customModule="ResearchSuiteExtensions" customModuleProvider="target">
             <connections>
+                <outlet property="bottomPaddingView" destination="rh0-II-AnT" id="a7K-ag-ccL"/>
                 <outlet property="continueButton" destination="Y00-dY-GC8" id="2mQ-XZ-zxa"/>
                 <outlet property="footerContainer" destination="N6A-eb-LJF" id="Pjv-6Y-8ld"/>
                 <outlet property="headerView" destination="pix-Ec-f5U" id="R9b-Wf-U0z"/>
@@ -18,6 +19,7 @@
                 <outlet property="tableViewBottomConstraint" destination="fGh-mh-0zW" id="YZj-v4-IVA"/>
                 <outlet property="textLabel" destination="Va8-k4-B89" id="eej-Jr-E2X"/>
                 <outlet property="titleLabel" destination="fue-NP-bKy" id="Kgj-HL-Ofd"/>
+                <outlet property="topPaddingView" destination="Nxl-cK-DDZ" id="EVY-69-Ipp"/>
                 <outlet property="view" destination="iN0-l3-epB" id="fiu-L7-wFg"/>
             </connections>
         </placeholder>
@@ -33,14 +35,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="135"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nxl-cK-DDZ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="8"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="8" id="a5f-Bf-Gaw"/>
+                                </constraints>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="752" text="Lorem ipsum" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fue-NP-bKy" userLabel="Title">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="33.5"/>
+                                <rect key="frame" x="0.0" y="8" width="375" height="33.5"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="751" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Va8-k4-B89" userLabel="Text">
-                                <rect key="frame" x="0.0" y="33.5" width="375" height="93.5"/>
+                                <rect key="frame" x="0.0" y="41.5" width="375" height="85.5"/>
                                 <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </string>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
