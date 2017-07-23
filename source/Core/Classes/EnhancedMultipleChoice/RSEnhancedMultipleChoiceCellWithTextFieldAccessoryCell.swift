@@ -146,21 +146,44 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCell: UITableViewCe
         
     }
     
-    open func updateUI(selected: Bool, animated: Bool, updateResponder: Bool) {
+    func updateHeightConstraints() {
         
         if self.titleHeight == nil {
             
-            let titleHeight = NSLayoutConstraint(item: self.titleLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: self.titleLabel.bounds.height)
+            //sorry for the magic numbers, padding, padding, checkmark, padding
+            let titleWidth = self.frame.width - (8 + 8 + 24 + 8)
+            let sizeThatFits = self.titleLabel.sizeThatFits(CGSize(width: titleWidth, height: CGFloat(MAXFLOAT)))
+            let height = sizeThatFits.height
+            
+            let titleHeight = NSLayoutConstraint(item: self.titleLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: height)
             
             self.titleHeight = titleHeight
             self.titleLabel.addConstraint(titleHeight)
             
-            let containerHeight = NSLayoutConstraint(item: self.choiceContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: self.choiceContainer.bounds.height)
+            //sorry for the magic numbers, padding + padding
+            let containerHeight = NSLayoutConstraint(item: self.choiceContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: height + 32)
             
             self.choiceContainerHeight = containerHeight
             self.choiceContainer.addConstraint(containerHeight)
         }
+    
+        let titleWidth = self.frame.width - (8 + 8 + 24 + 8)
+        let titleHeight = self.titleLabel.sizeThatFits(CGSize(width: titleWidth, height: CGFloat(MAXFLOAT))).height
+        self.titleHeight?.constant = titleHeight
+        //sorry for the magic numbers, padding + padding
+        self.choiceContainerHeight?.constant = titleHeight + 32
         
+    }
+    
+    open override func updateConstraints() {
+        
+        self.updateHeightConstraints()
+        super.updateConstraints()
+        
+    }
+    
+    open func updateUI(selected: Bool, animated: Bool, updateResponder: Bool) {
+
         if selected {
             self.titleLabel.textColor = self.tintColor
             self.checkImageView.isHidden = false
@@ -184,12 +207,12 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCell: UITableViewCe
                 self.auxHeight = auxContainerHeight
                 self.auxContainer.addConstraint(auxContainerHeight)
             }
-            
-//            if updateResponder { self.auxTextField.resignFirstResponder() }
-            
+
             self.endEditing(true)
             
         }
+        
+        self.setNeedsUpdateConstraints()
         
     }
     

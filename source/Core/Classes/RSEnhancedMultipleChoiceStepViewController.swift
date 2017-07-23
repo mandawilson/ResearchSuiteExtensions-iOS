@@ -133,6 +133,12 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         self.updateUI()
     }
     
+    override open func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.tableView.visibleCells.forEach { $0.setNeedsLayout() }
+    }
+    
     func updateUI() {
         if let selectedPaths = self.tableView.indexPathsForSelectedRows,
             selectedPaths.count > 0 {
