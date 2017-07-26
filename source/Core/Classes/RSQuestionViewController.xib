@@ -27,21 +27,21 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gj-kh-h00">
                     <rect key="frame" x="-0.5" y="0.0" width="375.5" height="537"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6yb-ch-6Ly" userLabel="Title">
-                            <rect key="frame" x="7.5" y="0.0" width="359.5" height="34"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="You are feeling more fatigued than usual." textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6yb-ch-6Ly" userLabel="Title">
+                            <rect key="frame" x="7.5" y="8" width="359.5" height="34"/>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCs-YI-ngY" userLabel="Text">
-                            <rect key="frame" x="7.5" y="34" width="359.5" height="98"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="752" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCs-YI-ngY" userLabel="Text">
+                            <rect key="frame" x="7.5" y="50" width="359.5" height="98"/>
                             <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </string>
                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bil-UP-xBl" userLabel="Content View">
-                            <rect key="frame" x="0.0" y="132" width="375.5" height="405"/>
+                        <view contentMode="scaleToFill" verticalHuggingPriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="bil-UP-xBl" userLabel="Content View">
+                            <rect key="frame" x="0.0" y="148" width="375.5" height="389"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
@@ -54,8 +54,8 @@
                         <constraint firstItem="6yb-ch-6Ly" firstAttribute="width" secondItem="3gj-kh-h00" secondAttribute="width" constant="-16" id="Uak-YF-oVn"/>
                         <constraint firstItem="bil-UP-xBl" firstAttribute="centerX" secondItem="3gj-kh-h00" secondAttribute="centerX" id="W0t-vc-Bl9"/>
                         <constraint firstItem="bil-UP-xBl" firstAttribute="width" secondItem="3gj-kh-h00" secondAttribute="width" id="bwE-q5-qwh"/>
-                        <constraint firstItem="6yb-ch-6Ly" firstAttribute="top" secondItem="3gj-kh-h00" secondAttribute="top" id="diW-mx-WwZ"/>
-                        <constraint firstItem="gCs-YI-ngY" firstAttribute="top" secondItem="6yb-ch-6Ly" secondAttribute="bottom" id="fRs-bs-Le0"/>
+                        <constraint firstItem="6yb-ch-6Ly" firstAttribute="top" secondItem="3gj-kh-h00" secondAttribute="top" constant="8" id="diW-mx-WwZ"/>
+                        <constraint firstItem="gCs-YI-ngY" firstAttribute="top" secondItem="6yb-ch-6Ly" secondAttribute="bottom" constant="8" id="fRs-bs-Le0"/>
                         <constraint firstItem="gCs-YI-ngY" firstAttribute="centerX" secondItem="3gj-kh-h00" secondAttribute="centerX" id="nci-SB-3oi"/>
                     </constraints>
                 </view>

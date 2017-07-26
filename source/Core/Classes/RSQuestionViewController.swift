@@ -62,6 +62,10 @@ open class RSQuestionViewController: ORKStepViewController {
             self.footerHeight.constant = RSQuestionViewController.footerHeightWithoutContinueButton
         }
         
+        if let step = self.step {
+            self.skipButton.isHidden = !step.isOptional
+        }
+        
     }
     
     open func setSkipButtonTitle(title: String) {
