@@ -91,13 +91,13 @@ open class RSQuestionViewController: ORKStepViewController {
         self.skipped = true
     }
     
-    @IBAction func continueTapped(_ sender: Any) {
+    @IBAction open func continueTapped(_ sender: Any) {
         if self.validate() {
             self.notifyDelegateAndMoveForward()
         }
     }
     
-    @IBAction func skipTapped(_ sender: Any) {
+    @IBAction open func skipTapped(_ sender: Any) {
         self.clearAnswer()
         self.notifyDelegateAndMoveForward()
     }
