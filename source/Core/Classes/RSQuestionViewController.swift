@@ -34,6 +34,12 @@ open class RSQuestionViewController: ORKStepViewController {
     open class var showsContinueButton: Bool {
         return true
     }
+    
+    open var continueButtonEnabled: Bool = true {
+        didSet {
+            self.continueButton.isEnabled = continueButtonEnabled
+        }
+    }
 
     override convenience init(step: ORKStep?) {
         self.init(step: step, result: nil)

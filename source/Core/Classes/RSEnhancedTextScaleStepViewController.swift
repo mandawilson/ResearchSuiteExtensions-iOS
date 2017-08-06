@@ -36,16 +36,23 @@ open class RSEnhancedTextScaleStepViewController: RSQuestionViewController {
             self.value = value
             if value >= 0 && value < answerFormat.textChoices.count {
                 sliderView.currentValueLabel.text = answerFormat.textChoices[value].text
+                self.continueButtonEnabled = true
+            }
+            else {
+                self.continueButtonEnabled = false
             }
 
             sliderView.setNeedsLayout()
             self.contentView.setNeedsLayout()
+            
+            
         }
 
         if let initializedResult = self.initializedResult as? ORKStepResult,
-            let result = initializedResult.firstResult as? ORKScaleQuestionResult,
-            let answer: Int = result.scaleAnswer?.intValue {
-            sliderView.setValue(value: answer, animated: false)
+            let result = initializedResult.firstResult as? ORKChoiceQuestionResult,
+            let choice = result.choiceAnswers?.first as? ORKTextChoice,
+            let index = textScaleStep.answerFormat.textChoices.index(of: choice) {
+            sliderView.setValue(value: index, animated: false)
         }
         else {
             sliderView.setValue(value: answerFormat.defaultIndex, animated: false)
@@ -58,14 +65,24 @@ open class RSEnhancedTextScaleStepViewController: RSQuestionViewController {
         self.contentView.setNeedsLayout()
     }
     
+    override open func validate() -> Bool {
+        guard let value = self.value,
+            let textScaleStep = self.step as? RSEnhancedTextScaleStep,
+            value >= 0 && value < textScaleStep.answerFormat.textChoices.count else {
+                return false
+        }
+        return true
+    }
+    
     override open var result: ORKStepResult? {
         guard let parentResult = super.result else {
             return nil
         }
         
-        if  self.hasAppeared,
+        if self.hasAppeared,
             let value = self.value,
-            let step = self.step as? RSEnhancedTextScaleStep {
+            let step = self.step as? RSEnhancedTextScaleStep,
+            value >= 0 && value < step.answerFormat.textChoices.count {
             
             let choiceResult = ORKChoiceQuestionResult(identifier: step.identifier)
             choiceResult.startDate = parentResult.startDate
