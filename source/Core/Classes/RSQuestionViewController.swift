@@ -20,6 +20,11 @@ open class RSQuestionViewController: ORKStepViewController {
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var footerHeight: NSLayoutConstraint!
     
+    var _appeared: Bool = false
+    open var hasAppeared: Bool {
+        return _appeared
+    }
+    
     open var skipped: Bool = false
     private var _initializedResult: ORKResult?
     public var initializedResult: ORKResult? {
@@ -51,6 +56,18 @@ open class RSQuestionViewController: ORKStepViewController {
         self.titleLabel.text = self.step?.title
         self.textLabel.text = self.step?.text
         
+        if let step = self.step as? RSStep {
+            if let attributedTitle = step.attributedTitle {
+                self.titleLabel.attributedText = attributedTitle
+            }
+            
+            if let attributedText = step.attributedText {
+                self.textLabel.attributedText = attributedText
+            }
+        }
+        
+        
+        
         if self.hasNextStep() {
             self.setContinueButtonTitle(title: "Next")
         }
@@ -66,6 +83,13 @@ open class RSQuestionViewController: ORKStepViewController {
             self.skipButton.isHidden = !step.isOptional
         }
         
+    }
+    
+    //this is due to bug in RK 1.4.1. Parent result date not initialized properly
+    //sub classes should check hasAppeared before accessing
+    override open func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self._appeared = true
     }
     
     open func setSkipButtonTitle(title: String) {

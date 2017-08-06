@@ -16,13 +16,12 @@ open class RSTemplatedTextDescriptor: Decodable {
     
     required public init?(json: JSON) {
         
-        guard let template: String = "template" <~~ json,
-            let arguments: [String] = "arguments" <~~ json else {
+        guard let template: String = "template" <~~ json else {
                 return nil
         }
         
         self.template = template
-        self.arguments = arguments
+        self.arguments = "arguments" <~~ json ?? []
 
     }
 
