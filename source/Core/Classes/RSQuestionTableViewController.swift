@@ -27,6 +27,7 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
     var rawFooterHeight: CGFloat?
     
     var tableViewStep: RSQuestionTableViewStep?
+    var border: CALayer?
     
     open var skipped = false
     
@@ -79,6 +80,18 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
             self.topPaddingView.frame.height +
             self.bottomPaddingView.frame.height
 
+        if let border = self.border {
+            border.removeFromSuperlayer()
+        }
+        
+        //add bottom border to header
+        let border:CALayer = CALayer()
+        border.borderColor = UIColor(white: 0.8, alpha: 1.0).cgColor
+        border.borderWidth = 1.0
+        border.frame = CGRect(x: 0, y:header.frame.height-1, width: header.frame.width, height: 0.5)
+        
+        self.border = border
+        header.layer.addSublayer(border)
         
         self.tableView.tableHeaderView = header
     }
