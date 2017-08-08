@@ -23,7 +23,7 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
     @IBOutlet weak var headerView: UIStackView!
     @IBOutlet weak var footerContainer: UIView!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
-    
+
     var rawFooterHeight: CGFloat?
     
     var tableViewStep: RSQuestionTableViewStep?
@@ -44,9 +44,7 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
     }
     
     override open func viewDidLoad() {
-        
-//        print(self.step)
-        
+
         self.titleLabel.text = self.step?.title
         self.textLabel.text = self.step?.text
         
@@ -66,27 +64,38 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
         
     }
     
+    open func updateHeader(width: CGFloat) {
+        self.titleLabel.invalidateIntrinsicContentSize()
+        self.textLabel.invalidateIntrinsicContentSize()
+        
+        let titleSize = self.titleLabel.sizeThatFits(CGSize(width: self.titleLabel.bounds.width, height: CGFloat(MAXFLOAT)))
+        let textSize = self.textLabel.sizeThatFits(CGSize(width: self.textLabel.bounds.width, height: CGFloat(MAXFLOAT)))
+        
+        let header: UIView = self.tableView.tableHeaderView!
+        
+        header.frame.size.height =
+            titleSize.height +
+            textSize.height +
+            self.topPaddingView.frame.height +
+            self.bottomPaddingView.frame.height
+
+        
+        self.tableView.tableHeaderView = header
+    }
+    
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if let header = self.tableView.tableHeaderView {
-            let titleSize = self.titleLabel.sizeThatFits(CGSize(width: self.tableView.frame.size.width, height: CGFloat(MAXFLOAT)))
-            let textSize = self.textLabel.sizeThatFits(CGSize(width: self.tableView.frame.size.width, height: CGFloat(MAXFLOAT)))
-            header.frame.size.height =
-                titleSize.height +
-                textSize.height +
-                self.topPaddingView.frame.height +
-                self.bottomPaddingView.frame.height
-            self.tableView.tableHeaderView = header
-            
-            //add bottom boarder to header
-            let bottomBorder:CALayer = CALayer()
-            bottomBorder.borderColor = UIColor(white: 0.8, alpha: 1.0).cgColor
-            bottomBorder.borderWidth = 1.0
-            bottomBorder.frame = CGRect(x: 0, y:header.frame.height - 1.0, width: header.frame.width, height: 0.5)
-            
-            header.layer.addSublayer(bottomBorder)
+
+        if self.step?.title == nil {
+            self.titleLabel.frame.size.height = 0
         }
+        
+        if self.step?.text == nil {
+            self.textLabel.frame.size.height = 0
+        }
+        
+        self.updateHeader(width: self.view.frame.size.width)
+        
         
         if let footer = self.tableView.tableFooterView {
             //add top boarder to header
@@ -101,6 +110,11 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
         
+    }
+
+    
+    override open func viewWillLayoutSubviews() {
+        self.updateHeader(width: self.view.frame.width)
     }
     
     override open func viewDidDisappear(_ animated: Bool) {
