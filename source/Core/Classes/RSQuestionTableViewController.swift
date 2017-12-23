@@ -63,6 +63,10 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
+        if let step = self.step {
+            self.skipButton.isHidden = !step.isOptional
+        }
+        
     }
     
     open func updateHeader(width: CGFloat) {
