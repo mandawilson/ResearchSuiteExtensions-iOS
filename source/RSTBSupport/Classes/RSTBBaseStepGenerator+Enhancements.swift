@@ -96,7 +96,6 @@ public extension RSTBBaseStepGenerator {
         
         let attributedString = md.attributedString()
         
-        debugPrint(attributedString)
         return attributedString
     }
 
