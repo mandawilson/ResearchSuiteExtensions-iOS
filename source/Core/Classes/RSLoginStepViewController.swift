@@ -37,14 +37,17 @@ open class RSLoginStepViewController: ORKFormStepViewController {
     open var isLoading: Bool = false {
         didSet {
             if isLoading != oldValue {
-                if isLoading {
-                    self.activityIndicator?.startAnimating()
-                    self.view.isUserInteractionEnabled = false
-                    
-                }
-                else {
-                    self.activityIndicator?.stopAnimating()
-                    self.view.isUserInteractionEnabled = true
+                let localIsLoading = isLoading
+                DispatchQueue.main.async {
+                    if localIsLoading {
+                        self.activityIndicator?.startAnimating()
+                        self.view.isUserInteractionEnabled = false
+                        
+                    }
+                    else {
+                        self.activityIndicator?.stopAnimating()
+                        self.view.isUserInteractionEnabled = true
+                    }
                 }
             }
         }
