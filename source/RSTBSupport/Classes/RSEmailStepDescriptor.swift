@@ -18,6 +18,7 @@ open class RSEmailStepDescriptor: RSTBStepDescriptor {
     public let messageSubject: String?
     public let messageBody: String?
     public let bodyIsHTML: Bool
+    public let errorMessage: String
     
     required public init?(json: JSON) {
         
@@ -33,6 +34,7 @@ open class RSEmailStepDescriptor: RSTBStepDescriptor {
         self.messageSubject = "messageSubject" <~~ json
         self.messageBody = "messageBody" <~~ json
         self.bodyIsHTML = "bodyIsHTML" <~~ json ?? false
+        self.errorMessage = "errorMessage" <~~ json ?? "We encountered an error launching your email client."
         
         super.init(json: json)
     }

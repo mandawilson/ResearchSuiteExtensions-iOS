@@ -22,50 +22,11 @@ open class RSEmailStepViewController: RSQuestionViewController, MFMailComposeVie
         self.setContinueButtonTitle(title: emailStep.buttonText)
         self.emailSent = false
     }
-    
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+
+    func composeMail(emailStep: RSEmailStep) {
         
-        if let emailStep = self.step as? RSEmailStep {
-            //load email
-            
-            let composeVC = MFMailComposeViewController()
-            composeVC.mailComposeDelegate = self
-            
-            // Configure the fields of the interface.
-            composeVC.setToRecipients(emailStep.recipientAddreses)
-            if let subject = emailStep.messageSubject {
-                composeVC.setSubject(subject)
-            }
-            
-            if let body = emailStep.messageBody {
-                composeVC.setMessageBody(body, isHTML: emailStep.bodyIsHTML)
-            }
-            else {
-                composeVC.setMessageBody("", isHTML: false)
-            }
-            
-            // Present the view controller modally.
-//            self.present(composeVC, animated: true, completion: nil)
-            self.present(composeVC, animated: true, completion: {
-                
-                print("showd VC")
-                
-            })
-            
-        }
-    }
-    
-    
-    
-    override open func continueTapped(_ sender: Any) {
-        
-        if self.emailSent {
-            self.notifyDelegateAndMoveForward()
-        }
-        else if let emailStep = self.step as? RSEmailStep {
-            //load email
-            
+        let mailClass: AnyClass? = NSClassFromString("MFMailComposeViewController")
+        if mailClass != nil && MFMailComposeViewController.canSendMail() {
             let composeVC = MFMailComposeViewController()
             composeVC.mailComposeDelegate = self
             
@@ -84,6 +45,33 @@ open class RSEmailStepViewController: RSQuestionViewController, MFMailComposeVie
             
             // Present the view controller modally.
             self.present(composeVC, animated: true, completion: nil)
+        }
+        else {
+            DispatchQueue.main.async {
+                let alertController = UIAlertController(title: "Email failed", message: emailStep.errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+                
+                // Replace UIAlertActionStyle.Default by UIAlertActionStyle.default
+                let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                    (result : UIAlertAction) -> Void in
+                    print("OK")
+                }
+                
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+        }
+        
+    }
+    
+    override open func continueTapped(_ sender: Any) {
+        
+        if self.emailSent {
+            self.notifyDelegateAndMoveForward()
+        }
+        else if let emailStep = self.step as? RSEmailStep {
+            //load email
+            
+            self.composeMail(emailStep: emailStep)
             
         }
         

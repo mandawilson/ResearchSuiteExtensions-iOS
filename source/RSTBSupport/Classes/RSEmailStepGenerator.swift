@@ -31,6 +31,7 @@ open class RSEmailStepGenerator: RSTBBaseStepGenerator {
             messageSubject: stepDescriptor.messageSubject,
             messageBody: stepDescriptor.messageBody,
             bodyIsHTML: stepDescriptor.bodyIsHTML,
+            errorMessage: stepDescriptor.errorMessage,
             buttonText: stepDescriptor.buttonText ?? "Next"
         )
         

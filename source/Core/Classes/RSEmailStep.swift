@@ -13,6 +13,7 @@ open class RSEmailStep: RSStep {
     open let recipientAddreses: [String]
     open let messageSubject: String?
     open let messageBody: String?
+    open let errorMessage: String?
     open let bodyIsHTML: Bool
     
     public init(
@@ -21,6 +22,7 @@ open class RSEmailStep: RSStep {
         messageSubject: String?,
         messageBody: String?,
         bodyIsHTML: Bool,
+        errorMessage: String,
         buttonText: String
     ) {
         self.buttonText = buttonText
@@ -28,6 +30,7 @@ open class RSEmailStep: RSStep {
         self.messageSubject = messageSubject
         self.messageBody = messageBody
         self.bodyIsHTML = bodyIsHTML
+        self.errorMessage = errorMessage
         super.init(identifier: identifier)
         
     }
