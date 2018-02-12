@@ -28,7 +28,7 @@ open class RSRedirectStepViewController: RSQuestionViewController {
 
     override open func continueTapped(_ sender: Any) {
         
-        self.redirectDelegate?.beginRedirect(completion: { (error) in
+        self.redirectDelegate?.beginRedirect(completion: { (error, errorMessage) in
             debugPrint(error)
             
             if error == nil {
@@ -39,8 +39,9 @@ open class RSRedirectStepViewController: RSQuestionViewController {
             }
             else {
                 self.logInSuccessful = false
+                let message: String = errorMessage ?? "An unknown error occurred"
                 DispatchQueue.main.async {
-                    let alertController = UIAlertController(title: "Log in failed", message: "Username / Password are not valid", preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Log in failed", message: message, preferredStyle: UIAlertControllerStyle.alert)
                     
                     // Replace UIAlertActionStyle.Default by UIAlertActionStyle.default
                     let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
