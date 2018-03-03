@@ -18,6 +18,14 @@ open class RSEmailStepGenerator: RSTBBaseStepGenerator {
         return ["emailStep"]
     }
     
+    open func generateMessageBody(type: String, jsonObject: JSON, helper: RSTBTaskBuilderHelper) -> String? {
+        guard let stepDescriptor = RSEmailStepDescriptor(json:jsonObject) else {
+            return nil
+        }
+        
+        return stepDescriptor.messageBody
+    }
+    
     open func generateStep(type: String, jsonObject: JSON, helper: RSTBTaskBuilderHelper) -> ORKStep? {
         
         guard let stepDescriptor = RSEmailStepDescriptor(json:jsonObject),
@@ -25,11 +33,13 @@ open class RSEmailStepGenerator: RSTBBaseStepGenerator {
                 return nil
         }
         
+        let messageBody: String? = self.generateMessageBody(type: type, jsonObject: jsonObject, helper: helper)
+        
         let step = RSEmailStep(
             identifier: stepDescriptor.identifier,
             recipientAddreses: stepDescriptor.recipientAddreses,
             messageSubject: stepDescriptor.messageSubject,
-            messageBody: stepDescriptor.messageBody,
+            messageBody: messageBody,
             bodyIsHTML: stepDescriptor.bodyIsHTML,
             errorMessage: stepDescriptor.errorMessage,
             buttonText: stepDescriptor.buttonText ?? "Next"
