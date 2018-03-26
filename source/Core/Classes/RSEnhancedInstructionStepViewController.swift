@@ -10,6 +10,8 @@ import UIKit
 
 open class RSEnhancedInstructionStepViewController: RSQuestionViewController {
 
+    var stackView: UIStackView!
+    
     override open func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,29 +19,22 @@ open class RSEnhancedInstructionStepViewController: RSQuestionViewController {
             return
         }
         
-        if let attributedTitle = step.attributedTitle {
-            self.titleLabel.attributedText = attributedTitle
+        var stackedViews: [UIView] = []
+
+        if let gifURL = step.gifURL {
+            
+            let imageView = UIImageView()
+            imageView.setGifFromURL(gifURL)
+            
+            stackedViews.append(imageView)
+            
         }
         
-        if let attributedText = step.attributedText {
-            self.textLabel.attributedText = attributedText
-        }
+        let stackView = UIStackView(arrangedSubviews: stackedViews)
+        stackView.frame = self.contentView.bounds
+        self.stackView = stackView
+        
+        self.contentView.addSubview(stackView)
     }
-
-    override open func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
