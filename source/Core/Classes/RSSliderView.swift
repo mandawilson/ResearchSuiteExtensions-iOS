@@ -10,7 +10,7 @@ import UIKit
 
 open class RSSliderView: UIView {
     
-    open class func newView(minimumValue: Int, maximumValue: Int) -> RSSliderView? {
+    open class func newView(minimumValue: Int, maximumValue: Int, stepSize: Int = 1) -> RSSliderView? {
         let bundle = Bundle(for: RSSliderView.self)
         guard let views = bundle.loadNibNamed("RSSliderView", owner: nil, options: nil),
             let view = views.first as? RSSliderView else {
@@ -22,9 +22,9 @@ open class RSSliderView: UIView {
         return view
     }
     
-    open class func configureView(view: RSSliderView, minimumValue: Int, maximumValue: Int) {
+    open class func configureView(view: RSSliderView, minimumValue: Int, maximumValue: Int, stepSize: Int = 1) {
         
-        view.sliderView.numberOfSteps = maximumValue - minimumValue
+        view.sliderView.numberOfSteps = (maximumValue - minimumValue) / stepSize
         view.sliderView.maximumValue = Float(maximumValue)
         view.sliderView.minimumValue = Float(minimumValue)
         
