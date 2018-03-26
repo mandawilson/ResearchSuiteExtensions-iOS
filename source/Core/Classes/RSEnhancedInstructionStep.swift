@@ -12,7 +12,10 @@ import ResearchKit
 open class RSEnhancedInstructionStep: RSStep {
 
     override open func stepViewControllerClass() -> AnyClass {
-        return RSQuestionViewController.self
+        return RSEnhancedInstructionStepViewController.self
     }
+    
+    open var gif: UIImage?
+    open var gifURL: URL?
 
 }

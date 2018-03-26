@@ -12,6 +12,7 @@ import ResearchSuiteTaskBuilder
 import Gloss
 import SwiftyMarkdown
 import Mustache
+import SwiftyGif
 
 open class RSEnhancedInstructionStepGenerator: RSTBBaseStepGenerator {
     
@@ -39,6 +40,20 @@ open class RSEnhancedInstructionStepGenerator: RSTBBaseStepGenerator {
         
         if let formattedText = stepDescriptor.formattedText {
             step.attributedText = self.generateAttributedString(descriptor: formattedText, stateHelper: stateHelper)
+        }
+        
+        if let gifTitle = stepDescriptor.gifTitle,
+            let gifURL = Bundle.main.url(forResource: gifTitle, withExtension: nil) {
+            
+            //get url for local image
+            let gif = UIImage(gifName: gifTitle)
+            step.gif = gif
+            step.gifURL = gifURL
+        }
+        
+        if let gifURLString = stepDescriptor.gifURL,
+            let gifURL = URL(string: gifURLString) {
+            step.gifURL = gifURL
         }
         
         return step
