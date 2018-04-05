@@ -18,5 +18,6 @@ open class RSEnhancedInstructionStep: RSStep {
     open var gif: UIImage?
     open var gifURL: URL?
     open var image: UIImage?
+    open var audioTitle: String?
 
 }

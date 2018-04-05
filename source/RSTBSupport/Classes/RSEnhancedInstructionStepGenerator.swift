@@ -61,6 +61,8 @@ open class RSEnhancedInstructionStepGenerator: RSTBBaseStepGenerator {
             step.image = image
         }
         
+        step.audioTitle = stepDescriptor.audioTitle
+        
         return step
     }
     

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ResearchSuiteExtensions'
-  s.version          = '0.12.0'
+  s.version          = '0.13.0'
   s.summary          = 'ResearchSuiteExtensions provides components and helper functions for ResearchSuite based iOS applications.'
 
 # This description is used to generate tags and improve search results.
@@ -29,6 +29,7 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '9.0'
+  s.swift_version = '3.3'
 
   s.subspec 'Common' do |common|
     common.source_files = 'source/Common/Classes/**/*'
@@ -48,7 +49,7 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
     rstb.dependency 'ResearchSuiteTaskBuilder', '~> 0.4'
     rstb.dependency 'Gloss', '~> 1'
     rstb.dependency 'SwiftyMarkdown', '~> 0.3'
-    rstb.dependency 'GRMustache.swift', '~> 2.0'
+    rstb.dependency 'GRMustache.swift', '~> 2.1'
   end
 
   # s.resource_bundles = {

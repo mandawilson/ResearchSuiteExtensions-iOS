@@ -33,9 +33,18 @@ open class RSEnhancedInstructionStepViewController: RSQuestionViewController {
             stackedViews.append(imageView)
         }
         
+        if let audioTitle = step.audioTitle,
+            let path = Bundle.main.path(forResource: audioTitle, ofType: nil) {
+            
+            let url = URL(fileURLWithPath: path)
+            if let audioPlayer = RSAudioPlayer(fileURL: url) {
+                stackedViews.append(audioPlayer)
+            }
+            
+        }
+        
         let stackView = UIStackView(arrangedSubviews: stackedViews)
         stackView.distribution = .equalCentering
-//        stackView.alignment = .center
         stackView.frame = self.contentView.bounds
         self.stackView = stackView
         
