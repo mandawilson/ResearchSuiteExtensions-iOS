@@ -9,7 +9,7 @@
 import UIKit
 import Gloss
 
-open class RSTemplatedTextDescriptor: Gloss.Decodable {
+open class RSTemplatedTextDescriptor: Gloss.JSONDecodable {
     
     public let template: String
     public let arguments: [String]

@@ -43,7 +43,7 @@ open class RSLabel: UILabel {
         
     }
     
-    open func updateAppearance() {
+    @objc open func updateAppearance() {
         if self.attributedText == nil {
             self.font = self.defaultFont
             self.invalidateIntrinsicContentSize()

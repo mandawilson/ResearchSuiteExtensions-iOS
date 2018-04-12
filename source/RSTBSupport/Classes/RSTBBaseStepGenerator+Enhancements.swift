@@ -58,12 +58,12 @@ public extension RSTBBaseStepGenerator {
         let md = SwiftyMarkdown(string: markdownString)
 //        md.h1.fontName = UIFont.preferredFont(forTextStyle: .title1).fontName
         
-        let h1Font = RSFonts.computeFont(startingTextStyle: UIFontTextStyle.headline, defaultSize: 17.0, typeAdjustment: 35.0, weight: UIFontWeightLight)
+        let h1Font = RSFonts.computeFont(startingTextStyle: UIFontTextStyle.headline, defaultSize: 17.0, typeAdjustment: 35.0, weight: UIFont.Weight.light)
         
         md.h1.fontSize = h1Font.pointSize
         md.h1.fontName = h1Font.fontName
         
-        let h2Font = RSFonts.computeFont(startingTextStyle: UIFontTextStyle.headline, defaultSize: 17.0, typeAdjustment: 32.0, weight: UIFontWeightLight)
+        let h2Font = RSFonts.computeFont(startingTextStyle: UIFontTextStyle.headline, defaultSize: 17.0, typeAdjustment: 32.0, weight: UIFont.Weight.light)
         
         md.h2.fontSize = h2Font.pointSize
         md.h2.fontName = h2Font.fontName

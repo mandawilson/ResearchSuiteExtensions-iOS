@@ -157,7 +157,7 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
         return 0
     }
     
-    open func keyboardWillShow(notification: NSNotification) {
+    @objc open func keyboardWillShow(notification: NSNotification) {
         
         if let userInfo = notification.userInfo,
             let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue,
@@ -179,7 +179,7 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
         
     }
     
-    open func keyboardWillHide(notification: NSNotification) {
+    @objc open func keyboardWillHide(notification: NSNotification) {
         if let userInfo = notification.userInfo,
             let duration = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue,
             let curve = (userInfo[UIKeyboardAnimationDurationUserInfoKey] as? NSNumber)?.intValue {

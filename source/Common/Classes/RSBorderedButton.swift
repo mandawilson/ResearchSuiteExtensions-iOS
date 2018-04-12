@@ -77,7 +77,7 @@ open class RSBorderedButton: UIButton {
     open class var defaultFont: UIFont {
         // regular, 14
         let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: UIFontTextStyle.headline)
-        let fontSize: Double = (descriptor.object(forKey: UIFontDescriptorSizeAttribute) as! NSNumber).doubleValue
+        let fontSize: Double = (descriptor.object(forKey: UIFontDescriptor.AttributeName.size) as! NSNumber).doubleValue
         return UIFont.systemFont(ofSize: CGFloat(fontSize))
     }
 

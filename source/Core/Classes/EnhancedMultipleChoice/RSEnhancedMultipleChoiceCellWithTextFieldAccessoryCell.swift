@@ -68,7 +68,7 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCell: UITableViewCe
         self.auxHeight = nil
         
         let auxContainerHeight = NSLayoutConstraint(item: self.auxContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 0)
-        auxContainerHeight.priority = 750
+        auxContainerHeight.priority = UILayoutPriority(rawValue: 750)
         self.auxHeight = auxContainerHeight
         self.auxContainer.addConstraint(auxContainerHeight)
     }
@@ -203,7 +203,7 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCell: UITableViewCe
             
             if self.auxHeight == nil {
                 let auxContainerHeight = NSLayoutConstraint(item: self.auxContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 0)
-                auxContainerHeight.priority = 750
+                auxContainerHeight.priority = UILayoutPriority(rawValue: 750)
                 self.auxHeight = auxContainerHeight
                 self.auxContainer.addConstraint(auxContainerHeight)
             }
