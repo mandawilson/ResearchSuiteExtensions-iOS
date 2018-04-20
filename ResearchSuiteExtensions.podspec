@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ResearchSuiteExtensions'
-  s.version          = '0.13.2'
+  s.version          = '0.14.0'
   s.summary          = 'ResearchSuiteExtensions provides components and helper functions for ResearchSuite based iOS applications.'
 
 # This description is used to generate tags and improve search results.
@@ -34,6 +34,8 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
   s.subspec 'Common' do |common|
     common.source_files = 'source/Common/Classes/**/*'
     common.dependency 'ResearchKit', '~> 1.4'
+    common.dependency 'Gloss', '~> 2.0'
+    common.dependency 'SecureQueue', '~> 0.1'
   end
 
   s.subspec 'Core' do |core|
