@@ -54,15 +54,11 @@ open class RSEnhancedInstructionStepViewController: RSQuestionViewController {
     
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        debugPrint(self.stackView)
-        debugPrint(self.contentView)
         self.stackView.frame = self.contentView.bounds
     }
     
     override open func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        debugPrint(self.stackView)
-        debugPrint(self.contentView)
         self.stackView.frame = self.contentView.bounds
     }
 

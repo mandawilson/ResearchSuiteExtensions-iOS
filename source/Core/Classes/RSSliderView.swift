@@ -76,7 +76,6 @@ open class RSSliderView: UIView {
     }
     
     @objc func sliderTouched(_ gestureRecognizer: UIGestureRecognizer) {
-        print(gestureRecognizer)
         
         guard let value = self.valueForTouch(gestureRecognizer) else {
             return

@@ -44,7 +44,6 @@ public extension RSTBBaseStepGenerator {
             renderedString = try template.render(arguments)
         }
         catch let error {
-            debugPrint(error)
             return nil
         }
         

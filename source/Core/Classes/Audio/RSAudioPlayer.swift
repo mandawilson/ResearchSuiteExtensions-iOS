@@ -119,8 +119,8 @@ open class RSAudioPlayer: UIStackView, AVAudioPlayerDelegate {
     
     public func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
         
-        debugPrint(player)
-        debugPrint(error)
+//        debugPrint(player)
+//        debugPrint(error)
         
     }
     

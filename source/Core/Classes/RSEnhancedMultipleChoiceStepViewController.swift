@@ -122,9 +122,6 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         self.tableView.allowsSelection = true
         self.tableView.allowsMultipleSelection = answerFormat.style == .multipleChoice
         
-        print("my state selected: \(self.selected)")
-        print("tableView selected: \(self.tableView.indexPathsForSelectedRows)")
-        
         self.selected.forEach( { index in
             self.tableView.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: UITableViewScrollPosition.none )
         })
