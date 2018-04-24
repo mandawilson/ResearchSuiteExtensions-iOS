@@ -9,7 +9,8 @@
 import UIKit
 import ResearchKit
 
-open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewController, RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCellDelegate {
+open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewController, RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCellDelegate, RSEnhancedMultipleChoiceCellWithAccessoryDelegate {
+    
     
     static let EmailValidationRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
     
@@ -107,8 +108,12 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        let nib = UINib(nibName: "RSEnhancedMultipleChoiceCellWithTextFieldAccessory", bundle: Bundle(for: RSEnhancedMultipleChoiceStepViewController.self))
-        self.tableView.register(nib, forCellReuseIdentifier: "enhanced_multi_choice")
+        let enhancedMultiNIB = UINib(nibName: "RSEnhancedMultipleChoiceCellWithTextFieldAccessory", bundle: Bundle(for: RSEnhancedMultipleChoiceStepViewController.self))
+        self.tableView.register(enhancedMultiNIB, forCellReuseIdentifier: "enhanced_multi_choice")
+        
+        let enhancedMultiWithAccessoryNIB = UINib(nibName: "RSEnhancedMultipleChoiceCellWithAccessory", bundle: Bundle(for: RSEnhancedMultipleChoiceStepViewController.self))
+        self.tableView.register(enhancedMultiWithAccessoryNIB, forCellReuseIdentifier: "enhanced_multi_choice_with_accessory")
+        
         self.tableView.rowHeight = UITableViewAutomaticDimension
         self.tableView.estimatedRowHeight = 60
         self.tableView.separatorInset = UIEdgeInsets.zero
@@ -243,27 +248,143 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         
     }
     
+    public func viewForAuxiliaryItem(item: ORKFormItem) -> UIView? {
+        
+        if let answerFormat = item.answerFormat as? RSEnhancedTextScaleAnswerFormat {
+            
+            guard let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
+                return nil
+            }
+            
+            sliderView.minValueLabel.text = answerFormat.minValueLabel
+            sliderView.maxValueLabel.text = answerFormat.maxValueLabel
+            sliderView.minValueDescriptionLabel.text = answerFormat.minimumValueDescription
+            sliderView.neutralValueDescriptionLabel.text = answerFormat.neutralValueDescription
+            sliderView.maxValueDescriptionLabel.text = answerFormat.maximumValueDescription
+            
+            return sliderView
+            
+        }
+        else {
+            return nil
+        }
+        
+    }
+    
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let identifier = "enhanced_multi_choice"
-        
-        guard let textChoice = self.textChoice(id: indexPath.row),
-        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCell else {
+        guard let textChoice = self.textChoice(id: indexPath.row) else {
             let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "default")
             cell.textLabel?.text = "Default Cell"
             return cell
         }
         
-//        let auxResult = self.validatedAuxiliaryResultForIndex[indexPath.row]
-        cell.configure(forTextChoice: textChoice, withId: indexPath.row, initialText: self.currentText[indexPath.row])
-        cell.delegate = self
+        if let auxItem = textChoice.auxiliaryItem,
+            let answerFormat = auxItem.answerFormat {
+            
+            if let textScaleAnswerFormat = answerFormat as? RSEnhancedTextScaleAnswerFormat {
+                
+                let identifier = "enhanced_multi_choice_with_accessory"
+                
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? RSEnhancedMultipleChoiceCellWithAccessory else {
+                    let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "default")
+                    cell.textLabel?.text = "Default Cell"
+                    return cell
+                }
+                
+                guard let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: textScaleAnswerFormat.textChoices.count - 1) else {
+                    let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "default")
+                    cell.textLabel?.text = "Default Cell"
+                    return cell
+                }
+                
+                sliderView.minValueLabel.text = textScaleAnswerFormat.minValueLabel
+                sliderView.maxValueLabel.text = textScaleAnswerFormat.maxValueLabel
+                sliderView.minValueDescriptionLabel.text = textScaleAnswerFormat.minimumValueDescription
+                sliderView.neutralValueDescriptionLabel.text = textScaleAnswerFormat.neutralValueDescription
+                sliderView.maxValueDescriptionLabel.text = textScaleAnswerFormat.maximumValueDescription
+                
+                cell.configure(forTextChoice: textChoice, withId: indexPath.row, delegate: self, result: nil)
+                
+                //delegate forces update on setSelected
+                cell.delegate = self
+                
+                debugPrint(self.tableView.indexPathsForSelectedRows?.contains(indexPath))
+
+                cell.updateUI(selected: self.tableView.indexPathsForSelectedRows?.contains(indexPath) ?? false, animated: false, updateResponder: false)
+//                cell.setSelected(self.selected.contains(indexPath.row), animated: false)
+                cell.setNeedsLayout()
+                
+                return cell
+                
+            }
+            
+            else {
+                let identifier = "enhanced_multi_choice"
+                
+                guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCell else {
+                    let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "default")
+                    cell.textLabel?.text = "Default Cell"
+                    return cell
+                }
+                
+                
+                //        let auxResult = self.validatedAuxiliaryResultForIndex[indexPath.row]
+                cell.configure(forTextChoice: textChoice, withId: indexPath.row, initialText: self.currentText[indexPath.row])
+                cell.delegate = self
+                
+                cell.updateUI(selected: self.tableView.indexPathsForSelectedRows?.contains(indexPath) ?? false, animated: false, updateResponder: false)
+                //cell.setSelected(self.selected.contains(indexPath.row), animated: false)
+                cell.setNeedsLayout()
+                
+                return cell
+            }
+            
+        }
+        else {
+            let identifier = "enhanced_multi_choice"
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCell else {
+                let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "default")
+                cell.textLabel?.text = "Default Cell"
+                return cell
+            }
+            
+            
+            //        let auxResult = self.validatedAuxiliaryResultForIndex[indexPath.row]
+            cell.configure(forTextChoice: textChoice, withId: indexPath.row, initialText: self.currentText[indexPath.row])
+            cell.delegate = self
+            
+            cell.updateUI(selected: self.tableView.indexPathsForSelectedRows?.contains(indexPath) ?? false, animated: false, updateResponder: false)
+            //cell.setSelected(self.selected.contains(indexPath.row), animated: false)
+            cell.setNeedsLayout()
+            
+            return cell
+            
+        }
         
-        cell.updateUI(selected: self.tableView.indexPathsForSelectedRows?.contains(indexPath) ?? false, animated: false, updateResponder: false)
-        //cell.setSelected(self.selected.contains(indexPath.row), animated: false)
-        cell.setNeedsLayout()
-        
-        return cell
     }
+    
+//    open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//
+//        let identifier = "enhanced_multi_choice"
+//
+//        guard let textChoice = self.textChoice(id: indexPath.row),
+//        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCell else {
+//            let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "default")
+//            cell.textLabel?.text = "Default Cell"
+//            return cell
+//        }
+//
+////        let auxResult = self.validatedAuxiliaryResultForIndex[indexPath.row]
+//        cell.configure(forTextChoice: textChoice, withId: indexPath.row, initialText: self.currentText[indexPath.row])
+//        cell.delegate = self
+//
+//        cell.updateUI(selected: self.tableView.indexPathsForSelectedRows?.contains(indexPath) ?? false, animated: false, updateResponder: false)
+//        //cell.setSelected(self.selected.contains(indexPath.row), animated: false)
+//        cell.setNeedsLayout()
+//
+//        return cell
+//    }
     
     override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -361,7 +482,7 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         return result
     }
     
-    func setSelected(selected: Bool, forCellId id: Int) {
+    public func setSelected(selected: Bool, forCellId id: Int) {
         if selected {
             self.selected = self.selected.union([id])
         }
