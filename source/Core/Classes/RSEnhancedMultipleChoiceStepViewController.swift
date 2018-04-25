@@ -10,17 +10,7 @@ import UIKit
 import ResearchKit
 
 open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewController, RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCellDelegate, RSEnhancedMultipleChoiceCellWithAccessoryDelegate {
-    
-    public func layoutTableview() {
-        self.tableView.beginUpdates()
-        self.tableView.endUpdates()
-        
-        self.view.setNeedsLayout()
-        self.updateUI()
-    }
-    
-    
-    
+
     static let EmailValidationRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
     
     var enhancedMultiChoiceStep: RSEnhancedMultipleChoiceStep!
@@ -164,7 +154,7 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
             //iff selected set - optional set - results set = 0, we should be good
             let indicesWithText = self.currentText.filter{ index, value in
                 
-                return value.characters.count > 0
+                return value.count > 0
                 
                 }.map { index, value in return index}
             
@@ -260,7 +250,7 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         
     }
     
-    public func viewForAuxiliaryItem(item: ORKFormItem) -> UIView? {
+    public func viewForAuxiliaryItem(item: ORKFormItem, withCellId id: Int) -> UIView? {
         
         if let answerFormat = item.answerFormat as? RSEnhancedTextScaleAnswerFormat {
             
@@ -273,6 +263,7 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
             sliderView.minValueDescriptionLabel.text = answerFormat.minimumValueDescription
             sliderView.neutralValueDescriptionLabel.text = answerFormat.neutralValueDescription
             sliderView.maxValueDescriptionLabel.text = answerFormat.maximumValueDescription
+            sliderView.textLabel.text = item.text
             
             //what to do when the values are updated?
             //when the value changes, validate, then
@@ -281,23 +272,28 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
             
                 if value >= 0 && value < answerFormat.textChoices.count {
                     sliderView.currentValueLabel.text = answerFormat.textChoices[value].text
-
+                    let choiceResult = ORKChoiceQuestionResult(identifier: item.identifier)
+                    choiceResult.choiceAnswers = [answerFormat.textChoices[value]]
+                    self.validatedAuxiliaryResultForIndex[id] = choiceResult
+                }
+                else {
+                    self.validatedAuxiliaryResultForIndex[id] = nil
                 }
 
-                sliderView.setNeedsLayout()
+//                sliderView.setNeedsLayout()
+                self.updateUI()
 
             }
-//
-//            if let initializedResult = self.initializedResult as? ORKStepResult,
-//                let result = initializedResult.firstResult as? ORKChoiceQuestionResult,
-//                let choice = result.choiceAnswers?.first as? ORKTextChoice,
-//                let index = textScaleStep.answerFormat.textChoices.index(of: choice) {
-//                sliderView.setValue(value: index, animated: false)
-//            }
-//            else {
-//                sliderView.setValue(value: answerFormat.defaultIndex, animated: false)
-//            }
-            
+
+            if let result = self.validatedAuxiliaryResultForIndex[id] as? ORKChoiceQuestionResult,
+                let choice = result.choiceAnswers?.first as? ORKTextChoice,
+                let index = answerFormat.textChoices.index(of: choice) {
+                sliderView.setValue(value: index, animated: false)
+            }
+            else {
+                sliderView.setValue(value: answerFormat.defaultIndex, animated: false)
+            }
+
             sliderView.setNeedsLayout()
             
             return sliderView
@@ -474,7 +470,7 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
             super.continueTapped(sender)
         }
         else {
-            let textForInvalidIds: [String] = invalidIds.flatMap { id in
+            let textForInvalidIds: [String] = invalidIds.compactMap { id in
                 
                 guard let textChoice = self.textChoice(id: id) else {
                     return nil
@@ -493,7 +489,7 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         }
         
         let multipleChoiceResult = RSEnhancedMultipleChoiceResult(identifier: self.enhancedMultiChoiceStep.identifier)
-        let selections:[RSEnahncedMultipleChoiceSelection] = self.selected.flatMap { (index) -> RSEnahncedMultipleChoiceSelection? in
+        let selections:[RSEnahncedMultipleChoiceSelection] = self.selected.compactMap { (index) -> RSEnahncedMultipleChoiceSelection? in
             guard let textChoice = self.textChoice(id: index) else {
                 return nil
             }

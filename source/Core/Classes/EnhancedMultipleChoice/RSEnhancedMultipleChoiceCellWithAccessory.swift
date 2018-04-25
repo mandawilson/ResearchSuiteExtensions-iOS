@@ -10,13 +10,13 @@ import ResearchKit
 
 public protocol RSEnhancedMultipleChoiceCellWithAccessoryDelegate: class {
     func setSelected(selected: Bool, forCellId id: Int)
-    func viewForAuxiliaryItem(item: ORKFormItem) -> UIView?
-    func layoutTableview()
+    func viewForAuxiliaryItem(item: ORKFormItem, withCellId id: Int) -> UIView?
 }
 
 open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
+    var checkImage: UIImage?
     @IBOutlet weak var checkImageView: UIImageView!
     
     @IBOutlet weak var auxStackView: UIStackView!
@@ -81,10 +81,15 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
         self.titleLabel?.text = textChoice.text
         self.selectionStyle = .none
         
-        self.checkImageView.image = UIImage(named: "checkmark", in: Bundle(for: ORKStep.self), compatibleWith: nil)
+        self.checkImage = UIImage(named: "checkmark", in: Bundle(for: ORKStep.self), compatibleWith: nil)
+        self.updateCheckImage(show: false)
         
         self.auxFormItem = textChoice.auxiliaryItem
         
+    }
+    
+    private func updateCheckImage(show: Bool) {
+        self.checkImageView.image = show ? self.checkImage : nil
     }
     
     open func updateUI(selected: Bool, animated: Bool, updateResponder: Bool) {
@@ -93,10 +98,10 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
         
         if selected {
             self.titleLabel.textColor = self.tintColor
-            self.checkImageView.isHidden = false
+            self.updateCheckImage(show: true)
             
             if let auxItem = self.auxFormItem,
-                let auxView: UIView = self.delegate?.viewForAuxiliaryItem(item: auxItem) {
+                let auxView: UIView = self.delegate?.viewForAuxiliaryItem(item: auxItem, withCellId: self.identifier) {
 
                 self.auxStackView.arrangedSubviews.forEach { subview in
                     self.auxStackView.removeArrangedSubview(subview)
@@ -111,7 +116,7 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
         }
         else {
             self.titleLabel.textColor = UIColor.black
-            self.checkImageView.isHidden = true
+            self.updateCheckImage(show: false)
             
             self.endEditing(true)
             self.setNeedsUpdateConstraints()
@@ -163,10 +168,5 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
         
         self.setNeedsUpdateConstraints()
         
-    }
- 
-    private static func delay(_ delay:TimeInterval, dispatchQueue: DispatchQueue = DispatchQueue.main,  closure:@escaping ()->()) {
-        dispatchQueue.asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
     }
 }

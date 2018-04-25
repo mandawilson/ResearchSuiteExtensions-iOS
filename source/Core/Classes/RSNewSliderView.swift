@@ -44,6 +44,8 @@ open class RSNewSliderView: UIStackView {
     public typealias OnValueChanged = (Int) -> Void
     public var onValueChanged: OnValueChanged?
     
+    
+    @IBOutlet public weak var textLabel: UILabel!
     @IBOutlet public weak var maxValueLabel: UILabel!
     @IBOutlet public weak var minValueLabel: UILabel!
     @IBOutlet weak var sliderView: RSSlider!

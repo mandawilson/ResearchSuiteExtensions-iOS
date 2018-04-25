@@ -16,18 +16,23 @@
             <rect key="frame" x="0.0" y="0.0" width="504" height="434"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" axis="vertical" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="zIF-ZX-fAP">
-                    <rect key="frame" x="0.0" y="0.0" width="504" height="142"/>
+                <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zIF-ZX-fAP">
+                    <rect key="frame" x="0.0" y="0.0" width="504" height="186.5"/>
                     <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Rb-DZ-LR4" customClass="ORKSelectionTitleLabel">
+                            <rect key="frame" x="0.0" y="0.0" width="504" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gjV-DJ-AQo" customClass="ORKScaleValueLabel">
-                            <rect key="frame" x="0.0" y="0.0" width="504" height="29"/>
-                            <color key="backgroundColor" red="1" green="0.49116934569999998" blue="0.22481151839999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <rect key="frame" x="0.0" y="28.5" width="504" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="o78-Pt-13S">
-                            <rect key="frame" x="0.0" y="29" width="504" height="30"/>
+                            <rect key="frame" x="0.0" y="65.5" width="504" height="30"/>
                             <subviews>
                                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Rbo-Eg-K1z">
                                     <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
@@ -73,7 +78,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="h8L-CT-XYX">
-                            <rect key="frame" x="0.0" y="59" width="504" height="83"/>
+                            <rect key="frame" x="0.0" y="103.5" width="504" height="83"/>
                             <subviews>
                                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="c2X-tg-0EO">
                                     <rect key="frame" x="0.0" y="0.0" width="0.0" height="83"/>
@@ -134,6 +139,7 @@
                 <outlet property="minValueLabel" destination="3OA-KP-xRy" id="aFb-VN-L1v"/>
                 <outlet property="neutralValueDescriptionLabel" destination="DX8-eZ-z6U" id="Qfh-5p-O7c"/>
                 <outlet property="sliderView" destination="H6n-Rt-bv2" id="mAe-kB-qBF"/>
+                <outlet property="textLabel" destination="2Rb-DZ-LR4" id="9c0-J8-c7L"/>
             </connections>
             <point key="canvasLocation" x="168" y="-87"/>
         </stackView>
