@@ -10,6 +10,7 @@ import UIKit
 import ResearchKit
 
 public struct RSEnahncedMultipleChoiceSelection {
+    public let identifier: String
     public let value: NSCoding & NSCopying & NSObjectProtocol
     public let auxiliaryResult: ORKResult?
     
@@ -21,6 +22,14 @@ public struct RSEnahncedMultipleChoiceSelection {
 open class RSEnhancedMultipleChoiceResult: ORKResult {
     
     open var choiceAnswers: [RSEnahncedMultipleChoiceSelection]?
+    
+    open func choiceAnswer(for identifier: String) -> RSEnahncedMultipleChoiceSelection? {
+        guard let choiceAnswers = self.choiceAnswers else {
+            return nil
+        }
+        
+        return choiceAnswers.filter({ $0.identifier == identifier }).first
+    }
     
     override open func copy(with zone: NSZone? = nil) -> Any {
         let obj = super.copy(with: zone)

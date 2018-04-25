@@ -32,6 +32,8 @@ open class RSEnhancedTextScaleStepViewController: RSQuestionViewController {
         sliderView.neutralValueDescriptionLabel.text = answerFormat.neutralValueDescription
         sliderView.maxValueDescriptionLabel.text = answerFormat.maximumValueDescription
         
+        sliderView.textLabel.text = nil
+        
         sliderView.onValueChanged = { value in
             self.value = value
             if value >= 0 && value < answerFormat.textChoices.count {

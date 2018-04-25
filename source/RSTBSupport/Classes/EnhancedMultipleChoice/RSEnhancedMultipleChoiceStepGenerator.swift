@@ -91,6 +91,7 @@ open class RSEnhancedChoiceStepGenerator: RSTBBaseStepGenerator {
             }()
             
             return RSTextChoiceWithAuxiliaryAnswer(
+                identifier: item.identifier,
                 text: item.text,
                 detailText: item.detailText,
                 value: value,

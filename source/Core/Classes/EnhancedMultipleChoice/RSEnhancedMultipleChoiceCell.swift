@@ -1,5 +1,5 @@
 //
-//  RSEnhancedMultipleChoiceCellWithAccessory.swift
+//  RSEnhancedMultipleChoiceCell.swift
 //  ResearchSuiteExtensions
 //
 //  Created by James Kizer on 4/24/18.
@@ -8,12 +8,12 @@
 import UIKit
 import ResearchKit
 
-public protocol RSEnhancedMultipleChoiceCellWithAccessoryDelegate: class {
-    func setSelected(selected: Bool, forCellId id: Int)
-    func viewForAuxiliaryItem(item: ORKFormItem, withCellId id: Int) -> UIView?
+public protocol RSEnhancedMultipleChoiceCellDelegate: class {
+    func setSelected(selected: Bool, cell: RSEnhancedMultipleChoiceCell)
+    func viewForAuxiliaryItem(item: ORKFormItem, cell: RSEnhancedMultipleChoiceCell) -> UIView?
 }
 
-open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
+open class RSEnhancedMultipleChoiceCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     var checkImage: UIImage?
@@ -21,11 +21,11 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
     
     @IBOutlet weak var auxStackView: UIStackView!
     
-    var identifier: Int!
+//    var identifier: Int!
 
     var auxFormItem: ORKFormItem?
     
-    weak var delegate: RSEnhancedMultipleChoiceCellWithAccessoryDelegate?
+    weak var delegate: RSEnhancedMultipleChoiceCellDelegate?
     
     var auxContainerBackgroundView: UIView?
     
@@ -44,9 +44,8 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
     override open func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
-        if let identifier = self.identifier {
-            self.delegate?.setSelected(selected: selected, forCellId: identifier)
-        }
+        //delegate can be nil here if we've cleared when preparing for reuse
+        self.delegate?.setSelected(selected: selected, cell: self)
         
         // Configure the view for the selected state
         self.updateUI(selected: selected, animated: animated, updateResponder: true)
@@ -57,23 +56,28 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
     }
     
     open func clearForReuse() {
+        
+        self.delegate = nil
 
-        self.identifier = nil
+//        self.identifier = nil
         self.auxFormItem = nil
         self.auxStackView.arrangedSubviews.forEach { subView in
             self.auxStackView.removeArrangedSubview(subView)
-            subView.removeFromSuperview()
         }
+        
+        self.auxStackView.subviews.forEach { $0.removeFromSuperview() }
         
         self.auxContainerBackgroundView?.removeFromSuperview()
         
     }
     
-    open func configure(forTextChoice textChoice: RSTextChoiceWithAuxiliaryAnswer, withId: Int, delegate: RSEnhancedMultipleChoiceCellWithAccessoryDelegate?, result: ORKResult?) {
+    open func configure(forTextChoice textChoice: RSTextChoiceWithAuxiliaryAnswer, delegate: RSEnhancedMultipleChoiceCellDelegate?) {
         
         self.clearForReuse()
         
-        self.identifier = withId
+        assert(self.delegate == nil)
+        self.delegate = delegate
+//        self.identifier = withId
         self.separatorInset = UIEdgeInsets.zero
         self.preservesSuperviewLayoutMargins = false
         self.layoutMargins = UIEdgeInsetsMake(0, 0, 0, 0)
@@ -100,18 +104,23 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
             self.titleLabel.textColor = self.tintColor
             self.updateCheckImage(show: true)
             
-            if let auxItem = self.auxFormItem,
-                let auxView: UIView = self.delegate?.viewForAuxiliaryItem(item: auxItem, withCellId: self.identifier) {
-
-                self.auxStackView.arrangedSubviews.forEach { subview in
-                    self.auxStackView.removeArrangedSubview(subview)
-                    subview.removeFromSuperview()
+            if let auxItem = self.auxFormItem {
+                if let auxView: UIView = self.delegate!.viewForAuxiliaryItem(item: auxItem, cell: self) {
+                    
+                    self.auxStackView.arrangedSubviews.forEach { subView in
+                        self.auxStackView.removeArrangedSubview(subView)
+                    }
+                    
+                    self.auxStackView.subviews.forEach { $0.removeFromSuperview() }
+                    
+                    
+                    assert(self.auxStackView.arrangedSubviews.count == 0)
+                    self.auxStackView.addArrangedSubview(auxView)
                 }
-            
-                
-                assert(self.auxStackView.arrangedSubviews.count == 0)
-                self.auxStackView.addArrangedSubview(auxView)
+                else {
+                    assertionFailure("We must be able to generate a view for non-null aux item")
                 }
+            }
                 
         }
         else {
