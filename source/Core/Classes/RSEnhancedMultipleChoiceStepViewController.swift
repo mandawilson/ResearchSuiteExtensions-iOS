@@ -11,6 +11,15 @@ import ResearchKit
 
 open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewController, RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCellDelegate, RSEnhancedMultipleChoiceCellWithAccessoryDelegate {
     
+    public func layoutTableview() {
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
+        
+        self.view.setNeedsLayout()
+        self.updateUI()
+    }
+    
+    
     
     static let EmailValidationRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
     
@@ -81,6 +90,9 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
                                 initialText[index] = String(describing: numericAnswer)
                                 auxiliaryResultForIndex[index] = auxiliaryResult
                             }
+                            
+                        case _ as ORKChoiceQuestionResult:
+                            auxiliaryResultForIndex[index] = auxiliaryResult
     
                         default:
                             break
@@ -252,7 +264,7 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         
         if let answerFormat = item.answerFormat as? RSEnhancedTextScaleAnswerFormat {
             
-            guard let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
+            guard let sliderView = RSNewSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
                 return nil
             }
             
@@ -261,6 +273,32 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
             sliderView.minValueDescriptionLabel.text = answerFormat.minimumValueDescription
             sliderView.neutralValueDescriptionLabel.text = answerFormat.neutralValueDescription
             sliderView.maxValueDescriptionLabel.text = answerFormat.maximumValueDescription
+            
+            //what to do when the values are updated?
+            //when the value changes, validate, then
+            
+            sliderView.onValueChanged = { value in
+            
+                if value >= 0 && value < answerFormat.textChoices.count {
+                    sliderView.currentValueLabel.text = answerFormat.textChoices[value].text
+
+                }
+
+                sliderView.setNeedsLayout()
+
+            }
+//
+//            if let initializedResult = self.initializedResult as? ORKStepResult,
+//                let result = initializedResult.firstResult as? ORKChoiceQuestionResult,
+//                let choice = result.choiceAnswers?.first as? ORKTextChoice,
+//                let index = textScaleStep.answerFormat.textChoices.index(of: choice) {
+//                sliderView.setValue(value: index, animated: false)
+//            }
+//            else {
+//                sliderView.setValue(value: answerFormat.defaultIndex, animated: false)
+//            }
+            
+            sliderView.setNeedsLayout()
             
             return sliderView
             
@@ -291,19 +329,7 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
                     cell.textLabel?.text = "Default Cell"
                     return cell
                 }
-                
-                guard let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: textScaleAnswerFormat.textChoices.count - 1) else {
-                    let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "default")
-                    cell.textLabel?.text = "Default Cell"
-                    return cell
-                }
-                
-                sliderView.minValueLabel.text = textScaleAnswerFormat.minValueLabel
-                sliderView.maxValueLabel.text = textScaleAnswerFormat.maxValueLabel
-                sliderView.minValueDescriptionLabel.text = textScaleAnswerFormat.minimumValueDescription
-                sliderView.neutralValueDescriptionLabel.text = textScaleAnswerFormat.neutralValueDescription
-                sliderView.maxValueDescriptionLabel.text = textScaleAnswerFormat.maximumValueDescription
-                
+
                 cell.configure(forTextChoice: textChoice, withId: indexPath.row, delegate: self, result: nil)
                 
                 //delegate forces update on setSelected

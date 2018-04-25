@@ -11,6 +11,7 @@ import ResearchKit
 public protocol RSEnhancedMultipleChoiceCellWithAccessoryDelegate: class {
     func setSelected(selected: Bool, forCellId id: Int)
     func viewForAuxiliaryItem(item: ORKFormItem) -> UIView?
+    func layoutTableview()
 }
 
 open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
@@ -18,18 +19,15 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var checkImageView: UIImageView!
     
-    @IBOutlet weak var choiceContainer: UIView!
-    @IBOutlet weak var auxContainer: UIView!
     @IBOutlet weak var auxStackView: UIStackView!
     
     var identifier: Int!
-    
-    var auxHeight: NSLayoutConstraint?
-    var titleHeight: NSLayoutConstraint?
-    var choiceContainerHeight: NSLayoutConstraint?
+
     var auxFormItem: ORKFormItem?
     
     weak var delegate: RSEnhancedMultipleChoiceCellWithAccessoryDelegate?
+    
+    var auxContainerBackgroundView: UIView?
     
     override open func awakeFromNib() {
         super.awakeFromNib()
@@ -59,27 +57,16 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
     }
     
     open func clearForReuse() {
-        
-        if let auxContainerHeight = self.auxHeight {
-            self.auxContainer.removeConstraint(auxContainerHeight)
-        }
-        
+
         self.identifier = nil
-//        self.delegate = nil
-        self.titleHeight = nil
-        self.choiceContainerHeight = nil
         self.auxFormItem = nil
-        //        self.auxFormAnswer = nil
-        self.auxHeight = nil
-        
-        let auxContainerHeight = NSLayoutConstraint(item: self.auxContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 0)
-        auxContainerHeight.priority = UILayoutPriority(rawValue: 801)
-        self.auxHeight = auxContainerHeight
-        self.auxContainer.addConstraint(auxContainerHeight)
-        
-        self.auxStackView.arrangedSubviews.forEach { (view) in
-            self.auxStackView.removeArrangedSubview(view)
+        self.auxStackView.arrangedSubviews.forEach { subView in
+            self.auxStackView.removeArrangedSubview(subView)
+            subView.removeFromSuperview()
         }
+        
+        self.auxContainerBackgroundView?.removeFromSuperview()
+        
     }
     
     open func configure(forTextChoice textChoice: RSTextChoiceWithAuxiliaryAnswer, withId: Int, delegate: RSEnhancedMultipleChoiceCellWithAccessoryDelegate?, result: ORKResult?) {
@@ -92,96 +79,94 @@ open class RSEnhancedMultipleChoiceCellWithAccessory: UITableViewCell {
         self.layoutMargins = UIEdgeInsetsMake(0, 0, 0, 0)
         
         self.titleLabel?.text = textChoice.text
-        //        self.detailTextLabel?.text = textChoice.detailText
         self.selectionStyle = .none
         
         self.checkImageView.image = UIImage(named: "checkmark", in: Bundle(for: ORKStep.self), compatibleWith: nil)
         
-//        self.auxTextField.text = initialText
         self.auxFormItem = textChoice.auxiliaryItem
-        
-        if let auxItem = textChoice.auxiliaryItem,
-            let delegate = self.delegate,
-            let auxView: UIView = delegate.viewForAuxiliaryItem(item: auxItem) {
-            
-            self.auxStackView.addArrangedSubview(auxView)
-        }
-        
-        
-//        guard let auxItem = textChoice.auxiliaryItem else {
-//            return
-//        }
-        
-    }
-    
-    func updateHeightConstraints() {
-        
-        if self.titleHeight == nil {
-            
-            //sorry for the magic numbers, padding, padding, checkmark, padding
-            let titleWidth = self.frame.width - (8 + 8 + 24 + 8)
-            let sizeThatFits = self.titleLabel.sizeThatFits(CGSize(width: titleWidth, height: CGFloat(MAXFLOAT)))
-            let height = sizeThatFits.height
-            
-            let titleHeight = NSLayoutConstraint(item: self.titleLabel, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: height)
-            
-            self.titleHeight = titleHeight
-            self.titleLabel.addConstraint(titleHeight)
-            
-            //sorry for the magic numbers, padding + padding
-            let containerHeight = NSLayoutConstraint(item: self.choiceContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: height + 32)
-            
-            self.choiceContainerHeight = containerHeight
-            self.choiceContainer.addConstraint(containerHeight)
-        }
-        
-        let titleWidth = self.frame.width - (8 + 8 + 24 + 8)
-        let titleHeight = self.titleLabel.sizeThatFits(CGSize(width: titleWidth, height: CGFloat(MAXFLOAT))).height
-        self.titleHeight?.constant = titleHeight
-        //sorry for the magic numbers, padding + padding
-        self.choiceContainerHeight?.constant = titleHeight + 32
-        
-    }
-    
-    open override func updateConstraints() {
-        
-        self.updateHeightConstraints()
-        super.updateConstraints()
         
     }
     
     open func updateUI(selected: Bool, animated: Bool, updateResponder: Bool) {
         
+        self.auxContainerBackgroundView?.removeFromSuperview()
+        
         if selected {
             self.titleLabel.textColor = self.tintColor
             self.checkImageView.isHidden = false
             
-            if let _ = self.auxFormItem {
-                if let auxHeight = self.auxHeight {
-                    self.auxContainer.removeConstraint(auxHeight)
-                    self.auxHeight = nil
-//                    if updateResponder { self.auxTextField.becomeFirstResponder() }
+            if let auxItem = self.auxFormItem,
+                let auxView: UIView = self.delegate?.viewForAuxiliaryItem(item: auxItem) {
+
+                self.auxStackView.arrangedSubviews.forEach { subview in
+                    self.auxStackView.removeArrangedSubview(subview)
+                    subview.removeFromSuperview()
                 }
-            }
             
+                
+                assert(self.auxStackView.arrangedSubviews.count == 0)
+                self.auxStackView.addArrangedSubview(auxView)
+                }
+                
         }
         else {
             self.titleLabel.textColor = UIColor.black
             self.checkImageView.isHidden = true
             
-            if self.auxHeight == nil {
-                let auxContainerHeight = NSLayoutConstraint(item: self.auxContainer, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: 0)
-                auxContainerHeight.priority = UILayoutPriority(rawValue: 801)
-                self.auxHeight = auxContainerHeight
-                self.auxContainer.addConstraint(auxContainerHeight)
-            }
-            
             self.endEditing(true)
+            self.setNeedsUpdateConstraints()
+            
+            assert(self.auxStackView.arrangedSubviews.count <= 1)
+            if let subview = self.auxStackView.arrangedSubviews.first {
+                
+                //take snapshot of the subview
+                let layer = subview.layer
+                UIGraphicsBeginImageContext(subview.bounds.size);
+                guard let context = UIGraphicsGetCurrentContext() else {
+                    self.auxStackView.removeArrangedSubview(subview)
+                    subview.removeFromSuperview()
+                    return
+                }
+                
+                layer.render(in:context)
+                guard let viewImage: UIImage = UIGraphicsGetImageFromCurrentImageContext() else {
+                    self.auxStackView.removeArrangedSubview(subview)
+                    subview.removeFromSuperview()
+                    return
+                }
+                UIGraphicsEndImageContext()
+
+                //set auxcontainer background view to the image
+                //background view will be removed on next ui update
+                //remove image
+                let backgroundColor = UIColor(patternImage: viewImage)
+                let backgroundView = UIView()
+                backgroundView.backgroundColor = backgroundColor
+                backgroundView.translatesAutoresizingMaskIntoConstraints = false
+                self.auxStackView.insertSubview(backgroundView, at: 0)
+                NSLayoutConstraint.activate([
+                    backgroundView.leadingAnchor.constraint(equalTo: self.auxStackView.leadingAnchor),
+                    backgroundView.trailingAnchor.constraint(equalTo: self.auxStackView.trailingAnchor),
+                    backgroundView.topAnchor.constraint(equalTo: self.auxStackView.topAnchor),
+                    backgroundView.bottomAnchor.constraint(equalTo: self.auxStackView.bottomAnchor)
+                    ])
+                
+                self.auxContainerBackgroundView = backgroundView
+                
+                self.auxStackView.backgroundColor = backgroundColor
+                self.auxStackView.removeArrangedSubview(subview)
+                subview.removeFromSuperview()
+                
+            }
             
         }
         
         self.setNeedsUpdateConstraints()
         
     }
-    
+ 
+    private static func delay(_ delay:TimeInterval, dispatchQueue: DispatchQueue = DispatchQueue.main,  closure:@escaping ()->()) {
+        dispatchQueue.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
+    }
 }

@@ -22,7 +22,7 @@ open class RSEnhancedTextScaleStepViewController: RSQuestionViewController {
         
         let answerFormat = textScaleStep.answerFormat
         
-        guard let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
+        guard let sliderView = RSNewSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
                 return
         }
         
@@ -58,11 +58,14 @@ open class RSEnhancedTextScaleStepViewController: RSQuestionViewController {
             sliderView.setValue(value: answerFormat.defaultIndex, animated: false)
         }
         
-        sliderView.setNeedsLayout()
-        
+//        sliderView.setNeedsLayout()
+
+//        self.contentView.addSubview(sliderView)
+//        self.contentView.setNeedsLayout()
+
+        sliderView.frame = self.contentView.bounds
         
         self.contentView.addSubview(sliderView)
-        self.contentView.setNeedsLayout()
     }
     
     override open func validate() -> Bool {
