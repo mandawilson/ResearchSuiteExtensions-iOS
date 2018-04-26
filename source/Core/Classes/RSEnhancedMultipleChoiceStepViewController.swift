@@ -348,7 +348,7 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
 //
 //        if let answerFormat = item.answerFormat as? RSEnhancedTextScaleAnswerFormat {
 //
-//            guard let sliderView = RSNewSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
+//            guard let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
 //                return nil
 //            }
 //

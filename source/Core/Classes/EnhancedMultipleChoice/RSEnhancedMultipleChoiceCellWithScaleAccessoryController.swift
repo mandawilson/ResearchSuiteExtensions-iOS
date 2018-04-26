@@ -29,7 +29,7 @@ open class RSEnhancedMultipleChoiceCellWithScaleAccessoryController: RSEnhancedM
         
         guard let auxItem = self.auxiliaryItem,
             let answerFormat = auxItem.answerFormat as? RSEnhancedTextScaleAnswerFormat,
-            let sliderView = RSNewSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
+            let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
                 return nil
         }
         
