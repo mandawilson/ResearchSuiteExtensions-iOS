@@ -16,8 +16,15 @@
             <rect key="frame" x="0.0" y="0.0" width="504" height="434"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fhp-bK-iEd">
+                    <rect key="frame" x="0.0" y="0.0" width="504" height="0.0"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" id="zaY-Ms-I3J"/>
+                    </constraints>
+                </view>
                 <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zIF-ZX-fAP">
-                    <rect key="frame" x="0.0" y="0.0" width="504" height="186.5"/>
+                    <rect key="frame" x="0.0" y="124" width="504" height="186.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Rb-DZ-LR4" customClass="ORKSelectionTitleLabel">
                             <rect key="frame" x="0.0" y="0.0" width="504" height="20.5"/>

@@ -20,8 +20,6 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
     @IBOutlet weak var checkImageView: UIImageView!
     
     @IBOutlet weak var auxStackView: UIStackView!
-    
-//    var identifier: Int!
 
     var auxFormItem: ORKFormItem?
     
@@ -113,9 +111,14 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
                     
                     self.auxStackView.subviews.forEach { $0.removeFromSuperview() }
                     
-                    
                     assert(self.auxStackView.arrangedSubviews.count == 0)
                     self.auxStackView.addArrangedSubview(auxView)
+                    
+                    let topBorder = CALayer()
+                    topBorder.frame =  CGRect(x: 0.0, y: 0.0, width: self.auxStackView.frame.width, height: 0.5)
+                    topBorder.backgroundColor = UIColor.lightGray.withAlphaComponent(0.7).cgColor
+                    auxView.layer.addSublayer(topBorder)
+                    
                 }
                 else {
                     assertionFailure("We must be able to generate a view for non-null aux item")

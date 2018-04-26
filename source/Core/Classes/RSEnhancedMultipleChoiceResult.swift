@@ -8,14 +8,25 @@
 
 import UIKit
 import ResearchKit
+import Gloss
 
-public struct RSEnahncedMultipleChoiceSelection {
+public struct RSEnahncedMultipleChoiceSelection: JSONEncodable {
+    
+    
     public let identifier: String
     public let value: NSCoding & NSCopying & NSObjectProtocol
     public let auxiliaryResult: ORKResult?
     
     public var description: String {
         return "\(value)"
+    }
+    
+    public func toJSON() -> JSON? {
+        return jsonify([
+            "identifier" ~~> self.identifier,
+            "identifier" ~~> self.value,
+            "auxiliaryResult" ~~> self.auxiliaryResult
+            ])
     }
 }
 
