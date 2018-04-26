@@ -15,7 +15,54 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
     }
     
     open override func viewForAuxiliaryItem(item: ORKFormItem, cell: RSEnhancedMultipleChoiceCell) -> UIView? {
-        return nil
+        
+        guard let accessoryView = RSEnhancedMultipleChoiceCellTextFieldAccessory.newView() else {
+            return nil
+        }
+        
+        switch item.answerFormat {
+            
+        case .some(let answerFormat as ORKTextAnswerFormat):
+            accessoryView.textLabel.text = item.text
+            accessoryView.textField.placeholder = item.placeholder
+            accessoryView.textField.delegate = self
+            
+            accessoryView.textField.autocapitalizationType = answerFormat.autocapitalizationType
+            accessoryView.textField.autocorrectionType = answerFormat.autocorrectionType
+            accessoryView.textField.spellCheckingType = answerFormat.spellCheckingType
+            accessoryView.textField.keyboardType = answerFormat.keyboardType
+            accessoryView.textField.isSecureTextEntry = answerFormat.isSecureTextEntry
+            
+        case .some(_ as ORKEmailAnswerFormat):
+            accessoryView.textLabel.text = item.text
+            accessoryView.textField.placeholder = item.placeholder
+            accessoryView.textField.delegate = self
+            
+            accessoryView.textField.autocapitalizationType = UITextAutocapitalizationType.none
+            accessoryView.textField.autocorrectionType = UITextAutocorrectionType.default
+            accessoryView.textField.spellCheckingType = UITextSpellCheckingType.default
+            accessoryView.textField.keyboardType = UIKeyboardType.emailAddress
+            accessoryView.textField.isSecureTextEntry = false
+            
+        case .some(_ as ORKNumericAnswerFormat):
+            accessoryView.textLabel.text = item.text
+            accessoryView.textField.placeholder = item.placeholder
+            accessoryView.textField.delegate = self
+            
+            accessoryView.textField.autocapitalizationType = UITextAutocapitalizationType.none
+            accessoryView.textField.autocorrectionType = UITextAutocorrectionType.default
+            accessoryView.textField.spellCheckingType = UITextSpellCheckingType.default
+            accessoryView.textField.keyboardType = UIKeyboardType.numberPad
+            accessoryView.textField.isSecureTextEntry = false
+            
+            
+        default:
+            return nil
+            
+        }
+        
+        return accessoryView
+        
     }
     
     private var currentText: String?

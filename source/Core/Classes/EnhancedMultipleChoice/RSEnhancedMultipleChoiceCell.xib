@@ -19,43 +19,82 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="dCc-dw-GPa">
-                        <rect key="frame" x="8" y="0.0" width="304" height="119.5"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="119.5"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FmS-7n-qh1">
-                                <rect key="frame" x="0.0" y="0.0" width="304" height="60"/>
+                            <stackView opaque="NO" tag="8" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XBA-ue-1gM">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                                 <subviews>
-                                    <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Text Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8el-X4-dgG" customClass="ORKSelectionTitleLabel">
-                                        <rect key="frame" x="0.0" y="19.5" width="280" height="21.5"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="252" verticalHuggingPriority="251" placeholderIntrinsicWidth="24" placeholderIntrinsicHeight="24" translatesAutoresizingMaskIntoConstraints="NO" id="j9M-Oy-yLR">
-                                        <rect key="frame" x="280" y="18" width="24" height="24"/>
+                                    <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="tbh-ml-UAJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="60"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="24" id="Ogi-hS-1iv"/>
-                                            <constraint firstAttribute="width" constant="24" id="nfF-QZ-ULM"/>
+                                            <constraint firstAttribute="width" id="Xwt-co-5mU"/>
                                         </constraints>
-                                    </imageView>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FmS-7n-qh1">
+                                        <rect key="frame" x="8" y="0.0" width="304" height="60"/>
+                                        <subviews>
+                                            <label autoresizesSubviews="NO" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Text Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8el-X4-dgG" customClass="ORKSelectionTitleLabel">
+                                                <rect key="frame" x="0.0" y="19.5" width="280" height="21.5"/>
+                                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="252" verticalHuggingPriority="251" placeholderIntrinsicWidth="24" placeholderIntrinsicHeight="24" translatesAutoresizingMaskIntoConstraints="NO" id="j9M-Oy-yLR">
+                                                <rect key="frame" x="280" y="18" width="24" height="24"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="24" id="Ogi-hS-1iv"/>
+                                                    <constraint firstAttribute="width" constant="24" id="nfF-QZ-ULM"/>
+                                                </constraints>
+                                            </imageView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="6iD-Vs-vAh"/>
+                                        </constraints>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="521-NT-Cia">
+                                        <rect key="frame" x="320" y="0.0" width="0.0" height="60"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="M6J-Pn-tQb"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="6iD-Vs-vAh"/>
-                                </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lWT-JR-NTh">
-                                <rect key="frame" x="0.0" y="60" width="304" height="59.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="u2x-m5-0nv">
+                                <rect key="frame" x="0.0" y="60" width="320" height="59.5"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Ly3-Ls-2Bq">
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="59.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="3MU-ID-EIb"/>
+                                        </constraints>
+                                    </view>
+                                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="lWT-JR-NTh">
+                                        <rect key="frame" x="8" y="0.0" width="304" height="59.5"/>
+                                    </stackView>
+                                    <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="d4n-lz-ghy">
+                                        <rect key="frame" x="320" y="0.0" width="0.0" height="59.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="1L1-ti-XKo"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                             </stackView>
                         </subviews>
                     </stackView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="dCc-dw-GPa" firstAttribute="height" secondItem="B6M-RQ-L1i" secondAttribute="height" id="5Or-PK-qbQ"/>
-                    <constraint firstItem="dCc-dw-GPa" firstAttribute="width" secondItem="B6M-RQ-L1i" secondAttribute="width" constant="-16" id="Xcu-97-vAG"/>
+                    <constraint firstItem="dCc-dw-GPa" firstAttribute="width" secondItem="B6M-RQ-L1i" secondAttribute="width" id="Xcu-97-vAG"/>
                     <constraint firstItem="dCc-dw-GPa" firstAttribute="centerX" secondItem="B6M-RQ-L1i" secondAttribute="centerX" id="dzP-71-0Lh"/>
                     <constraint firstItem="dCc-dw-GPa" firstAttribute="centerY" secondItem="B6M-RQ-L1i" secondAttribute="centerY" id="wQO-LY-x3V"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="auxContainerBackgroundView" destination="u2x-m5-0nv" id="3QE-Td-hv6"/>
                 <outlet property="auxStackView" destination="lWT-JR-NTh" id="I5N-wH-Pt4"/>
                 <outlet property="checkImageView" destination="j9M-Oy-yLR" id="oVT-bs-ElF"/>
                 <outlet property="titleLabel" destination="8el-X4-dgG" id="mji-FK-klg"/>

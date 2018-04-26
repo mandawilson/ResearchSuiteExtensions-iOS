@@ -20,12 +20,13 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
     @IBOutlet weak var checkImageView: UIImageView!
     
     @IBOutlet weak var auxStackView: UIStackView!
-
+    @IBOutlet weak var auxContainerBackgroundView: UIView!
+    
     var auxFormItem: ORKFormItem?
     
     weak var delegate: RSEnhancedMultipleChoiceCellDelegate?
     
-    var auxContainerBackgroundView: UIView?
+    var auxContainerImageView: UIView?
     
     override open func awakeFromNib() {
         super.awakeFromNib()
@@ -61,11 +62,24 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
         self.auxFormItem = nil
         self.auxStackView.arrangedSubviews.forEach { subView in
             self.auxStackView.removeArrangedSubview(subView)
+            subView.removeFromSuperview()
         }
         
         self.auxStackView.subviews.forEach { $0.removeFromSuperview() }
         
-        self.auxContainerBackgroundView?.removeFromSuperview()
+        self.auxContainerImageView?.removeFromSuperview()
+        
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.groupTableViewBackground
+        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        self.auxContainerBackgroundView.insertSubview(backgroundView, at: 0)
+        NSLayoutConstraint.activate([
+            backgroundView.leadingAnchor.constraint(equalTo: self.auxContainerBackgroundView.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: self.auxContainerBackgroundView.trailingAnchor),
+            backgroundView.topAnchor.constraint(equalTo: self.auxContainerBackgroundView.topAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: self.auxContainerBackgroundView.bottomAnchor)
+            ])
+        
         
     }
     
@@ -96,7 +110,7 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
     
     open func updateUI(selected: Bool, animated: Bool, updateResponder: Bool) {
         
-        self.auxContainerBackgroundView?.removeFromSuperview()
+        self.auxContainerImageView?.removeFromSuperview()
         
         if selected {
             self.titleLabel.textColor = self.tintColor
@@ -107,9 +121,10 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
                     
                     self.auxStackView.arrangedSubviews.forEach { subView in
                         self.auxStackView.removeArrangedSubview(subView)
+                        subView.removeFromSuperview()
                     }
                     
-                    self.auxStackView.subviews.forEach { $0.removeFromSuperview() }
+//                    self.auxStackView.subviews.forEach { $0.removeFromSuperview() }
                     
                     assert(self.auxStackView.arrangedSubviews.count == 0)
                     self.auxStackView.addArrangedSubview(auxView)
@@ -160,7 +175,8 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
                 let backgroundView = UIView()
                 backgroundView.backgroundColor = backgroundColor
                 backgroundView.translatesAutoresizingMaskIntoConstraints = false
-                self.auxStackView.insertSubview(backgroundView, at: 0)
+                self.auxStackView.addSubview(backgroundView)
+//                self.auxStackView.insertSubview(backgroundView, at: 0)
                 NSLayoutConstraint.activate([
                     backgroundView.leadingAnchor.constraint(equalTo: self.auxStackView.leadingAnchor),
                     backgroundView.trailingAnchor.constraint(equalTo: self.auxStackView.trailingAnchor),
@@ -168,7 +184,7 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
                     backgroundView.bottomAnchor.constraint(equalTo: self.auxStackView.bottomAnchor)
                     ])
                 
-                self.auxContainerBackgroundView = backgroundView
+                self.auxContainerImageView = backgroundView
                 
                 self.auxStackView.backgroundColor = backgroundColor
                 self.auxStackView.removeArrangedSubview(subview)
