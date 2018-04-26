@@ -76,14 +76,33 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         }
         
         switch textChoice.auxiliaryItem?.answerFormat {
-        case .some(_ as RSEnhancedTextScaleAnswerFormat):
-            return RSEnhancedMultipleChoiceCellWithScaleAccessoryController(
+        case .some(_ as RSEnhancedScaleAnswerFormat):
+            return RSEnhancedMultipleChoiceCellWithNumericScaleAccessoryController(
                 textChoice: textChoice,
                 choiceSelection: choiceSelection,
                 onValidationFailed: onValidationFailed,
                 onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
             )
             
+        case .some(_ as RSEnhancedTextScaleAnswerFormat):
+            return RSEnhancedMultipleChoiceCellWithTextScaleAccessoryController(
+                textChoice: textChoice,
+                choiceSelection: choiceSelection,
+                onValidationFailed: onValidationFailed,
+                onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
+            )
+            
+        case .some(_ as ORKTextAnswerFormat):
+            fallthrough
+        case .some(_ as ORKEmailAnswerFormat):
+            fallthrough
+        case .some(_ as ORKNumericAnswerFormat):
+            return RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController(
+                textChoice: textChoice,
+                choiceSelection: choiceSelection,
+                onValidationFailed: onValidationFailed,
+                onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
+            )
             
         default:
             return RSEnhancedMultipleChoiceBaseCellController(

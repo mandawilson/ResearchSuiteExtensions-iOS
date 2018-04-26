@@ -1,5 +1,5 @@
 //
-//  RSEnhancedMultipleChoiceCellWithScaleAccessoryController.swift
+//  RSEnhancedMultipleChoiceCellWithTextScaleAccessoryController.swift
 //  ResearchSuiteExtensions
 //
 //  Created by James Kizer on 4/25/18.
@@ -8,7 +8,7 @@
 import UIKit
 import ResearchKit
 
-open class RSEnhancedMultipleChoiceCellWithScaleAccessoryController: RSEnhancedMultipleChoiceBaseCellController {
+open class RSEnhancedMultipleChoiceCellWithTextScaleAccessoryController: RSEnhancedMultipleChoiceBaseCellController {
     
     var answerFormat: RSEnhancedTextScaleAnswerFormat {
         return (self.auxiliaryItem?.answerFormat as? RSEnhancedTextScaleAnswerFormat)!
