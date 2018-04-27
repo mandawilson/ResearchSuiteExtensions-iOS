@@ -12,9 +12,11 @@ import ResearchKit
 open class RSEnhancedMultipleChoiceStep: RSStep {
     
     open var answerFormat: ORKTextChoiceAnswerFormat?
+    open var cellControllerGenerators: [RSEnhancedMultipleChoiceCellControllerGenerator.Type]
     
-    public init(identifier: String, title: String?, text: String?, answer answerFormat: ORKTextChoiceAnswerFormat?) {
+    public init(identifier: String, title: String?, text: String?, answer answerFormat: ORKTextChoiceAnswerFormat?, cellControllerGenerators: [RSEnhancedMultipleChoiceCellControllerGenerator.Type]) {
         self.answerFormat = answerFormat
+        self.cellControllerGenerators = cellControllerGenerators
         super.init(identifier: identifier)
         self.title = title
         self.text = text

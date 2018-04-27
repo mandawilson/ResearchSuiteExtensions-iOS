@@ -13,6 +13,13 @@ import Gloss
 
 open class RSEnhancedChoiceStepGenerator: RSTBBaseStepGenerator {
     
+    //cell controller generators
+    var cellControllerGenerators: [RSEnhancedMultipleChoiceCellControllerGenerator.Type]
+    
+    public init(cellControllerGenerators: [RSEnhancedMultipleChoiceCellControllerGenerator.Type]){
+        self.cellControllerGenerators = cellControllerGenerators
+    }
+    
     open var allowsMultiple: Bool {
         fatalError("abstract class not implemented")
     }
@@ -140,7 +147,8 @@ open class RSEnhancedChoiceStepGenerator: RSTBBaseStepGenerator {
             identifier: stepDescriptor.identifier,
             title: stepDescriptor.title,
             text: stepDescriptor.text,
-            answer: answerFormat)
+            answer: answerFormat,
+            cellControllerGenerators: self.cellControllerGenerators)
         
         if let stateHelper = helper.stateHelper,
             let formattedTitle = stepDescriptor.formattedTitle {
@@ -181,8 +189,6 @@ open class RSEnhancedChoiceStepGenerator: RSTBBaseStepGenerator {
 
 open class RSEnhancedSingleChoiceStepGenerator: RSEnhancedChoiceStepGenerator {
     
-    public override init(){}
-    
     override open var supportedTypes: [String]! {
         return ["enhancedSingleChoiceText"]
     }
@@ -194,8 +200,6 @@ open class RSEnhancedSingleChoiceStepGenerator: RSEnhancedChoiceStepGenerator {
 }
 
 open class RSEnhancedMultipleChoiceStepGenerator: RSEnhancedChoiceStepGenerator {
-    
-    public override init(){}
     
     override open var supportedTypes: [String]! {
         return ["enhancedMultipleChoiceText"]

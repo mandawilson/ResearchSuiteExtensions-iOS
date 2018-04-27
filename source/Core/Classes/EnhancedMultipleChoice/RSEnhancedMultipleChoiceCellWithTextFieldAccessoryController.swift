@@ -10,6 +10,37 @@ import ResearchKit
 
 open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhancedMultipleChoiceBaseCellController, UITextFieldDelegate {
     
+    override open class func supports(textChoice: RSTextChoiceWithAuxiliaryAnswer) -> Bool {
+        
+        switch textChoice.auxiliaryItem?.answerFormat {
+            
+        case .some(_ as ORKTextAnswerFormat):
+            
+            return true
+            
+        case .some(_ as ORKEmailAnswerFormat):
+            
+            return true
+            
+        case .some(_ as ORKNumericAnswerFormat):
+            return true
+            
+        default:
+            return false
+        
+        }
+    }
+    
+    open override class func generate(textChoice: RSTextChoiceWithAuxiliaryAnswer, choiceSelection: RSEnahncedMultipleChoiceSelection?, onValidationFailed: ((String) -> ())?, onAuxiliaryItemResultChanged: (() -> ())?) -> RSEnhancedMultipleChoiceCellController? {
+        
+        return self.init(
+            textChoice: textChoice,
+            choiceSelection: choiceSelection,
+            onValidationFailed: onValidationFailed,
+            onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
+        )
+    }
+    
     var accessoryView: RSEnhancedMultipleChoiceCellTextFieldAccessory?
     
     open override var firstResponderView: UIView? {

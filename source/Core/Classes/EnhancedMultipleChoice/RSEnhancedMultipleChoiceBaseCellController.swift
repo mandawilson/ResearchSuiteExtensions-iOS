@@ -8,7 +8,21 @@
 import UIKit
 import ResearchKit
 
-open class RSEnhancedMultipleChoiceBaseCellController: NSObject, RSEnhancedMultipleChoiceCellController, RSEnhancedMultipleChoiceCellDelegate {
+open class RSEnhancedMultipleChoiceBaseCellController: NSObject, RSEnhancedMultipleChoiceCellController, RSEnhancedMultipleChoiceCellDelegate, RSEnhancedMultipleChoiceCellControllerGenerator {
+    
+    open class func supports(textChoice: RSTextChoiceWithAuxiliaryAnswer) -> Bool {
+        return textChoice.auxiliaryItem == nil
+    }
+
+    open class func generate(textChoice: RSTextChoiceWithAuxiliaryAnswer, choiceSelection: RSEnahncedMultipleChoiceSelection?, onValidationFailed: ((String) -> ())?, onAuxiliaryItemResultChanged: (() -> ())?) -> RSEnhancedMultipleChoiceCellController? {
+        
+        return self.init(
+            textChoice: textChoice,
+            choiceSelection: choiceSelection,
+            onValidationFailed: onValidationFailed,
+            onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
+        )
+    }
     
     weak var managedCell: RSEnhancedMultipleChoiceCell?
     open func onClearForReuse(cell: RSEnhancedMultipleChoiceCell) {

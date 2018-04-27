@@ -46,57 +46,26 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         self.init(step: step, result: nil)
     }
     
+    
+    
     func generateCellController(for textChoice: RSTextChoiceWithAuxiliaryAnswer, choiceSelection: RSEnahncedMultipleChoiceSelection?) -> RSEnhancedMultipleChoiceCellController? {
         
-        let onValidationFailed: (String) -> () = { message in
-            self.showValidityAlertMessage(message: message )
+        let onValidationFailed: (String) -> () = { [weak self] message in
+            self?.showValidityAlertMessage(message: message )
         }
         
-        let onAuxiliaryItemResultChanged:(() -> ()) = {
-            self.updateUI()
-            self.cellControllerMap.forEach { (pair) in
+        let onAuxiliaryItemResultChanged:(() -> ()) = { [weak self] in
+            self?.updateUI()
+            self?.cellControllerMap.forEach { (pair) in
                 pair.value.setFocused(isFocused: false)
             }
         }
         
-        switch textChoice.auxiliaryItem?.answerFormat {
-        case .some(_ as RSEnhancedScaleAnswerFormat):
-            return RSEnhancedMultipleChoiceCellWithNumericScaleAccessoryController(
-                textChoice: textChoice,
-                choiceSelection: choiceSelection,
-                onValidationFailed: onValidationFailed,
-                onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
-            )
-            
-        case .some(_ as RSEnhancedTextScaleAnswerFormat):
-            return RSEnhancedMultipleChoiceCellWithTextScaleAccessoryController(
-                textChoice: textChoice,
-                choiceSelection: choiceSelection,
-                onValidationFailed: onValidationFailed,
-                onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
-            )
-            
-        case .some(_ as ORKTextAnswerFormat):
-            fallthrough
-        case .some(_ as ORKEmailAnswerFormat):
-            fallthrough
-        case .some(_ as ORKNumericAnswerFormat):
-            return RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController(
-                textChoice: textChoice,
-                choiceSelection: choiceSelection,
-                onValidationFailed: onValidationFailed,
-                onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
-            )
-            
-        default:
-            return RSEnhancedMultipleChoiceBaseCellController(
-                textChoice: textChoice,
-                choiceSelection: choiceSelection,
-                onValidationFailed: onValidationFailed,
-                onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
-            )
-            
+        guard let generator = self.enhancedMultiChoiceStep.cellControllerGenerators.first(where: { $0.supports(textChoice: textChoice) }) else {
+            return nil
         }
+        
+        return generator.generate(textChoice: textChoice, choiceSelection: choiceSelection, onValidationFailed: onValidationFailed, onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged)
     }
     
     convenience init(step: ORKStep?, result: ORKResult?) {

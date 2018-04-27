@@ -9,6 +9,19 @@ import UIKit
 import ResearchKit
 
 open class RSEnhancedMultipleChoiceCellWithNumericScaleAccessoryController: RSEnhancedMultipleChoiceBaseCellController {
+    override open class func supports(textChoice: RSTextChoiceWithAuxiliaryAnswer) -> Bool {
+        return (textChoice.auxiliaryItem?.answerFormat as? RSEnhancedScaleAnswerFormat) != nil
+    }
+    
+    open override class func generate(textChoice: RSTextChoiceWithAuxiliaryAnswer, choiceSelection: RSEnahncedMultipleChoiceSelection?, onValidationFailed: ((String) -> ())?, onAuxiliaryItemResultChanged: (() -> ())?) -> RSEnhancedMultipleChoiceCellController? {
+        
+        return self.init(
+            textChoice: textChoice,
+            choiceSelection: choiceSelection,
+            onValidationFailed: onValidationFailed,
+            onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
+        )
+    }
     
     var answerFormat: RSEnhancedScaleAnswerFormat {
         return (self.auxiliaryItem?.answerFormat as? RSEnhancedScaleAnswerFormat)!

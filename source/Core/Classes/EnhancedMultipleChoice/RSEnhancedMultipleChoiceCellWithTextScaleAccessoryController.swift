@@ -10,6 +10,20 @@ import ResearchKit
 
 open class RSEnhancedMultipleChoiceCellWithTextScaleAccessoryController: RSEnhancedMultipleChoiceBaseCellController {
     
+    override open class func supports(textChoice: RSTextChoiceWithAuxiliaryAnswer) -> Bool {
+        return (textChoice.auxiliaryItem?.answerFormat as? RSEnhancedTextScaleAnswerFormat) != nil
+    }
+
+    override open class func generate(textChoice: RSTextChoiceWithAuxiliaryAnswer, choiceSelection: RSEnahncedMultipleChoiceSelection?, onValidationFailed: ((String) -> ())?, onAuxiliaryItemResultChanged: (() -> ())?) -> RSEnhancedMultipleChoiceCellController? {
+        
+        return self.init(
+            textChoice: textChoice,
+            choiceSelection: choiceSelection,
+            onValidationFailed: onValidationFailed,
+            onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged
+        )
+    }
+    
     var answerFormat: RSEnhancedTextScaleAnswerFormat {
         return (self.auxiliaryItem?.answerFormat as? RSEnhancedTextScaleAnswerFormat)!
     }
