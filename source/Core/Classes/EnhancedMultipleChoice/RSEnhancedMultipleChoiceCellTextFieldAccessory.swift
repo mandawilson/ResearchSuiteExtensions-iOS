@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class RSEnhancedMultipleChoiceCellTextFieldAccessory: UIView {
+open class RSEnhancedMultipleChoiceCellTextFieldAccessory: UIStackView {
 
     open class func newView() -> RSEnhancedMultipleChoiceCellTextFieldAccessory? {
         let bundle = Bundle(for: RSEnhancedMultipleChoiceCellTextFieldAccessory.self)

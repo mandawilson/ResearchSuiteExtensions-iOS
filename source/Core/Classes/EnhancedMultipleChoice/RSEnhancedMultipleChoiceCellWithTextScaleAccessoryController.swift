@@ -14,55 +14,69 @@ open class RSEnhancedMultipleChoiceCellWithTextScaleAccessoryController: RSEnhan
         return (self.auxiliaryItem?.answerFormat as? RSEnhancedTextScaleAnswerFormat)!
     }
 
+    var accessoryView: RSSliderView?
+    
     open override func viewForAuxiliaryItem(item: ORKFormItem, cell: RSEnhancedMultipleChoiceCell) -> UIView? {
         
-        guard let auxItem = self.auxiliaryItem,
-            let answerFormat = auxItem.answerFormat as? RSEnhancedTextScaleAnswerFormat,
-            let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
-                return nil
+        if let accessoryView = self.accessoryView {
+            return accessoryView
         }
         
-        assert(auxItem == item)
-        
-        sliderView.minValueLabel.text = answerFormat.minValueLabel
-        sliderView.maxValueLabel.text = answerFormat.maxValueLabel
-        sliderView.minValueDescriptionLabel.text = answerFormat.minimumValueDescription
-        sliderView.neutralValueDescriptionLabel.text = answerFormat.neutralValueDescription
-        sliderView.maxValueDescriptionLabel.text = answerFormat.maximumValueDescription
-        sliderView.textLabel.text = item.text
-        
-        //what to do when the values are updated?
-        //when the value changes, validate, then
-        
-        sliderView.onValueChanged = { value in
+        else {
             
-            if value >= 0 && value < answerFormat.textChoices.count {
-                sliderView.currentValueLabel.text = answerFormat.textChoices[value].text
-                let choiceResult = ORKChoiceQuestionResult(identifier: item.identifier)
-                choiceResult.choiceAnswers = [answerFormat.textChoices[value]]
-                self.validatedResult = choiceResult
+            guard let auxItem = self.auxiliaryItem,
+                let answerFormat = auxItem.answerFormat as? RSEnhancedTextScaleAnswerFormat,
+                let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
+                    return nil
+            }
+            
+            assert(auxItem == item)
+            
+            sliderView.minValueLabel.text = answerFormat.minValueLabel
+            sliderView.maxValueLabel.text = answerFormat.maxValueLabel
+            sliderView.minValueDescriptionLabel.text = answerFormat.minimumValueDescription
+            sliderView.neutralValueDescriptionLabel.text = answerFormat.neutralValueDescription
+            sliderView.maxValueDescriptionLabel.text = answerFormat.maximumValueDescription
+            sliderView.textLabel.text = item.text
+            
+            //what to do when the values are updated?
+            //when the value changes, validate, then
+            
+            sliderView.onValueChanged = { value in
+                
+                if value >= 0 && value < answerFormat.textChoices.count {
+                    sliderView.currentValueLabel.text = answerFormat.textChoices[value].text
+                    let choiceResult = ORKChoiceQuestionResult(identifier: item.identifier)
+                    choiceResult.choiceAnswers = [answerFormat.textChoices[value]]
+                    self.validatedResult = choiceResult
+                }
+                else {
+                    self.validatedResult = nil
+                }
+                
+                //                sliderView.setNeedsLayout()
+                //            self.updateUI()
+                
+            }
+            
+            if  let choiceResult = self.validatedResult as? ORKChoiceQuestionResult,
+                let choice = choiceResult.choiceAnswers?.first as? ORKTextChoice,
+                let index = answerFormat.textChoices.index(of: choice) {
+                sliderView.setValue(value: index, animated: false)
             }
             else {
-                self.validatedResult = nil
+                sliderView.setValue(value: answerFormat.defaultIndex, animated: false)
             }
             
-            //                sliderView.setNeedsLayout()
-//            self.updateUI()
+            sliderView.setNeedsLayout()
+            
+            self.accessoryView = sliderView
+            
+            return sliderView
             
         }
         
-        if  let choiceResult = self.validatedResult as? ORKChoiceQuestionResult,
-            let choice = choiceResult.choiceAnswers?.first as? ORKTextChoice,
-            let index = answerFormat.textChoices.index(of: choice) {
-            sliderView.setValue(value: index, animated: false)
-        }
-        else {
-            sliderView.setValue(value: answerFormat.defaultIndex, animated: false)
-        }
         
-        sliderView.setNeedsLayout()
-        
-        return sliderView
         
     }
 

@@ -9,7 +9,9 @@
 import UIKit
 import ResearchKit
 
-open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewController {
+open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewController, RSEnhancedTableViewDelegate {
+    
+    
 
     static let EmailValidationRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
     
@@ -230,6 +232,8 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         self.tableView.estimatedRowHeight = 60
         self.tableView.separatorInset = UIEdgeInsets.zero
         
+        self.tableView.enhancedTableViewDelegate = self
+        
         // Do any additional setup after loading the view.
         guard let enhancedMultiChoiceStep = step as? RSEnhancedMultipleChoiceStep,
             let answerFormat = enhancedMultiChoiceStep.answerFormat else {
@@ -252,6 +256,53 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         
         self.tableView.visibleCells.forEach { $0.setNeedsLayout() }
     }
+    
+    public func touchesBegan(for tableView: RSEnhancedTableView, touches: Set<UITouch>, with event: UIEvent?) {
+        let firstTouch: UITouch = touches.first!
+        let focusedCells = tableView.visibleCells.filter { (cell) -> Bool in
+            return cell.point(inside: firstTouch.location(in: cell), with: event)
+        }
+        
+        guard let focusedCell = focusedCells.first else {
+            return
+        }
+        
+        self.tableView.visibleCells.forEach { (cell) in
+            
+            guard let enhancedCell = (cell as? RSEnhancedMultipleChoiceCell),
+                let cellController = enhancedCell.delegate as? RSEnhancedMultipleChoiceCellController else {
+                    return
+            }
+            let isFocused = cell == focusedCell
+            cellController.setFocused(isFocused: isFocused)
+            
+        }
+    }
+    
+//    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        super.touchesBegan(touches, with: event)
+//        
+//        let firstTouch: UITouch = touches.first!
+//        let focusedCells = self.tableView.visibleCells.filter { (cell) -> Bool in
+//            return cell.point(inside: firstTouch.location(in: cell), with: event)
+//        }
+//        
+//        guard let focusedCell = focusedCells.first else {
+//            return
+//        }
+//        
+//        self.tableView.visibleCells.forEach { (cell) in
+//            
+//            guard let enhancedCell = (cell as? RSEnhancedMultipleChoiceCell),
+//                let cellController = enhancedCell.delegate as? RSEnhancedMultipleChoiceCellController else {
+//                    return
+//            }
+//            let isFocused = cell == focusedCell
+//            cellController.setFocused(isFocused: isFocused)
+//            
+//        }
+////        self.next?.touchesBegan(touches, with: event)
+//    }
     
     func updateUI() {
         if let selectedPaths = self.tableView.indexPathsForSelectedRows,

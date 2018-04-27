@@ -10,77 +10,89 @@ import ResearchKit
 
 open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhancedMultipleChoiceBaseCellController, UITextFieldDelegate {
     
-    open override func viewForAuxiliaryItem(item: ORKFormItem, cell: RSEnhancedMultipleChoiceCell) -> UIView? {
-        
-        guard let accessoryView = RSEnhancedMultipleChoiceCellTextFieldAccessory.newView() else {
-            return nil
-        }
-        
-        switch item.answerFormat {
-            
-        case .some(let answerFormat as ORKTextAnswerFormat):
-            accessoryView.textLabel.text = item.text
-            accessoryView.textField.placeholder = item.placeholder
-            accessoryView.textField.delegate = self
-            
-            accessoryView.textField.autocapitalizationType = answerFormat.autocapitalizationType
-            accessoryView.textField.autocorrectionType = answerFormat.autocorrectionType
-            accessoryView.textField.spellCheckingType = answerFormat.spellCheckingType
-            accessoryView.textField.keyboardType = answerFormat.keyboardType
-            accessoryView.textField.isSecureTextEntry = answerFormat.isSecureTextEntry
-            
-        case .some(_ as ORKEmailAnswerFormat):
-            accessoryView.textLabel.text = item.text
-            accessoryView.textField.placeholder = item.placeholder
-            accessoryView.textField.delegate = self
-            
-            accessoryView.textField.autocapitalizationType = UITextAutocapitalizationType.none
-            accessoryView.textField.autocorrectionType = UITextAutocorrectionType.default
-            accessoryView.textField.spellCheckingType = UITextSpellCheckingType.default
-            accessoryView.textField.keyboardType = UIKeyboardType.emailAddress
-            accessoryView.textField.isSecureTextEntry = false
-            
-        case .some(_ as ORKNumericAnswerFormat):
-            accessoryView.textLabel.text = item.text
-            accessoryView.textField.placeholder = item.placeholder
-            accessoryView.textField.delegate = self
-            
-            accessoryView.textField.autocapitalizationType = UITextAutocapitalizationType.none
-            accessoryView.textField.autocorrectionType = UITextAutocorrectionType.default
-            accessoryView.textField.spellCheckingType = UITextSpellCheckingType.default
-            accessoryView.textField.keyboardType = UIKeyboardType.numberPad
-            accessoryView.textField.isSecureTextEntry = false
-            
-            
-        default:
-            return nil
-            
-        }
-        
-        accessoryView.textField.becomeFirstResponder()
-        return accessoryView
-        
+    var accessoryView: RSEnhancedMultipleChoiceCellTextFieldAccessory?
+    
+    open override var firstResponderView: UIView? {
+        //        assert(self.managedCell != nil)
+        return self.accessoryView?.textField
     }
     
     private var currentText: String?
     
-    public override init?(textChoice: RSTextChoiceWithAuxiliaryAnswer, choiceSelection: RSEnahncedMultipleChoiceSelection?, onValidationFailed: ((String) -> ())?, onAuxiliaryItemResultChanged: (() -> ())?) {
+    open override func viewForAuxiliaryItem(item: ORKFormItem, cell: RSEnhancedMultipleChoiceCell) -> UIView? {
         
-        switch(choiceSelection?.auxiliaryResult) {
-        case .some(let textResult as ORKTextQuestionResult):
-            self.currentText = textResult.textAnswer
-            
-        case .some(let numericResult as ORKNumericQuestionResult):
-            if let numericAnswer = numericResult.numericAnswer {
-                self.currentText = String(describing: numericAnswer)
-            }
-        default:
-            break
+        if let accessoryView = self.accessoryView {
+            return accessoryView
         }
-        super.init(textChoice: textChoice, choiceSelection: choiceSelection, onValidationFailed: onValidationFailed, onAuxiliaryItemResultChanged: onAuxiliaryItemResultChanged)
+        else {
+            
+            guard let accessoryView = RSEnhancedMultipleChoiceCellTextFieldAccessory.newView() else {
+                return nil
+            }
+            
+            switch(self.validatedResult) {
+            case .some(let textResult as ORKTextQuestionResult):
+                self.currentText = textResult.textAnswer
+                
+            case .some(let numericResult as ORKNumericQuestionResult):
+                if let numericAnswer = numericResult.numericAnswer {
+                    self.currentText = String(describing: numericAnswer)
+                }
+            default:
+                break
+            }
+            
+            switch item.answerFormat {
+                
+            case .some(let answerFormat as ORKTextAnswerFormat):
+                accessoryView.textLabel.text = item.text
+                accessoryView.textField.text = self.currentText
+                accessoryView.textField.placeholder = item.placeholder
+                accessoryView.textField.delegate = self
+                
+                accessoryView.textField.autocapitalizationType = answerFormat.autocapitalizationType
+                accessoryView.textField.autocorrectionType = answerFormat.autocorrectionType
+                accessoryView.textField.spellCheckingType = answerFormat.spellCheckingType
+                accessoryView.textField.keyboardType = answerFormat.keyboardType
+                accessoryView.textField.isSecureTextEntry = answerFormat.isSecureTextEntry
+                
+            case .some(_ as ORKEmailAnswerFormat):
+                accessoryView.textLabel.text = item.text
+                accessoryView.textField.text = self.currentText
+                accessoryView.textField.placeholder = item.placeholder
+                accessoryView.textField.delegate = self
+                
+                accessoryView.textField.autocapitalizationType = UITextAutocapitalizationType.none
+                accessoryView.textField.autocorrectionType = UITextAutocorrectionType.default
+                accessoryView.textField.spellCheckingType = UITextSpellCheckingType.default
+                accessoryView.textField.keyboardType = UIKeyboardType.emailAddress
+                accessoryView.textField.isSecureTextEntry = false
+                
+            case .some(_ as ORKNumericAnswerFormat):
+                accessoryView.textLabel.text = item.text
+                accessoryView.textField.text = self.currentText
+                accessoryView.textField.placeholder = item.placeholder
+                accessoryView.textField.delegate = self
+                
+                accessoryView.textField.autocapitalizationType = UITextAutocapitalizationType.none
+                accessoryView.textField.autocorrectionType = UITextAutocorrectionType.default
+                accessoryView.textField.spellCheckingType = UITextSpellCheckingType.default
+                accessoryView.textField.keyboardType = UIKeyboardType.numberPad
+                accessoryView.textField.isSecureTextEntry = false
+                
+                
+            default:
+                return nil
+                
+            }
+            
+            //we can't set first responder here as this messes up when we browse back to previous screen
+            self.accessoryView = accessoryView
+            return accessoryView
+            
+        }
         
     }
-    
     
     //delegate
     open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -221,13 +233,32 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
         switch auxItem.answerFormat {
             
         case _ as ORKTextAnswerFormat:
-            return self.validateTextForLength(text: text) && self.validateTextForRegEx(text: text)
+            
+            if self.validateTextForLength(text: text) && self.validateTextForRegEx(text: text) {
+                return true
+            }
+            else {
+                self.showValidityAlertMessage(message: "The input is incorrectly formatted")
+                return false
+            }
             
         case _ as ORKEmailAnswerFormat:
-            return self.validateTextForLength(text: text) && self.validateTextForRegEx(text: text)
+            if self.validateTextForLength(text: text) && self.validateTextForRegEx(text: text) {
+                return true
+            }
+            else {
+                self.showValidityAlertMessage(message: "The input is incorrectly formatted")
+                return false
+            }
             
         case _ as ORKNumericAnswerFormat:
-            return self.validateNumericTextForRange(text: text)
+            if self.validateNumericTextForRange(text: text) {
+                return true
+            }
+            else {
+                self.showValidityAlertMessage(message: "The input is incorrectly formatted")
+                return false
+            }
             
         default:
             self.showValidityAlertMessage(message: "An eror occurred")
@@ -315,7 +346,7 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
             return true
         }
         else {
-            return true
+            return false
         }
     }
     

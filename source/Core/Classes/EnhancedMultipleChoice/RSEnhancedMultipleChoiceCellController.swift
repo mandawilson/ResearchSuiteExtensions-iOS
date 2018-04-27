@@ -37,4 +37,6 @@ public protocol RSEnhancedMultipleChoiceCellController {
     var choiceSelection: RSEnahncedMultipleChoiceSelection? { get }
     var onAuxiliaryItemResultChanged:(() -> ())? { get }
     
+    func setFocused(isFocused: Bool)
+    
 }

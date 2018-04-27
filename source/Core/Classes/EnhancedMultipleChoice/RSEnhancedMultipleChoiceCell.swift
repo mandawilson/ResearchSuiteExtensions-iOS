@@ -11,6 +11,7 @@ import ResearchKit
 public protocol RSEnhancedMultipleChoiceCellDelegate: class {
     func setSelected(selected: Bool, cell: RSEnhancedMultipleChoiceCell)
     func viewForAuxiliaryItem(item: ORKFormItem, cell: RSEnhancedMultipleChoiceCell) -> UIView?
+    func onClearForReuse(cell: RSEnhancedMultipleChoiceCell)
 }
 
 open class RSEnhancedMultipleChoiceCell: UITableViewCell {
@@ -24,7 +25,7 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
     
     var auxFormItem: ORKFormItem?
     
-    weak var delegate: RSEnhancedMultipleChoiceCellDelegate?
+    public weak var delegate: RSEnhancedMultipleChoiceCellDelegate?
     
     var auxContainerImageView: UIView?
     
@@ -56,6 +57,7 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
     
     open func clearForReuse() {
         
+        self.delegate?.onClearForReuse(cell: self)
         self.delegate = nil
 
 //        self.identifier = nil

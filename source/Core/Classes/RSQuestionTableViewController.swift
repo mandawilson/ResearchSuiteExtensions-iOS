@@ -19,7 +19,7 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
     @IBOutlet weak var bottomPaddingView: UIView!
     @IBOutlet public weak var skipButton: RSLabelButton!
     @IBOutlet public weak var continueButton: RSBorderedButton!
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: RSEnhancedTableView!
     @IBOutlet weak var headerView: UIStackView!
     @IBOutlet weak var footerContainer: UIView!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!

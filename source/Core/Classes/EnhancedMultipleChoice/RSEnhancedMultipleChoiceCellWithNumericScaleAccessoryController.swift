@@ -14,48 +14,62 @@ open class RSEnhancedMultipleChoiceCellWithNumericScaleAccessoryController: RSEn
         return (self.auxiliaryItem?.answerFormat as? RSEnhancedScaleAnswerFormat)!
     }
 
+    var accessoryView: RSSliderView?
+    
     open override func viewForAuxiliaryItem(item: ORKFormItem, cell: RSEnhancedMultipleChoiceCell) -> UIView? {
         
-        guard let auxItem = self.auxiliaryItem,
-            let answerFormat = auxItem.answerFormat as? RSEnhancedScaleAnswerFormat,
-            let sliderView = RSSliderView.newView(minimumValue: answerFormat.minimum, maximumValue: answerFormat.maximum) else {
-                return nil
+        if let accessoryView = self.accessoryView {
+            return accessoryView
         }
         
-        assert(auxItem == item)
-        
-        sliderView.minValueLabel.text = answerFormat.minValueLabel
-        sliderView.maxValueLabel.text = answerFormat.maxValueLabel
-        sliderView.minValueDescriptionLabel.text = answerFormat.minimumValueDescription
-        sliderView.neutralValueDescriptionLabel.text = answerFormat.neutralValueDescription
-        sliderView.maxValueDescriptionLabel.text = answerFormat.maximumValueDescription
-        sliderView.textLabel.text = item.text
-        
-        sliderView.onValueChanged = { value in
+        else {
             
-            if value >= answerFormat.minimum && value <= answerFormat.maximum {
-                sliderView.currentValueLabel.text = "\(value)"
+            guard let auxItem = self.auxiliaryItem,
+                let answerFormat = auxItem.answerFormat as? RSEnhancedScaleAnswerFormat,
+                let sliderView = RSSliderView.newView(minimumValue: answerFormat.minimum, maximumValue: answerFormat.maximum) else {
+                    return nil
+            }
+            
+            assert(auxItem == item)
+            
+            sliderView.minValueLabel.text = answerFormat.minValueLabel
+            sliderView.maxValueLabel.text = answerFormat.maxValueLabel
+            sliderView.minValueDescriptionLabel.text = answerFormat.minimumValueDescription
+            sliderView.neutralValueDescriptionLabel.text = answerFormat.neutralValueDescription
+            sliderView.maxValueDescriptionLabel.text = answerFormat.maximumValueDescription
+            sliderView.textLabel.text = item.text
+            
+            sliderView.onValueChanged = { value in
                 
-                let numericResult = ORKNumericQuestionResult(identifier: item.identifier)
-                numericResult.numericAnswer = NSNumber(value: value)
-                self.validatedResult = numericResult
+                if value >= answerFormat.minimum && value <= answerFormat.maximum {
+                    sliderView.currentValueLabel.text = "\(value)"
+                    
+                    let numericResult = ORKNumericQuestionResult(identifier: item.identifier)
+                    numericResult.numericAnswer = NSNumber(value: value)
+                    self.validatedResult = numericResult
+                }
+                else {
+                    self.validatedResult = nil
+                }
+            }
+            
+            if let result = self.validatedResult as? ORKNumericQuestionResult,
+                let numericAnswer = result.numericAnswer {
+                sliderView.setValue(value: numericAnswer.intValue, animated: false)
             }
             else {
-                self.validatedResult = nil
+                sliderView.setValue(value: answerFormat.defaultValue, animated: false)
             }
+            
+            sliderView.setNeedsLayout()
+            
+            self.accessoryView = sliderView
+            
+            return sliderView
+            
         }
         
-        if let result = self.validatedResult as? ORKNumericQuestionResult,
-            let numericAnswer = result.numericAnswer {
-            sliderView.setValue(value: numericAnswer.intValue, animated: false)
-        }
-        else {
-            sliderView.setValue(value: answerFormat.defaultValue, animated: false)
-        }
         
-        sliderView.setNeedsLayout()
-        
-        return sliderView
         
     }
     

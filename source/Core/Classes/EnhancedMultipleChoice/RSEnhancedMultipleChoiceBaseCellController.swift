@@ -10,6 +10,24 @@ import ResearchKit
 
 open class RSEnhancedMultipleChoiceBaseCellController: NSObject, RSEnhancedMultipleChoiceCellController, RSEnhancedMultipleChoiceCellDelegate {
     
+    weak var managedCell: RSEnhancedMultipleChoiceCell?
+    open func onClearForReuse(cell: RSEnhancedMultipleChoiceCell) {
+        self.managedCell = nil
+    }
+    
+    open var firstResponderView: UIView? {
+//        assert(self.managedCell != nil)
+        return self.managedCell
+    }
+    
+    open func setFocused(isFocused: Bool) {
+        
+        if !isFocused {
+            self.firstResponderView?.resignFirstResponder()
+        }
+        
+    }
+    
     //this needs to be done by child
     open var isValid: Bool {
         
@@ -33,7 +51,9 @@ open class RSEnhancedMultipleChoiceBaseCellController: NSObject, RSEnhancedMulti
         cell.configure(forTextChoice: self.textChoice, delegate: self)
 //        cell.setSelected(self.isSelected, animated: false)
         cell.updateUI(selected: self.isSelected, animated: false, updateResponder: false)
+//        cell.updateUI(selected: false, animated: false, updateResponder: false)
         cell.setNeedsLayout()
+        self.managedCell = cell
     }
     
     //ok for base
