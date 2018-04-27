@@ -136,6 +136,8 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryCell: UITableViewCe
             self.auxTextField.autocorrectionType = UITextAutocorrectionType.default
             self.auxTextField.spellCheckingType = UITextSpellCheckingType.default
             self.auxTextField.keyboardType = UIKeyboardType.numberPad
+            self.auxTextField.returnKeyType = .done
+            
             self.auxTextField.isSecureTextEntry = false
 
             

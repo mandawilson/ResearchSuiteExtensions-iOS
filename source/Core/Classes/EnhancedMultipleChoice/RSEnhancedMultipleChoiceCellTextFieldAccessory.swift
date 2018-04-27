@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ResearchKit
 
 open class RSEnhancedMultipleChoiceCellTextFieldAccessory: UIStackView {
 
@@ -15,6 +16,8 @@ open class RSEnhancedMultipleChoiceCellTextFieldAccessory: UIStackView {
             let view = views.first as? RSEnhancedMultipleChoiceCellTextFieldAccessory else {
                 return nil
         }
+        
+        
         
 //        self.configureView(view: view, minimumValue: minimumValue, maximumValue: maximumValue)
         

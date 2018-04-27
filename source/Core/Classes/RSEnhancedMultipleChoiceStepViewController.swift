@@ -75,6 +75,9 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         
         let onAuxiliaryItemResultChanged:(() -> ()) = {
             self.updateUI()
+            self.cellControllerMap.forEach { (pair) in
+                pair.value.setFocused(isFocused: false)
+            }
         }
         
         switch textChoice.auxiliaryItem?.answerFormat {
@@ -258,25 +261,25 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
     }
     
     public func touchesBegan(for tableView: RSEnhancedTableView, touches: Set<UITouch>, with event: UIEvent?) {
-        let firstTouch: UITouch = touches.first!
-        let focusedCells = tableView.visibleCells.filter { (cell) -> Bool in
-            return cell.point(inside: firstTouch.location(in: cell), with: event)
-        }
-        
-        guard let focusedCell = focusedCells.first else {
-            return
-        }
-        
-        self.tableView.visibleCells.forEach { (cell) in
-            
-            guard let enhancedCell = (cell as? RSEnhancedMultipleChoiceCell),
-                let cellController = enhancedCell.delegate as? RSEnhancedMultipleChoiceCellController else {
-                    return
-            }
-            let isFocused = cell == focusedCell
-            cellController.setFocused(isFocused: isFocused)
-            
-        }
+//        let firstTouch: UITouch = touches.first!
+//        let focusedCells = tableView.visibleCells.filter { (cell) -> Bool in
+//            return cell.point(inside: firstTouch.location(in: cell), with: event)
+//        }
+//
+//        guard let focusedCell = focusedCells.first else {
+//            return
+//        }
+//
+//        self.tableView.visibleCells.forEach { (cell) in
+//
+//            guard let enhancedCell = (cell as? RSEnhancedMultipleChoiceCell),
+//                let cellController = enhancedCell.delegate as? RSEnhancedMultipleChoiceCellController else {
+//                    return
+//            }
+//            let isFocused = cell == focusedCell
+//            cellController.setFocused(isFocused: isFocused)
+//
+//        }
     }
     
 //    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -615,6 +618,14 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         
         self.view.setNeedsLayout()
         self.updateUI()
+
+        self.cellControllerMap.forEach { (pair) in
+            let focused = pair.key == indexPath.row
+            pair.value.setFocused(isFocused: focused)
+        }
+        
+        
+        
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -625,6 +636,10 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         
         self.view.setNeedsLayout()
         self.updateUI()
+        
+        self.cellControllerMap.forEach { (pair) in
+            pair.value.setFocused(isFocused: false)
+        }
     }
 
     override open func clearAnswer() {

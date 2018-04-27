@@ -20,11 +20,16 @@ open class RSEnhancedMultipleChoiceBaseCellController: NSObject, RSEnhancedMulti
         return self.managedCell
     }
     
+    var wasFocused: Bool = false
     open func setFocused(isFocused: Bool) {
         
-        if !isFocused {
+        if isFocused {
+            self.firstResponderView?.becomeFirstResponder()
+        }
+        else {
             self.firstResponderView?.resignFirstResponder()
         }
+        
         
     }
     

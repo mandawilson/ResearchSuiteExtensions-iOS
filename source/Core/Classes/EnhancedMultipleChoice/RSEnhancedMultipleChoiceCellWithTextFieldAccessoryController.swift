@@ -42,13 +42,15 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
                 break
             }
             
+            accessoryView.textLabel.text = item.text
+            accessoryView.textField.text = self.currentText
+            accessoryView.textField.placeholder = item.placeholder
+            accessoryView.textField.delegate = self
+            
             switch item.answerFormat {
                 
             case .some(let answerFormat as ORKTextAnswerFormat):
-                accessoryView.textLabel.text = item.text
-                accessoryView.textField.text = self.currentText
-                accessoryView.textField.placeholder = item.placeholder
-                accessoryView.textField.delegate = self
+                
                 
                 accessoryView.textField.autocapitalizationType = answerFormat.autocapitalizationType
                 accessoryView.textField.autocorrectionType = answerFormat.autocorrectionType
@@ -57,10 +59,6 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
                 accessoryView.textField.isSecureTextEntry = answerFormat.isSecureTextEntry
                 
             case .some(_ as ORKEmailAnswerFormat):
-                accessoryView.textLabel.text = item.text
-                accessoryView.textField.text = self.currentText
-                accessoryView.textField.placeholder = item.placeholder
-                accessoryView.textField.delegate = self
                 
                 accessoryView.textField.autocapitalizationType = UITextAutocapitalizationType.none
                 accessoryView.textField.autocorrectionType = UITextAutocorrectionType.default
@@ -69,16 +67,28 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
                 accessoryView.textField.isSecureTextEntry = false
                 
             case .some(_ as ORKNumericAnswerFormat):
-                accessoryView.textLabel.text = item.text
-                accessoryView.textField.text = self.currentText
-                accessoryView.textField.placeholder = item.placeholder
-                accessoryView.textField.delegate = self
                 
                 accessoryView.textField.autocapitalizationType = UITextAutocapitalizationType.none
                 accessoryView.textField.autocorrectionType = UITextAutocorrectionType.default
                 accessoryView.textField.spellCheckingType = UITextSpellCheckingType.default
                 accessoryView.textField.keyboardType = UIKeyboardType.numberPad
+                accessoryView.textField.returnKeyType = .done
                 accessoryView.textField.isSecureTextEntry = false
+
+                let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: 320, height: 50))
+                doneToolbar.barStyle = UIBarStyle.default
+                
+                let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+                let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: accessoryView.textField, action: #selector(UIResponder.resignFirstResponder))
+                
+                var items = [UIBarButtonItem]()
+                items.append(flexSpace)
+                items.append(done)
+                
+                doneToolbar.items = items
+                doneToolbar.sizeToFit()
+                
+                accessoryView.textField.inputAccessoryView = doneToolbar
                 
                 
             default:
@@ -99,6 +109,8 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
         textField.resignFirstResponder()
         return true
     }
+    
+    
     
     open func textFieldDidEndEditing(_ textField: UITextField) {
 //        self.delegate?.auxiliaryTextFieldDidEndEditing(textField, forCellId: self.identifier)

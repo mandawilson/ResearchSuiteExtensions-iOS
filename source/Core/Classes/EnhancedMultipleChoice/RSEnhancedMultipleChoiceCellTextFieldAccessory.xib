@@ -58,11 +58,11 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="qPB-tU-esZ">
-                                    <rect key="frame" x="347" y="67" width="0.0" height="50"/>
+                                <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Qbc-ga-Zq3">
+                                    <rect key="frame" x="347" y="28" width="0.0" height="128"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" id="fUn-os-8ts"/>
+                                        <constraint firstAttribute="width" id="IPH-gy-Fpc"/>
                                     </constraints>
                                 </view>
                             </subviews>
