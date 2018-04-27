@@ -12,9 +12,17 @@ open class RSEnhancedMultipleChoiceBaseCellController: NSObject, RSEnhancedMulti
     
     //this needs to be done by child
     open var isValid: Bool {
-//        assertionFailure("Not Implemented")
-        assert(self.auxiliaryItem == nil)
-        return true
+        
+        guard let auxiliaryItem = self.auxiliaryItem else {
+            return true
+        }
+        
+        if auxiliaryItem.isOptional {
+            return true
+        }
+        else {
+            return self.auxiliaryItemResult != nil
+        }
     }
     
     //ok for base

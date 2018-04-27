@@ -13,18 +13,7 @@ open class RSEnhancedMultipleChoiceCellWithTextScaleAccessoryController: RSEnhan
     var answerFormat: RSEnhancedTextScaleAnswerFormat {
         return (self.auxiliaryItem?.answerFormat as? RSEnhancedTextScaleAnswerFormat)!
     }
-    
-    open override var isValid: Bool {
-        
-        if self.auxiliaryItem!.isOptional {
-            return true
-        }
-        else {
-            return self.auxiliaryItemResult != nil
-        }
-        
-    }
-    
+
     open override func viewForAuxiliaryItem(item: ORKFormItem, cell: RSEnhancedMultipleChoiceCell) -> UIView? {
         
         guard let auxItem = self.auxiliaryItem,

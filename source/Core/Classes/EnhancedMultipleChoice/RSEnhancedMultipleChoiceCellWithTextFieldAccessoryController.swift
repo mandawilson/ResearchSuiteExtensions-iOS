@@ -10,10 +10,6 @@ import ResearchKit
 
 open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhancedMultipleChoiceBaseCellController, UITextFieldDelegate {
     
-    open override var isValid: Bool {
-        return false
-    }
-    
     open override func viewForAuxiliaryItem(item: ORKFormItem, cell: RSEnhancedMultipleChoiceCell) -> UIView? {
         
         guard let accessoryView = RSEnhancedMultipleChoiceCellTextFieldAccessory.newView() else {
@@ -61,6 +57,7 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
             
         }
         
+        accessoryView.textField.becomeFirstResponder()
         return accessoryView
         
     }
@@ -84,7 +81,13 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
         
     }
     
+    
     //delegate
+    open func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     open func textFieldDidEndEditing(_ textField: UITextField) {
 //        self.delegate?.auxiliaryTextFieldDidEndEditing(textField, forCellId: self.identifier)
 //        if !self.selected.contains(id) {
@@ -154,6 +157,7 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
     
     open func textFieldShouldClear(_ textField: UITextField) -> Bool {
         self.currentText = nil
+        self.validatedResult = nil
 //        self.updateUI()
         return true
        
