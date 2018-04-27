@@ -53,10 +53,7 @@ open class RSEnhancedMultipleChoiceCellWithTextScaleAccessoryController: RSEnhan
                 else {
                     self.validatedResult = nil
                 }
-                
-                //                sliderView.setNeedsLayout()
-                //            self.updateUI()
-                
+
             }
             
             if  let choiceResult = self.validatedResult as? ORKChoiceQuestionResult,

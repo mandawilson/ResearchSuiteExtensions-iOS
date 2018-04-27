@@ -237,46 +237,49 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
     
     func validate(text: String) -> Bool {
         
-        guard let auxItem = self.auxiliaryItem else {
+        guard let auxItem = self.auxiliaryItem,
+            let answerFormat = auxItem.answerFormat else {
             self.showValidityAlertMessage(message: "An eror occurred")
             return false
         }
         
-        switch auxItem.answerFormat {
-            
-        case _ as ORKTextAnswerFormat:
-            
-            if self.validateTextForLength(text: text) && self.validateTextForRegEx(text: text) {
-                return true
-            }
-            else {
-                self.showValidityAlertMessage(message: "The input is incorrectly formatted")
-                return false
-            }
-            
-        case _ as ORKEmailAnswerFormat:
-            if self.validateTextForLength(text: text) && self.validateTextForRegEx(text: text) {
-                return true
-            }
-            else {
-                self.showValidityAlertMessage(message: "The input is incorrectly formatted")
-                return false
-            }
-            
-        case _ as ORKNumericAnswerFormat:
-            if self.validateNumericTextForRange(text: text) {
-                return true
-            }
-            else {
-                self.showValidityAlertMessage(message: "The input is incorrectly formatted")
-                return false
-            }
-            
-        default:
-            self.showValidityAlertMessage(message: "An eror occurred")
-            return false
-            
-        }
+        return answerFormat.isAnswerValid(with: text)
+        
+//        switch auxItem.answerFormat {
+//
+//        case _ as ORKTextAnswerFormat:
+//
+//            if self.validateTextForLength(text: text) && self.validateTextForRegEx(text: text) {
+//                return true
+//            }
+//            else {
+//                self.showValidityAlertMessage(message: "The input is incorrectly formatted")
+//                return false
+//            }
+//
+//        case _ as ORKEmailAnswerFormat:
+//            if self.validateTextForLength(text: text) && self.validateTextForEmail(text: text) {
+//                return true
+//            }
+//            else {
+//                self.showValidityAlertMessage(message: "The input is incorrectly formatted")
+//                return false
+//            }
+//
+//        case _ as ORKNumericAnswerFormat:
+//            if self.validateNumericTextForRange(text: text) {
+//                return true
+//            }
+//            else {
+//                self.showValidityAlertMessage(message: "The input is incorrectly formatted")
+//                return false
+//            }
+//
+//        default:
+//            self.showValidityAlertMessage(message: "An eror occurred")
+//            return false
+//
+//        }
     }
     
     //MARK: Validation Functions
@@ -297,6 +300,18 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
             return false
         }
         return true
+    }
+    
+    static let EmailValidationRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
+    open func validateTextForEmail(text: String) -> Bool {
+        
+        guard let regex = try? NSRegularExpression(pattern: RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController.EmailValidationRegex, options: []) else {
+            return false
+        }
+        
+        let matchCount = regex.numberOfMatches(in: text, options: [], range: NSMakeRange(0, text.count))
+        return matchCount == 1
+        
     }
     
     open func validateTextForLength(text: String) -> Bool {
