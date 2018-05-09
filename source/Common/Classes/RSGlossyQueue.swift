@@ -65,6 +65,20 @@ open class RSGlossyQueue<T: Glossy>: SecureQueue {
         
     }
     
+    open func getInMemoryGlossyElements() throws -> [RSGlossyQueueElement] {
+        
+        let elementPairs = try self.getInMemoryElements()
+        
+        return try elementPairs.compactMap { pair in
+            guard let elementData = pair.1 as? NSData else {
+                return nil
+            }
+            
+            return try self.elementForPair(elementId: pair.0, elementData: elementData)
+        }
+        
+    }
+    
     open func getFirstGlossyElement() throws -> RSGlossyQueueElement? {
         guard let elementPair = try self.getFirstElement(),
             let elementData = elementPair.1 as? NSData else {
