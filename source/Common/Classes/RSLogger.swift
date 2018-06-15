@@ -22,7 +22,8 @@ public protocol RSLogger {
 public class RSFileLogger: NSObject, RSLogger {
 
     let logQueue: DispatchQueue
-    let logFile: URL
+    public let logDirectory: URL
+    public let logFile: URL
     
     public init?(directory: String) {
         
@@ -65,6 +66,7 @@ public class RSFileLogger: NSObject, RSLogger {
             print(error.localizedDescription);
         }
         
+        self.logDirectory = URL(string: finalDirectory)!
         let fileDateString = RSFileLogger.string(for: Date())
         let finalLogFilePath = finalDirectory.appending("/\(fileDateString).log")
         self.logFile = URL(fileURLWithPath: finalLogFilePath)
@@ -89,15 +91,11 @@ public class RSFileLogger: NSObject, RSLogger {
     }
     
     static func string(for date: Date) -> String {
-        if #available(iOS 10.0, *) {
-            return ISO8601DateFormatter().string(from: date)
-        } else {
-            let dateFormatter = DateFormatter()
-            let enUSPOSIXLocale = Locale(identifier: "en_US_POSIX")
-            dateFormatter.locale = enUSPOSIXLocale as Locale
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
-            return dateFormatter.string(from: date)
-        }
+        let dateFormatter = DateFormatter()
+        let enUSPOSIXLocale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.locale = enUSPOSIXLocale as Locale
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        return dateFormatter.string(from: date)
     }
     
     
