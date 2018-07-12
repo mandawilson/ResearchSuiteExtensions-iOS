@@ -134,6 +134,7 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
     }
 
     func updateUI() {
+        
         if let selectedPaths = self.tableView.indexPathsForSelectedRows,
             selectedPaths.count > 0 {
             
@@ -141,10 +142,12 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
             
             self.continueButton.isEnabled = invalidCellControllers.count == 0
         }
+        else if self.enhancedMultiChoiceStep.allowsEmptySelection {
+            self.continueButton.isEnabled = true
+        }
         else {
             self.continueButton.isEnabled = false
         }
-        
         
     }
     
@@ -205,6 +208,33 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
 //        self.resignFirstResponder()
         self.view.endEditing(true)
         
+        if self.tableView.indexPathsForSelectedRows == nil,
+            self.enhancedMultiChoiceStep.allowsEmptySelection {
+            
+            //we allow empty selection
+            if let alert = self.enhancedMultiChoiceStep.emptySelectionConfirmationAlert {
+                
+                let alertVC = UIAlertController(title: alert.title, message: alert.text, preferredStyle: .alert)
+                
+                let cancelAction = UIAlertAction(title: alert.cancelText, style: .cancel, handler: { _ in
+                    
+                })
+                alertVC.addAction(cancelAction)
+                
+                let continueAction = UIAlertAction(title: alert.continueText, style: .default, handler: { _ in
+                    super.continueTapped(sender)
+                })
+                alertVC.addAction(continueAction)
+
+                self.present(alertVC, animated: true, completion: nil)
+                return
+            }
+            else {
+                super.continueTapped(sender)
+                return
+            }
+            
+        }
         
         
         //rules for moving forward

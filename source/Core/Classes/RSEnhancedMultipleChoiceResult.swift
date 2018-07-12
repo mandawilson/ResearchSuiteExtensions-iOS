@@ -24,7 +24,7 @@ public struct RSEnahncedMultipleChoiceSelection: JSONEncodable {
     public func toJSON() -> JSON? {
         return jsonify([
             "identifier" ~~> self.identifier,
-            "identifier" ~~> self.value,
+            "value" ~~> self.value,
             "auxiliaryResult" ~~> self.auxiliaryResult
             ])
     }

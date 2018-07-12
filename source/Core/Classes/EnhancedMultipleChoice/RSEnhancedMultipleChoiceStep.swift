@@ -13,6 +13,8 @@ open class RSEnhancedMultipleChoiceStep: RSStep {
     
     open var answerFormat: ORKTextChoiceAnswerFormat?
     open var cellControllerGenerators: [RSEnhancedMultipleChoiceCellControllerGenerator.Type]
+    open var allowsEmptySelection: Bool = false
+    open var emptySelectionConfirmationAlert: RSAllowsEmptySelectionAlert? = nil
     
     public init(identifier: String, title: String?, text: String?, answer answerFormat: ORKTextChoiceAnswerFormat?, cellControllerGenerators: [RSEnhancedMultipleChoiceCellControllerGenerator.Type]) {
         self.answerFormat = answerFormat

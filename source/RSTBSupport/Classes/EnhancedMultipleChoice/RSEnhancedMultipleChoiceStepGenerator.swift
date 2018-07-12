@@ -161,6 +161,12 @@ open class RSEnhancedChoiceStepGenerator: RSTBBaseStepGenerator {
         }
         
         step.isOptional = stepDescriptor.optional
+        
+        if let allowsEmptySelection = stepDescriptor.allowsEmptySelection {
+            step.allowsEmptySelection = allowsEmptySelection.allowed
+            step.emptySelectionConfirmationAlert = allowsEmptySelection.confirmationAlert
+        }
+        
         return step
     }
     
