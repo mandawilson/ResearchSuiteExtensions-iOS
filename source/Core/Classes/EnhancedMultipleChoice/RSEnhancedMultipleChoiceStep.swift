@@ -8,6 +8,27 @@
 
 import UIKit
 import ResearchKit
+import Gloss
+
+open class RSAllowsEmptySelectionAlert {
+    
+    public let title: String
+    public let text: String?
+    public let cancelText: String
+    public let continueText: String
+    
+    public init(
+        title: String,
+        text: String?,
+        cancelText: String,
+        continueText: String) {
+        self.title = title
+        self.text = text
+        self.cancelText = cancelText
+        self.continueText = continueText
+    }
+    
+}
 
 open class RSEnhancedMultipleChoiceStep: RSStep {
     

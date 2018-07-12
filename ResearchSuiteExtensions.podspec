@@ -35,7 +35,7 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
     common.source_files = 'source/Common/Classes/**/*'
     common.dependency 'ResearchKit', '~> 1.4'
     common.dependency 'Gloss', '~> 2.0'
-    common.dependency 'SecureQueue', '~> 0.1'
+    common.dependency 'SecureQueue', '~> 0.2'
   end
 
   s.subspec 'Core' do |core|

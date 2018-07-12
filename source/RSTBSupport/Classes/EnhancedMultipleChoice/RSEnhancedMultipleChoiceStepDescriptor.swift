@@ -9,25 +9,24 @@
 import Gloss
 import ResearchSuiteTaskBuilder
 
-open class RSAllowsEmptySelectionAlert: Gloss.JSONDecodable {
-    
-    public let title: String
-    public let text: String?
-    public let cancelText: String
-    public let continueText: String
-    
-    required public init?(json: JSON) {
+extension RSAllowsEmptySelectionAlert {
+
+    public static func fromJSON(json: JSON?) -> RSAllowsEmptySelectionAlert? {
         
-        guard let title: String = "title" <~~ json else {
+        guard let json = json,
+            let title: String = "title" <~~ json else {
             return nil
         }
         
-        self.title = title
-        self.text = "text" <~~ json
-        self.cancelText = "cancelText" <~~ json ?? "Cancel"
-        self.continueText = "continueText" <~~ json ?? "Cancel"
+        return RSAllowsEmptySelectionAlert(
+            title: title,
+            text: "text" <~~ json,
+            cancelText: "cancelText" <~~ json ?? "Cancel",
+            continueText: "continueText" <~~ json ?? "Continue"
+        )
+        
     }
-    
+
 }
 
 public struct RSEnhancedMultipleChoiceAllowsEmptySelectionDescriptor: Gloss.JSONDecodable {
@@ -38,7 +37,7 @@ public struct RSEnhancedMultipleChoiceAllowsEmptySelectionDescriptor: Gloss.JSON
     public init?(json: JSON) {
         
         self.allowed = "allowed" <~~ json ?? false
-        self.confirmationAlert = "confirmation" <~~ json
+        self.confirmationAlert = RSAllowsEmptySelectionAlert.fromJSON(json: "confirmation" <~~ json) 
         
     }
     
