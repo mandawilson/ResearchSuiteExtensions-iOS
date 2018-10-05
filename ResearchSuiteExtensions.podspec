@@ -42,7 +42,7 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
     core.source_files = 'source/Core/Classes/**/*'
     core.dependency 'ResearchSuiteExtensions/Common'
     core.dependency 'ResearchKit', '~> 1.4'
-    core.dependency 'SwiftyGif', '~> 4.0'
+    core.dependency 'SwiftyGif', '~> 4.1.0'
   end
 
   s.subspec 'RSTBSupport' do |rstb|
