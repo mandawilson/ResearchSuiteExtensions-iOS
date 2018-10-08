@@ -42,6 +42,10 @@ open class RSEnhancedInstructionStepGenerator: RSTBBaseStepGenerator {
             step.attributedText = self.generateAttributedString(descriptor: formattedText, stateHelper: stateHelper)
         }
         
+        if let buttonText = stepDescriptor.buttonText {
+            step.buttonText = buttonText
+        }
+        
         if let gifTitle = stepDescriptor.gifTitle,
             let gifURL = Bundle.main.url(forResource: gifTitle, withExtension: nil) {
             
