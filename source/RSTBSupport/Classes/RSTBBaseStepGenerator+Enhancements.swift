@@ -65,7 +65,7 @@ public extension RSTBBaseStepGenerator {
         
     }
     
-    public func generateAttributedString(descriptor: RSTemplatedTextDescriptor, helper: RSTBTaskBuilderHelper, defaultAttributes: [String : Any]? = nil) -> NSAttributedString? {
+    public func generateAttributedString(descriptor: RSTemplatedTextDescriptor, helper: RSTBTaskBuilderHelper, fontColor: UIColor? = nil) -> NSAttributedString? {
 
         let pairs: [(String, Any)] = descriptor.arguments.compactMap { (pair) -> (String, Any)? in
             guard let stateHelper = helper.stateHelper,
@@ -111,6 +111,10 @@ public extension RSTBBaseStepGenerator {
         //let's adjust headers based on other labels too
         let md = SwiftyMarkdown(string: markdownString)
 //        md.h1.fontName = UIFont.preferredFont(forTextStyle: .title1).fontName
+        
+        if let color = fontColor {
+            md.setFontColorForAllStyles(with: color)
+        }
         
         let h1Font = RSFonts.computeFont(startingTextStyle: UIFontTextStyle.headline, defaultSize: 17.0, typeAdjustment: 35.0, weight: UIFont.Weight.light)
         
