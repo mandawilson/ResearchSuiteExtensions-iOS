@@ -10,13 +10,18 @@ import ResearchKit
 
 open class RSEnhancedTimePickerStepViewController: RSQuestionViewController {
 
-    var value: Int?
-    
     static func getDateForComponents(timeOfDayComponents: DateComponents, date: Date = Date()) -> Date? {
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: date)
         return calendar.date(byAdding: timeOfDayComponents, to: startOfDay)
     }
+    
+    static func getTimeOfDayComponentsFromDate(date: Date) -> DateComponents {
+        let calendar = Calendar.current
+        return calendar.dateComponents([.hour, .minute], from: date)
+    }
+    
+    var datePicker: UIDatePicker?
     
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +31,7 @@ open class RSEnhancedTimePickerStepViewController: RSQuestionViewController {
         }
         
         let datePicker = UIDatePicker()
+        self.datePicker = datePicker
         datePicker.datePickerMode = .time
         
         let dateForComponents: (DateComponents?) -> Date? = { components in
@@ -55,65 +61,6 @@ open class RSEnhancedTimePickerStepViewController: RSQuestionViewController {
         stackView.addArrangedSubview(datePicker)
         stackView.addArrangedSubview(UIView())
         
-        //
-        
-//        let answerFormat = textScaleStep.answerFormat
-//
-//        guard let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
-//            return
-//        }
-//
-//        sliderView.minValueLabel.text = answerFormat.minValueLabel
-//        sliderView.maxValueLabel.text = answerFormat.maxValueLabel
-//        sliderView.minValueDescriptionLabel.text = answerFormat.minimumValueDescription
-//        sliderView.neutralValueDescriptionLabel.text = answerFormat.neutralValueDescription
-//        sliderView.maxValueDescriptionLabel.text = answerFormat.maximumValueDescription
-//
-//        sliderView.textLabel.text = nil
-//
-//        sliderView.onValueChanged = { value in
-//            self.value = value
-//            if value >= 0 && value < answerFormat.textChoices.count {
-//                sliderView.currentValueLabel.text = answerFormat.textChoices[value].text
-//                self.continueButtonEnabled = true
-//            }
-//            else {
-//                self.continueButtonEnabled = false
-//            }
-//
-//            sliderView.setNeedsLayout()
-//            self.contentView.setNeedsLayout()
-//
-//
-//        }
-//
-//        if let initializedResult = self.initializedResult as? ORKStepResult,
-//            let result = initializedResult.firstResult as? ORKChoiceQuestionResult,
-//            let choice = result.choiceAnswers?.first as? ORKTextChoice,
-//            let index = textScaleStep.answerFormat.textChoices.index(of: choice) {
-//            sliderView.setValue(value: index, animated: false)
-//        }
-//        else {
-//            sliderView.setValue(value: answerFormat.defaultIndex, animated: false)
-//        }
-//
-//        let stackView = UIStackView()
-//        stackView.axis = .vertical
-//        stackView.frame = self.contentView.bounds
-//        self.contentView.addSubview(stackView)
-//
-//        stackView.addArrangedSubview(sliderView)
-//        stackView.addArrangedSubview(UIView())
-        
-    }
-    
-    override open func validate() -> Bool {
-//        guard let value = self.value,
-//            let textScaleStep = self.step as? RSEnhancedTextScaleStep,
-//            value >= 0 && value < textScaleStep.answerFormat.textChoices.count else {
-//                return false
-//        }
-        return true
     }
     
     override open var result: ORKStepResult? {
@@ -121,17 +68,18 @@ open class RSEnhancedTimePickerStepViewController: RSQuestionViewController {
             return nil
         }
         
+        
         if self.hasAppeared,
-            let value = self.value,
-            let step = self.step as? RSEnhancedTextScaleStep,
-            value >= 0 && value < step.answerFormat.textChoices.count {
+            let step = self.step,
+            let pickerDate = self.datePicker?.date {
             
-            let choiceResult = ORKChoiceQuestionResult(identifier: step.identifier)
-            choiceResult.startDate = parentResult.startDate
-            choiceResult.endDate = parentResult.endDate
-            choiceResult.choiceAnswers = [step.answerFormat.textChoices[value]]
+            let components = RSEnhancedTimePickerStepViewController.getTimeOfDayComponentsFromDate(date: pickerDate)
+            let timeOfDayResult = ORKTimeOfDayQuestionResult(identifier: step.identifier)
+            timeOfDayResult.dateComponentsAnswer = components
+            timeOfDayResult.startDate = parentResult.startDate
+            timeOfDayResult.endDate = parentResult.endDate
             
-            parentResult.results = [choiceResult]
+            parentResult.results = [timeOfDayResult]
         }
         
         return parentResult
