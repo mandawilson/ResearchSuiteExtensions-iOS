@@ -101,7 +101,7 @@ open class RSBorderedButton: UIButton {
         //normal, highlighted, selected: primary color
         //disabled: grey
         if self.state == .disabled {
-            self.layer.borderColor = UIColor.clear.cgColor
+            self.layer.borderColor = UIColor.black.withAlphaComponent(0.3).cgColor
         }
         else {
             self.layer.borderColor = (self.primaryColor ?? self.tintColor).cgColor
