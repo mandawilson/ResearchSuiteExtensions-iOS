@@ -8,6 +8,7 @@
 import UIKit
 import ResearchSuiteTaskBuilder
 import Gloss
+import ResearchKit
 
 open class RSEnhancedTimePickerStepDescriptor: RSTBTimePickerStepDescriptor {
     
@@ -30,7 +31,7 @@ open class RSEnhancedTimePickerStepDescriptor: RSTBTimePickerStepDescriptor {
                 return nil
             }
             
-            return RSTBTimePickerStepDescriptor.getComponents(from: componentsString)
+            return ORKTimeOfDayComponentsFromString(componentsString)
         }()
         
         self.maximumComponents = {
@@ -38,7 +39,7 @@ open class RSEnhancedTimePickerStepDescriptor: RSTBTimePickerStepDescriptor {
                 return nil
             }
             
-            return RSTBTimePickerStepDescriptor.getComponents(from: componentsString)
+            return ORKTimeOfDayComponentsFromString(componentsString)
         }()
         
         self.minuteInterval = "minuteInterval" <~~ json
