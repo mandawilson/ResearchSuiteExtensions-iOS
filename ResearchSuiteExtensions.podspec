@@ -49,7 +49,7 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
   s.subspec 'RSTBSupport' do |rstb|
     rstb.source_files = 'source/RSTBSupport/Classes/**/*'
     rstb.dependency 'ResearchSuiteExtensions/Core'
-    rstb.dependency 'ResearchSuiteTaskBuilder', '~> 0.10'
+    rstb.dependency 'ResearchSuiteTaskBuilder', '~> 0.13'
     rstb.dependency 'Gloss', '~> 2.0'
     rstb.dependency 'SwiftyMarkdown', '~> 0.3'
     rstb.dependency 'GRMustache.swift', '~> 2.1'
