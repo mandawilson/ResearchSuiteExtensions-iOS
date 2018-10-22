@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ResearchKit
 
 open class RSEnhancedDayOfWeekChoiceStepViewController: RSEnhancedMultipleChoiceStepViewController {
     
@@ -79,6 +80,32 @@ open class RSEnhancedDayOfWeekChoiceStepViewController: RSEnhancedMultipleChoice
         
         return true
         
+    }
+    
+    override open var result: ORKStepResult? {
+        guard let result = super.result else {
+            return nil
+        }
+        
+        let selections = self.cellControllerMap.values.compactMap { (cellController) -> RSEnahncedMultipleChoiceSelection? in
+            return cellController.choiceSelection
+        }
+        
+        let selectedDays: [Int] = selections.compactMap { selection in
+            if let number = selection.value as? NSNumber {
+                return number.intValue
+            }
+            else {
+                return nil
+            }
+        }
+        
+        let choiceResult = ORKChoiceQuestionResult(identifier: self.enhancedMultiChoiceStep.identifier)
+        choiceResult.choiceAnswers = selectedDays
+        
+        result.results = [choiceResult]
+        
+        return result
     }
 
 }
