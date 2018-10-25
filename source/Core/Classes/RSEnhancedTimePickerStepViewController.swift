@@ -43,14 +43,40 @@ open class RSEnhancedTimePickerStepViewController: RSQuestionViewController {
             }
         }
         
-        if let defaultDate = dateForComponents(timePickerStep.defaultComponents) {
-            datePicker.setDate(defaultDate, animated: false)
-        }
+        datePicker.minuteInterval = timePickerStep.minuteInterval ?? 1
         
         datePicker.maximumDate = dateForComponents(timePickerStep.maximumComponents)
         datePicker.minimumDate = dateForComponents(timePickerStep.minimumComponents)
         
-        datePicker.minuteInterval = timePickerStep.minuteInterval ?? 1
+        let initialDate: Date = {
+            let date = dateForComponents(timePickerStep.defaultComponents) ?? Date()
+            if let minDate = datePicker.minimumDate,
+                date < minDate {
+                return minDate
+            }
+            else if let maxDate = datePicker.maximumDate,
+                date > maxDate {
+                return maxDate
+            }
+            else {
+                return date
+            }
+        }()
+        
+        let roundedDate: Date? = {
+            let calendar = Calendar.current
+            var timeOfDayComponents = calendar.dateComponents([.hour, .minute], from: initialDate)
+            let minute = timeOfDayComponents.minute!
+            
+            //round down
+            timeOfDayComponents.minute = (minute / datePicker.minuteInterval) * datePicker.minuteInterval
+            return RSEnhancedTimePickerStepViewController.getDateForComponents(timeOfDayComponents: timeOfDayComponents)
+        }()
+        
+        if let roundedDate = roundedDate {
+            datePicker.setDate(roundedDate, animated: false)
+        }
+        
         
         let stackView = UIStackView()
         stackView.axis = .vertical
