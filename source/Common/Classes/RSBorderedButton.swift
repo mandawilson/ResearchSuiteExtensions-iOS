@@ -49,6 +49,8 @@ open class RSBorderedButton: UIButton {
         self.layer.borderWidth = 1.0
         self.layer.cornerRadius = 5.0
         self.clipsToBounds = true
+        
+        self.setColors(primaryColor: self.tintColor)
     }
     
     
@@ -63,6 +65,7 @@ open class RSBorderedButton: UIButton {
 //    }
 //
     
+    public var userInfo: [String: Any]?
     var primaryColor: UIColor?
     var secondaryColor: UIColor?
     
