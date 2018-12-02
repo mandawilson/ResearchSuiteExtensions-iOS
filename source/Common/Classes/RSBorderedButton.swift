@@ -50,7 +50,7 @@ open class RSBorderedButton: UIButton {
         self.layer.cornerRadius = 5.0
         self.clipsToBounds = true
         
-        self.setColors(primaryColor: self.tintColor)
+        self.internalSetColors(primaryColor: self.tintColor)
     }
     
     
