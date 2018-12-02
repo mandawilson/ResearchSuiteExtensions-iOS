@@ -75,6 +75,8 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         self.step = step
         self.restorationIdentifier = step!.identifier
         
+        self.adaptor = self.createAdaptor(viewController: self, step: step, result: result)
+        
         self.enhancedMultiChoiceStep = step as! RSEnhancedMultipleChoiceStep
         
         self.initializeCellControllerMap(step: step, result: result)

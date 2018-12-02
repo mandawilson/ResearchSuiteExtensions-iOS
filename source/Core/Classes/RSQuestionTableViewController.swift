@@ -9,10 +9,14 @@
 import UIKit
 import ResearchKit
 
-open class RSQuestionTableViewController: ORKStepViewController, UITableViewDataSource, UITableViewDelegate {
+public protocol RSQuestionTableViewControllerAdaptor: UITableViewDataSource, UITableViewDelegate {
+    func configure(tableView: UITableView)
+}
+
+open class RSQuestionTableViewController: ORKStepViewController, RSQuestionTableViewControllerAdaptor {
+    
 //, UITableViewDataSource, UITableViewDelegate {
 
-    
     @IBOutlet public weak var titleLabel: UILabel!
     @IBOutlet public weak var textLabel: UILabel!
     @IBOutlet weak var topPaddingView: UIView!
@@ -28,6 +32,7 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
     
     var tableViewStep: RSQuestionTableViewStep?
     var border: CALayer?
+    open var adaptor: RSQuestionTableViewControllerAdaptor!
     
     open var skipped = false
     
@@ -42,6 +47,7 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
         self.step = step
         self.restorationIdentifier = step!.identifier
         
+        self.adaptor = self.createAdaptor(viewController: self, step: step, result: result)
     }
     
     override open func viewDidLoad() {
@@ -77,8 +83,19 @@ open class RSQuestionTableViewController: ORKStepViewController, UITableViewData
 
         self.skipButton.isHidden = !step.isOptional
         
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
+        //hold this strongly
+        
+        self.tableView.dataSource = self.adaptor
+        self.tableView.delegate = self.adaptor
+        self.adaptor.configure(tableView: self.tableView)
+        
+    }
+    
+    open func createAdaptor(viewController: RSQuestionTableViewController, step: ORKStep?, result: ORKResult?) -> RSQuestionTableViewControllerAdaptor {
+        return self
+    }
+    
+    open func configure(tableView: UITableView) {
         
     }
     
