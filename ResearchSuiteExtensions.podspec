@@ -40,10 +40,12 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
 
   s.subspec 'Core' do |core|
     core.source_files = 'source/Core/Classes/**/*'
+    core.resources = 'source/Core/Assets/Assets.xcassets'
     core.dependency 'ResearchSuiteExtensions/Common'
     core.dependency 'ResearchKit', '~> 1.4'
     core.dependency 'SwiftyGif', '~> 4.1.0'
     core.dependency 'SnapKit'
+    core.dependency 'GiphyCoreSDK'
   end
 
   s.subspec 'RSTBSupport' do |rstb|
