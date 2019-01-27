@@ -20,7 +20,7 @@ open class RSLoginStepViewController: ORKFormStepViewController {
         
         super.viewDidLoad()
         
-        let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        let activityIndicator = UIActivityIndicatorView(style: .gray)
         self.view.addSubview(activityIndicator)
         activityIndicator.center = self.view.center
         self.activityIndicator = activityIndicator

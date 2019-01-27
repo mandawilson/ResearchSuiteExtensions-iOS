@@ -21,7 +21,7 @@ extension UIImage {
     }
 }
 extension UIButton {
-    func setBackgroundColor(backgroundColor: UIColor?, for state: UIControlState) {
+    func setBackgroundColor(backgroundColor: UIColor?, for state: UIControl.State) {
         if let color = backgroundColor {
             self.setBackgroundImage(UIImage.from(color: color), for: state)
         }
@@ -82,20 +82,20 @@ open class RSBorderedButton: UIButton {
         let secondaryColor = secondaryColor ?? UIColor.white
         
         //normal, text and border set to primary color, and background is clear
-        self.setTitleColor(primaryColor, for: UIControlState.normal)
-        self.setBackgroundColor(backgroundColor: nil, for: UIControlState.normal)
+        self.setTitleColor(primaryColor, for: UIControl.State.normal)
+        self.setBackgroundColor(backgroundColor: nil, for: UIControl.State.normal)
         
         //disabled, text and border is set to grey (black w/ alpha)
-        self.setTitleColor(UIColor.black.withAlphaComponent(0.3), for: UIControlState.disabled)
-        self.setBackgroundColor(backgroundColor: nil, for: UIControlState.disabled)
+        self.setTitleColor(UIColor.black.withAlphaComponent(0.3), for: UIControl.State.disabled)
+        self.setBackgroundColor(backgroundColor: nil, for: UIControl.State.disabled)
         
         //highlighted
-        self.setTitleColor(secondaryColor, for: UIControlState.highlighted)
-        self.setBackgroundColor(backgroundColor: primaryColor, for: UIControlState.highlighted)
+        self.setTitleColor(secondaryColor, for: UIControl.State.highlighted)
+        self.setBackgroundColor(backgroundColor: primaryColor, for: UIControl.State.highlighted)
         
         //selected
-        self.setTitleColor(secondaryColor, for: UIControlState.highlighted)
-        self.setBackgroundColor(backgroundColor: primaryColor, for: UIControlState.highlighted)
+        self.setTitleColor(secondaryColor, for: UIControl.State.highlighted)
+        self.setBackgroundColor(backgroundColor: primaryColor, for: UIControl.State.highlighted)
     }
     
     override open func layoutSubviews() {
@@ -137,7 +137,7 @@ open class RSBorderedButton: UIButton {
     
     open class var defaultFont: UIFont {
         // regular, 14
-        let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: UIFontTextStyle.headline)
+        let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: UIFont.TextStyle.headline)
         let fontSize: Double = (descriptor.object(forKey: UIFontDescriptor.AttributeName.size) as! NSNumber).doubleValue
         return UIFont.systemFont(ofSize: CGFloat(fontSize))
     }

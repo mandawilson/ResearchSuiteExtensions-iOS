@@ -16,10 +16,10 @@ open class RSEmailStepViewController: RSQuestionViewController, MFMailComposeVie
         DispatchQueue.main.async {
             self.emailSent = true
             self.setContinueButtonTitle(title: "Continue")
-            let alertController = UIAlertController(title: "Email failed", message: emailStep.errorMessage, preferredStyle: UIAlertControllerStyle.alert)
+            let alertController = UIAlertController(title: "Email failed", message: emailStep.errorMessage, preferredStyle: UIAlertController.Style.alert)
             
             // Replace UIAlertActionStyle.Default by UIAlertActionStyle.default
-            let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
                 (result : UIAlertAction) -> Void in
                 
             }

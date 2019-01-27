@@ -24,10 +24,10 @@ open class RSLabelButton: UIButton {
     }
     
     private func setTitleColor(_ color: UIColor?) {
-        self.setTitleColor(color, for: UIControlState.normal)
-        self.setTitleColor(UIColor.white, for: UIControlState.highlighted)
-        self.setTitleColor(UIColor.white, for: UIControlState.selected)
-        self.setTitleColor(UIColor.black.withAlphaComponent(0.3), for: UIControlState.disabled)
+        self.setTitleColor(color, for: UIControl.State.normal)
+        self.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
+        self.setTitleColor(UIColor.white, for: UIControl.State.selected)
+        self.setTitleColor(UIColor.black.withAlphaComponent(0.3), for: UIControl.State.disabled)
     }
     
     var configuredColor: UIColor? {
@@ -59,7 +59,7 @@ open class RSLabelButton: UIButton {
     
     open class var defaultFont: UIFont {
         // regular, 14
-        let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: UIFontTextStyle.caption1)
+        let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: UIFont.TextStyle.caption1)
         let fontSize: Double = (descriptor.object(forKey: UIFontDescriptor.AttributeName.size) as! NSNumber).doubleValue + 2.0
         return UIFont.systemFont(ofSize: CGFloat(fontSize))
     }

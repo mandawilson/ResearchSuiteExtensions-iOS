@@ -94,7 +94,7 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
 //        self.identifier = withId
         self.separatorInset = UIEdgeInsets.zero
         self.preservesSuperviewLayoutMargins = false
-        self.layoutMargins = UIEdgeInsetsMake(0, 0, 0, 0)
+        self.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         self.titleLabel?.text = textChoice.text
         self.selectionStyle = .none

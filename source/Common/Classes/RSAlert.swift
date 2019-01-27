@@ -11,10 +11,10 @@ import Gloss
 open class RSAlertChoice: Gloss.JSONDecodable {
     
     public let title: String
-    public let style: UIAlertActionStyle
+    public let style: UIAlertAction.Style
     public let onTapActions: [JSON]
     
-    private static func styleFor(_ styleString: String) -> UIAlertActionStyle? {
+    private static func styleFor(_ styleString: String) -> UIAlertAction.Style? {
         switch styleString {
         case "default":
             return .default

@@ -39,10 +39,10 @@ open class RSRedirectStepViewController: RSQuestionViewController {
                 self.logInSuccessful = false
                 let message: String = errorMessage ?? "An unknown error occurred"
                 DispatchQueue.main.async {
-                    let alertController = UIAlertController(title: "Log in failed", message: message, preferredStyle: UIAlertControllerStyle.alert)
+                    let alertController = UIAlertController(title: "Log in failed", message: message, preferredStyle: UIAlertController.Style.alert)
                     
                     // Replace UIAlertActionStyle.Default by UIAlertActionStyle.default
-                    let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {
+                    let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default) {
                         (result : UIAlertAction) -> Void in
                         
                     }

@@ -10,6 +10,10 @@ import AVFoundation
 
 open class RSAudioPlayer: UIStackView, AVAudioPlayerDelegate {
     
+    public enum RSAudioPlayerError: Error {
+        case NotSupported
+    }
+    
     var audioPlayer: AVAudioPlayer!
     var audioInterruptedObserver: NSObjectProtocol!
     var playPauseButton: RSLabelButton!
@@ -24,14 +28,20 @@ open class RSAudioPlayer: UIStackView, AVAudioPlayerDelegate {
     }
 
     private func setupAudioSession() throws {
-        
-        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback)
-        
-        self.audioInterruptedObserver = NotificationCenter.default.addObserver(forName: .AVAudioSessionInterruption, object: nil, queue: nil, using: { [weak self](notification) in
+
+        if #available(iOS 10.0, *) {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, mode: .default, options: [.defaultToSpeaker])
             
-            self?.audioPlayer.pause()
-            
-        })
+            self.audioInterruptedObserver = NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: nil, using: { [weak self](notification) in
+                
+                self?.audioPlayer.pause()
+                
+            })
+        } else {
+            throw RSAudioPlayerError.NotSupported
+        }
+        
+        
         
     }
 
@@ -76,7 +86,7 @@ open class RSAudioPlayer: UIStackView, AVAudioPlayerDelegate {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .AVAudioSessionInterruption, object: nil)
+        NotificationCenter.default.removeObserver(self, name: AVAudioSession.interruptionNotification, object: nil)
     }
     
     private func reset() {
