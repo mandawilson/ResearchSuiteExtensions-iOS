@@ -77,7 +77,7 @@ open class RSEnhancedTextScaleStepGenerator: RSTBBaseStepGenerator, RSTBAnswerFo
         
         let identifier = "\(identifierPrefix).\(stepDescriptor.identifier)"
         
-        let step = RSEnhancedTextScaleStep(identifier: identifier, answerFormat: answerFormat)
+        let step = RSEnhancedTextScaleStep(identifier: identifier, answerFormat: answerFormat, autoAdvance: stepDescriptor.autoAdvance)
         step.title = helper.localizationHelper.localizedString(stepDescriptor.title)
         step.text = helper.localizationHelper.localizedString(stepDescriptor.text)
         

@@ -52,7 +52,7 @@ open class RSEnhancedMultipleChoiceCellWithNumericScaleAccessoryController: RSEn
             sliderView.maxValueDescriptionLabel.text = answerFormat.maximumValueDescription
             sliderView.textLabel.text = item.text
             
-            sliderView.onValueChanged = { value in
+            sliderView.onValueChanged = { value, touched in
                 
                 if value >= answerFormat.minimum && value <= answerFormat.maximum {
                     sliderView.currentValueLabel.text = "\(value)"

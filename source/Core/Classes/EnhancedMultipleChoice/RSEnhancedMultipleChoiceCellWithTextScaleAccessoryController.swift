@@ -56,7 +56,7 @@ open class RSEnhancedMultipleChoiceCellWithTextScaleAccessoryController: RSEnhan
             //what to do when the values are updated?
             //when the value changes, validate, then
             
-            sliderView.onValueChanged = { value in
+            sliderView.onValueChanged = { value, touched in
                 
                 if value >= 0 && value < answerFormat.textChoices.count {
                     sliderView.currentValueLabel.text = answerFormat.textChoices[value].text

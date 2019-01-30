@@ -41,7 +41,7 @@ open class RSSliderView: UIStackView {
         view.maximumValue = maximumValue
     }
     
-    public typealias OnValueChanged = (Int) -> Void
+    public typealias OnValueChanged = (Int, Bool) -> Void
     public var onValueChanged: OnValueChanged?
     
     
@@ -104,7 +104,7 @@ open class RSSliderView: UIStackView {
         //        self.internalSetValue(value: roundedValue, animated: true)
         
         //notify
-        self.onValueChanged?(roundedValue)
+        self.onValueChanged?(roundedValue, true)
         
     }
     private func internalSetValue(value: Int, animated: Bool) {
@@ -128,7 +128,7 @@ open class RSSliderView: UIStackView {
     
     public func setValue(value: Int, animated: Bool) {
         self.internalSetValue(value: value, animated: animated)
-        self.onValueChanged?(value)
+        self.onValueChanged?(value, false)
     }
     
 }

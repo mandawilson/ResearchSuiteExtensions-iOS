@@ -12,12 +12,15 @@ import ResearchKit
 open class RSEnhancedTextScaleStep: RSStep {
     
     let answerFormat: RSEnhancedTextScaleAnswerFormat
+    let autoAdvance: Bool
+    
     open override func stepViewControllerClass() -> AnyClass {
         return RSEnhancedTextScaleStepViewController.self
     }
     
-    public init(identifier: String, answerFormat: RSEnhancedTextScaleAnswerFormat) {
+    public init(identifier: String, answerFormat: RSEnhancedTextScaleAnswerFormat, autoAdvance: Bool) {
         self.answerFormat = answerFormat
+        self.autoAdvance = autoAdvance
         super.init(identifier: identifier)
     }
     

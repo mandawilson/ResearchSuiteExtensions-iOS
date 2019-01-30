@@ -21,8 +21,6 @@ open class RSEnhancedScaleStepViewController: RSQuestionViewController {
             return
         }
         
-        
-
         sliderView.minValueLabel.text = answerFormat.minValueLabel
         sliderView.maxValueLabel.text = answerFormat.maxValueLabel
         sliderView.minValueDescriptionLabel.text = answerFormat.minimumValueDescription
@@ -31,7 +29,7 @@ open class RSEnhancedScaleStepViewController: RSQuestionViewController {
         
         sliderView.textLabel.text = nil
         
-        sliderView.onValueChanged = { value in
+        sliderView.onValueChanged = { [unowned self] value, touched in
             
             self.value = value
             if value >= answerFormat.minimum && value <= answerFormat.maximum {
@@ -44,6 +42,12 @@ open class RSEnhancedScaleStepViewController: RSQuestionViewController {
         
             sliderView.setNeedsLayout()
             self.contentView.setNeedsLayout()
+      
+            if touched && scaleStep.autoAdvance {
+                RSEnhancedScaleStepViewController.delay(0.25) {
+                    self.goForward()
+                }
+            }
             
         }
         
@@ -63,6 +67,11 @@ open class RSEnhancedScaleStepViewController: RSQuestionViewController {
         
         stackView.addArrangedSubview(sliderView)
         stackView.addArrangedSubview(UIView())
+    }
+    
+    static func delay(_ delay:TimeInterval, closure:@escaping ()->()) {
+        DispatchQueue.main.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
     }
     
     override open func validate() -> Bool {

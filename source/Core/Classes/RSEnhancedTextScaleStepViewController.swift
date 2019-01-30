@@ -34,7 +34,7 @@ open class RSEnhancedTextScaleStepViewController: RSQuestionViewController {
         
         sliderView.textLabel.text = nil
         
-        sliderView.onValueChanged = { value in
+        sliderView.onValueChanged = { value, touched in
             self.value = value
             if value >= 0 && value < answerFormat.textChoices.count {
                 sliderView.currentValueLabel.text = answerFormat.textChoices[value].text
@@ -47,6 +47,11 @@ open class RSEnhancedTextScaleStepViewController: RSQuestionViewController {
             sliderView.setNeedsLayout()
             self.contentView.setNeedsLayout()
             
+            if touched && textScaleStep.autoAdvance {
+                RSEnhancedScaleStepViewController.delay(0.25) {
+                    self.goForward()
+                }
+            }
             
         }
 

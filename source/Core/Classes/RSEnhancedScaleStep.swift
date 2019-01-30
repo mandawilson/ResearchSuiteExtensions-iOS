@@ -11,12 +11,14 @@ import ResearchKit
 class RSEnhancedScaleStep: RSStep {
     
     let answerFormat: ORKAnswerFormat
+    let autoAdvance: Bool
     open override func stepViewControllerClass() -> AnyClass {
         return RSEnhancedScaleStepViewController.self
     }
     
-    public init(identifier: String, answerFormat: ORKAnswerFormat) {
+    public init(identifier: String, answerFormat: ORKAnswerFormat, autoAdvance: Bool) {
         self.answerFormat = answerFormat
+        self.autoAdvance = autoAdvance
         super.init(identifier: identifier)
     }
     
