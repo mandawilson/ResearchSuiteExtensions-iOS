@@ -65,6 +65,7 @@ open class RSEnhancedInstructionStepGenerator: RSTBBaseStepGenerator {
         }
         
         step.audioTitle = stepDescriptor.audioTitle
+        step.moveForwardOnTap = stepDescriptor.moveForwardOnTap
         
         return step
     }

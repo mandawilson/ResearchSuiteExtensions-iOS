@@ -19,5 +19,6 @@ open class RSEnhancedInstructionStep: RSStep {
     open var gifURL: URL?
     open var image: UIImage?
     open var audioTitle: String?
+    open var moveForwardOnTap: Bool = false
 
 }

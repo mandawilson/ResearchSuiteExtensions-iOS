@@ -49,7 +49,16 @@ open class RSEnhancedInstructionStepViewController: RSQuestionViewController {
         stackView.frame = self.contentView.bounds
         self.stackView = stackView
         
+        if step.moveForwardOnTap {
+            let tapHandler = UITapGestureRecognizer(target: self, action: #selector(stackViewTapped(_:)))
+            stackView.addGestureRecognizer(tapHandler)
+        }
+        
         self.contentView.addSubview(stackView)
+    }
+    
+    @objc public func stackViewTapped(_ gestureRecognizer: UIGestureRecognizer) {
+        self.goForward()
     }
     
     override open func viewDidAppear(_ animated: Bool) {
