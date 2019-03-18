@@ -72,10 +72,8 @@ open class RSGiphyInstructionStepViewController: RSQuestionViewController {
                         attributionLabel.text = "Source: \(attributionText)"
                     }
                     
-                    print(response.meta)
-                    print(data)
                 } else {
-                    print("No Result Found")
+//                    print("No Result Found")
                 }
             }
         }
