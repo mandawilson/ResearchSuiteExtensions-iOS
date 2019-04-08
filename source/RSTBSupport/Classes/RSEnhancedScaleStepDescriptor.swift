@@ -21,6 +21,7 @@ open class RSEnhancedScaleStepDescriptor: RSTBScaleStepDescriptor {
     public let maximumValueDescription: String?
     
     public let autoAdvance: Bool
+    public let percentage: Bool
     
     public required init?(json: JSON) {
         
@@ -34,6 +35,7 @@ open class RSEnhancedScaleStepDescriptor: RSTBScaleStepDescriptor {
         self.formattedText = "formattedText" <~~ json
         
         self.autoAdvance = "autoAdvance" <~~ json ?? false
+        self.percentage = "percentage" <~~ json ?? false
         
         super.init(json: json)
         

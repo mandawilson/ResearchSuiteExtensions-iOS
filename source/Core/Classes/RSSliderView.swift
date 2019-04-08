@@ -18,14 +18,14 @@ open class RSSliderView: UIStackView {
                 return nil
         }
         
-        self.configureView(view: view, minimumValue: minimumValue, maximumValue: maximumValue)
+        self.configureView(view: view, minimumValue: minimumValue, maximumValue: maximumValue, stepSize: stepSize)
         
         return view
     }
     
     open class func configureView(view: RSSliderView, minimumValue: Int, maximumValue: Int, stepSize: Int = 1) {
         
-        view.sliderView.numberOfSteps = (maximumValue - minimumValue) / stepSize
+        view.sliderView.stepSize = stepSize
         view.sliderView.maximumValue = Float(maximumValue)
         view.sliderView.minimumValue = Float(minimumValue)
         
@@ -39,6 +39,7 @@ open class RSSliderView: UIStackView {
         
         view.minimumValue = minimumValue
         view.maximumValue = maximumValue
+        view.stepSize = stepSize
     }
     
     public typealias OnValueChanged = (Int, Bool) -> Void
@@ -58,6 +59,7 @@ open class RSSliderView: UIStackView {
     
     open var minimumValue: Int!
     open var maximumValue: Int!
+    open var stepSize: Int!
     
     func valueForTouch(_ gestureRecognizer: UIGestureRecognizer) -> Int? {
         
@@ -73,11 +75,26 @@ open class RSSliderView: UIStackView {
         }
         
         //normalize to [0,1]
-        let position: Float = Float((touchPoint.x - trackRect.minX) / trackRect.width)
-        let value: Float = position * Float(self.maximumValue - self.minimumValue) + Float(self.minimumValue)
-        let roundedValue: Int = Int(round(value))
+        let position: Float = {
+            let p = Float((touchPoint.x - trackRect.minX) / trackRect.width)
+            if p < 0.0 {
+                return 0.0
+            }
+            else if p > 1.0 {
+                return 1.0
+            }
+            else {
+                return p
+            }
+        }()
         
-        return roundedValue
+        assert(position >= 0.0 && position <= 1.0)
+        let value: Float = position * Float(self.maximumValue - self.minimumValue) + Float(self.minimumValue)
+        //divide by step, round, multiply by step
+        let roundedValue: Float = round(value / Float(self.stepSize)) * Float(self.stepSize)
+        let roundedInt: Int = Int(roundedValue)
+        
+        return roundedInt
     }
     
     @objc func sliderTouched(_ gestureRecognizer: UIGestureRecognizer) {
@@ -98,7 +115,7 @@ open class RSSliderView: UIStackView {
     
     @IBAction func sliderValueChanged(_ sender: UISlider) {
         
-        let roundedValue: Int = Int(round(sender.value))
+        let roundedValue: Int = Int(round(sender.value / Float(self.stepSize)) * Float(self.stepSize))
         
         //set value
         //        self.internalSetValue(value: roundedValue, animated: true)
@@ -115,6 +132,7 @@ open class RSSliderView: UIStackView {
             //            self.currentValueLabel.text = self.numberFormatter.string(from: NSNumber(integerLiteral: value))
             self.sliderView.showThumb = true
             //            self.sliderView.setThumbImage(self.savedThumbImage, for: .normal)
+            
             self.sliderView.setValue(Float(value), animated: animated)
             self.sliderView.setNeedsLayout()
         }

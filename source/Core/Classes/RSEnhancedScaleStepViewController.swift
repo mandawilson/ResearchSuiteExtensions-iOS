@@ -17,7 +17,7 @@ open class RSEnhancedScaleStepViewController: RSQuestionViewController {
         
         guard let scaleStep = self.step as? RSEnhancedScaleStep,
             let answerFormat = scaleStep.answerFormat as? RSEnhancedScaleAnswerFormat,
-            let sliderView = RSSliderView.newView(minimumValue: answerFormat.minimum, maximumValue: answerFormat.maximum) else {
+            let sliderView = RSSliderView.newView(minimumValue: answerFormat.minimum, maximumValue: answerFormat.maximum, stepSize: answerFormat.step) else {
             return
         }
         
@@ -34,7 +34,7 @@ open class RSEnhancedScaleStepViewController: RSQuestionViewController {
             self.value = value
             if value >= answerFormat.minimum && value <= answerFormat.maximum {
                 self.continueButtonEnabled = true
-                sliderView.currentValueLabel.text = "\(value)"
+                sliderView.currentValueLabel.text = answerFormat.numberFormatter.string(for: value)
             }
             else {
                 self.continueButtonEnabled = false

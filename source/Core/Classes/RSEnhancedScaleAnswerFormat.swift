@@ -10,9 +10,14 @@ import ResearchKit
 
 open class RSEnhancedScaleAnswerFormat: ORKScaleAnswerFormat {
     
-    open let maxValueLabel: String?
-    open let minValueLabel: String?
-    open let neutralValueDescription: String?
+    public let maxValueLabel: String?
+    public let minValueLabel: String?
+    public let neutralValueDescription: String?
+    public let _numberFormatter: NumberFormatter?
+    
+    override open var numberFormatter: NumberFormatter {
+        return self._numberFormatter ?? super.numberFormatter
+    }
     
     public init(
         maximumValue: Int,
@@ -24,11 +29,13 @@ open class RSEnhancedScaleAnswerFormat: ORKScaleAnswerFormat {
         minValueLabel: String?,
         maximumValueDescription: String?,
         neutralValueDescription: String?,
-        minimumValueDescription: String?
+        minimumValueDescription: String?,
+        numberFormatter: NumberFormatter?
         ) {
         self.maxValueLabel = maxValueLabel
         self.minValueLabel = minValueLabel
         self.neutralValueDescription = neutralValueDescription
+        self._numberFormatter = numberFormatter
         
         super.init(
             maximumValue: maximumValue,

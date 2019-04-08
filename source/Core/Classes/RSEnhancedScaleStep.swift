@@ -8,7 +8,7 @@
 import UIKit
 import ResearchKit
 
-class RSEnhancedScaleStep: RSStep {
+open class RSEnhancedScaleStep: RSStep {
     
     let answerFormat: ORKAnswerFormat
     let autoAdvance: Bool
