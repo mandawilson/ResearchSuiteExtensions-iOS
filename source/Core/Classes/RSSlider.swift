@@ -11,7 +11,7 @@ import UIKit
 open class RSSlider: UISlider {
     
     static let LineWidth: CGFloat = 1.0
-    static let LineHeight: CGFloat = 8.0
+    static let LineHeight: CGFloat = 4.0
     
     func centerXForValue(value: Int, trackRect: CGRect) -> CGFloat? {
         
@@ -81,6 +81,11 @@ open class RSSlider: UISlider {
         }
         
         return thumbRect
+    }
+    
+    override open func trackRect(forBounds bounds: CGRect) -> CGRect {
+        let rect = super.trackRect(forBounds: bounds)
+        return CGRect(x: rect.origin.x, y: rect.origin.y, width: rect.size.width, height: 1)
     }
     
 }

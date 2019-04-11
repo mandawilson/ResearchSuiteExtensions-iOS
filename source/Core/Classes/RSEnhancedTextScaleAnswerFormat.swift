@@ -16,6 +16,7 @@ open class RSEnhancedTextScaleAnswerFormat: ORKTextScaleAnswerFormat {
     open let maximumValueDescription: String?
     open let neutralValueDescription: String?
     open let minimumValueDescription: String?
+    public let valueLabelHeight: Int?
     
     public init(
         textChoices: [ORKTextChoice],
@@ -25,13 +26,15 @@ open class RSEnhancedTextScaleAnswerFormat: ORKTextScaleAnswerFormat {
         minValueLabel: String?,
         maximumValueDescription: String?,
         neutralValueDescription: String?,
-        minimumValueDescription: String?
+        minimumValueDescription: String?,
+        valueLabelHeight: Int?
         ) {
         self.maxValueLabel = maxValueLabel
         self.minValueLabel = minValueLabel
         self.maximumValueDescription = maximumValueDescription
         self.neutralValueDescription = neutralValueDescription
         self.minimumValueDescription = minimumValueDescription
+        self.valueLabelHeight = valueLabelHeight
         
         super.init(textChoices: textChoices, defaultIndex: defaultIndex, vertical: vertical)
     }

@@ -6,24 +6,23 @@
 //
 
 import UIKit
-
-import UIKit
+import SnapKit
 
 open class RSSliderView: UIStackView {
     
-    open class func newView(minimumValue: Int, maximumValue: Int, stepSize: Int = 1) -> RSSliderView? {
+    open class func newView(minimumValue: Int, maximumValue: Int, stepSize: Int = 1, valueLabelHeight: Int? = nil) -> RSSliderView? {
         let bundle = Bundle(for: RSSliderView.self)
         guard let views = bundle.loadNibNamed("RSSliderView", owner: nil, options: nil),
             let view = views.first as? RSSliderView else {
                 return nil
         }
         
-        self.configureView(view: view, minimumValue: minimumValue, maximumValue: maximumValue, stepSize: stepSize)
+        self.configureView(view: view, minimumValue: minimumValue, maximumValue: maximumValue, stepSize: stepSize, valueLabelHeight: valueLabelHeight)
         
         return view
     }
     
-    open class func configureView(view: RSSliderView, minimumValue: Int, maximumValue: Int, stepSize: Int = 1) {
+    open class func configureView(view: RSSliderView, minimumValue: Int, maximumValue: Int, stepSize: Int = 1, valueLabelHeight: Int? = nil) {
         
         view.sliderView.stepSize = stepSize
         view.sliderView.maximumValue = Float(maximumValue)
@@ -40,6 +39,14 @@ open class RSSliderView: UIStackView {
         view.minimumValue = minimumValue
         view.maximumValue = maximumValue
         view.stepSize = stepSize
+        
+        if let valueLabelHeight = valueLabelHeight {
+            view.currentValueLabel.snp.makeConstraints { (make) in
+                make.height.equalTo(valueLabelHeight)
+            }
+        }
+        
+        
     }
     
     public typealias OnValueChanged = (Int, Bool) -> Void

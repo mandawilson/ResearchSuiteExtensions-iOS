@@ -22,7 +22,7 @@ open class RSEnhancedTextScaleStepViewController: RSQuestionViewController {
         
         let answerFormat = textScaleStep.answerFormat
         
-        guard let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1) else {
+        guard let sliderView = RSSliderView.newView(minimumValue: 0, maximumValue: answerFormat.textChoices.count - 1, valueLabelHeight: answerFormat.valueLabelHeight) else {
                 return
         }
         

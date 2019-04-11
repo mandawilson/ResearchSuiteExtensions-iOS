@@ -63,7 +63,8 @@ open class RSEnhancedTextScaleStepGenerator: RSTBBaseStepGenerator, RSTBAnswerFo
             minValueLabel: helper.localizationHelper.localizedString(stepDescriptor.minimumValueLabel),
             maximumValueDescription: helper.localizationHelper.localizedString(stepDescriptor.maximumValueDescription),
             neutralValueDescription: helper.localizationHelper.localizedString(stepDescriptor.neutralValueDescription),
-            minimumValueDescription: helper.localizationHelper.localizedString(stepDescriptor.minimumValueDescription)
+            minimumValueDescription: helper.localizationHelper.localizedString(stepDescriptor.minimumValueDescription),
+            valueLabelHeight: stepDescriptor.valueLabelHeight
         )
         
         return answerFormat
