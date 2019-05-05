@@ -11,11 +11,11 @@ import ResearchKit
 
 open class RSEnhancedTextScaleAnswerFormat: ORKTextScaleAnswerFormat {
     
-    open let maxValueLabel: String?
-    open let minValueLabel: String?
-    open let maximumValueDescription: String?
-    open let neutralValueDescription: String?
-    open let minimumValueDescription: String?
+    public let maxValueLabel: String?
+    public let minValueLabel: String?
+    public let maximumValueDescription: String?
+    public let neutralValueDescription: String?
+    public let minimumValueDescription: String?
     public let valueLabelHeight: Int?
     
     public init(

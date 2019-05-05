@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ResearchSuiteExtensions'
-  s.version          = '0.24.0'
+  s.version          = '0.25.0'
   s.summary          = 'ResearchSuiteExtensions provides components and helper functions for ResearchSuite based iOS applications.'
 
 # This description is used to generate tags and improve search results.
@@ -28,8 +28,8 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
   s.source           = { :git => 'https://github.com/ResearchSuite/ResearchSuiteExtensions-iOS.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '9.0'
-  s.swift_version = '4.2'
+  s.ios.deployment_target = '10.0'
+  s.swift_version = '5.0'
 
   s.subspec 'Common' do |common|
     common.source_files = 'source/Common/Classes/**/*'

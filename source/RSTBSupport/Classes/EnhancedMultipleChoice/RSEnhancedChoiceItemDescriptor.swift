@@ -12,8 +12,8 @@ import Gloss
 
 open class RSEnhancedChoiceItemDescriptor: RSTBChoiceItemDescriptor {
     
-    open let identifier: String
-    open let auxiliaryItem: JSON?
+    public let identifier: String
+    public let auxiliaryItem: JSON?
     
     public required init?(json: JSON) {
         

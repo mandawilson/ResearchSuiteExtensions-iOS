@@ -9,11 +9,11 @@ import UIKit
 
 open class RSEmailStep: RSStep {
 
-    open let recipientAddreses: [String]
-    open let messageSubject: String?
-    open let messageBody: String?
-    open let errorMessage: String?
-    open let bodyIsHTML: Bool
+    public let recipientAddreses: [String]
+    public let messageSubject: String?
+    public let messageBody: String?
+    public let errorMessage: String?
+    public let bodyIsHTML: Bool
     
     public init(
         identifier: String,

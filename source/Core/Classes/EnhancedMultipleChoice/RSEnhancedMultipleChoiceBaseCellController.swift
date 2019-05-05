@@ -107,7 +107,7 @@ open class RSEnhancedMultipleChoiceBaseCellController: NSObject, RSEnhancedMulti
     }
     
     //ok for base
-    open let textChoice: RSTextChoiceWithAuxiliaryAnswer
+    public let textChoice: RSTextChoiceWithAuxiliaryAnswer
     
     //ok for base
     open var auxiliaryItem: ORKFormItem? {
