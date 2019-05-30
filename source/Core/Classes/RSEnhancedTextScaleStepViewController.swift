@@ -8,6 +8,7 @@
 
 import UIKit
 import ResearchKit
+import SnapKit
 
 open class RSEnhancedTextScaleStepViewController: RSQuestionViewController {
 
@@ -67,8 +68,11 @@ open class RSEnhancedTextScaleStepViewController: RSQuestionViewController {
 
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.frame = self.contentView.bounds
         self.contentView.addSubview(stackView)
+        stackView.snp.makeConstraints { (make) in
+            make.width.height.equalToSuperview()
+            make.center.equalToSuperview()
+        }
         
         stackView.addArrangedSubview(sliderView)
         stackView.addArrangedSubview(UIView())
