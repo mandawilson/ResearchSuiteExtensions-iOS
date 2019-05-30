@@ -18,7 +18,12 @@ open class RSQuestionViewController: ORKStepViewController {
     @IBOutlet public weak var contentView: UIView!
     @IBOutlet public weak var continueButton: RSBorderedButton!
     @IBOutlet public weak var skipButton: RSLabelButton!
-    @IBOutlet weak var footerHeight: NSLayoutConstraint!
+    @IBOutlet public weak var footerHeight: NSLayoutConstraint!
+    @IBOutlet public weak var containerScrollView: UIScrollView!
+    @IBOutlet public weak var containerViewHeight: NSLayoutConstraint!
+    @IBOutlet public weak var headerStackView: UIStackView!
+    @IBOutlet public weak var footerView: UIView!
+    
     
     var _appeared: Bool = false
     open var hasAppeared: Bool {
