@@ -20,6 +20,7 @@ open class RSQuestionViewController: ORKStepViewController {
     @IBOutlet public weak var skipButton: RSLabelButton!
     @IBOutlet public weak var footerHeight: NSLayoutConstraint!
     @IBOutlet public weak var containerScrollView: UIScrollView!
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet public weak var containerViewHeight: NSLayoutConstraint!
     @IBOutlet public weak var headerStackView: UIStackView!
     @IBOutlet public weak var footerView: UIView!
@@ -97,6 +98,14 @@ open class RSQuestionViewController: ORKStepViewController {
             self.footerHeight.constant = RSQuestionViewController.footerHeightWithoutContinueButton
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustForKeyboard(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustForKeyboard(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustForKeyboard(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     //this is due to bug in RK 1.4.1. Parent result date not initialized properly
@@ -109,6 +118,42 @@ open class RSQuestionViewController: ORKStepViewController {
     override open func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.contentView.setNeedsLayout()
+    }
+    
+    @objc func adjustForKeyboard(notification: NSNotification) {
+        
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            self.containerScrollView.contentInset = UIEdgeInsets.zero
+        } else {
+            let userInfo = notification.userInfo!
+            let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+            let keyboardViewEndFrame = self.view.convert(keyboardScreenEndFrame, from: self.view.window)
+            self.containerScrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height, right: 0)
+            
+            if let firstResponder = self.findFirstReponder(view: self.view) {
+                //convert rect of first responder to within scorll view
+                let rect = self.containerView.convert(firstResponder.bounds, from: firstResponder)
+                self.containerScrollView.scrollRectToVisible(rect, animated: true)
+            }
+        }
+
+        self.containerScrollView.scrollIndicatorInsets = self.containerScrollView.contentInset
+        
+        
+        
+    }
+    
+    func findFirstReponder(view: UIView) -> UIView? {
+        if view.isFirstResponder {
+            return view
+        } else {
+            for subView in view.subviews {
+                if let firstResponder = findFirstReponder(view: subView) {
+                    return firstResponder
+                }
+            }
+        }
+        return nil
     }
     
     open func setSkipButtonTitle(title: String) {

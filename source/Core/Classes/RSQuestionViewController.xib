@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RSQuestionViewController" customModule="ResearchSuiteExtensions" customModuleProvider="target">
             <connections>
                 <outlet property="containerScrollView" destination="3Sh-vA-TXg" id="oCe-sH-bIg"/>
+                <outlet property="containerView" destination="Kg9-5o-h0c" id="VaI-u3-c4m"/>
                 <outlet property="containerViewHeight" destination="SMz-At-vNJ" id="1jT-pD-yfn"/>
                 <outlet property="contentView" destination="bil-UP-xBl" id="Orq-OQ-KVS"/>
                 <outlet property="continueButton" destination="d5m-L5-zwB" id="nNb-n0-gUq"/>
