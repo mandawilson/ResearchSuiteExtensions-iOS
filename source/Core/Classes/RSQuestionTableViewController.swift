@@ -50,6 +50,10 @@ open class RSQuestionTableViewController: ORKStepViewController, RSQuestionTable
         self.adaptor = self.createAdaptor(viewController: self, step: step, result: result)
     }
     
+    deinit {
+        self.adaptor = nil
+    }
+    
     override open func viewDidLoad() {
         
         super.viewDidLoad()
@@ -165,9 +169,9 @@ open class RSQuestionTableViewController: ORKStepViewController, RSQuestionTable
     }
     
     override open func viewDidDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        super.viewWillDisappear(animated)
     }
     
     open func setSkipButtonTitle(title: String) {
@@ -194,7 +198,7 @@ open class RSQuestionTableViewController: ORKStepViewController, RSQuestionTable
             let internalKeyboardFrameEnd = self.view.convert(keyboardFrameEnd, from: nil)
             let curveOption = UIView.AnimationOptions.init(rawValue: UInt(curve))
 
-            UIView.animate(withDuration: duration, delay: 0, options: [UIView.AnimationOptions.beginFromCurrentState, curveOption], animations: {
+            UIView.animate(withDuration: duration, delay: 0, options: [UIView.AnimationOptions.beginFromCurrentState, curveOption], animations: { [unowned self] in
                 
                 self.tableViewBottomConstraint.constant = internalKeyboardFrameEnd.size.height
                 self.view.layoutIfNeeded()
@@ -212,7 +216,7 @@ open class RSQuestionTableViewController: ORKStepViewController, RSQuestionTable
             let curve = (userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.intValue {
             let curveOption = UIView.AnimationOptions.init(rawValue: UInt(curve))
             
-            UIView.animate(withDuration: duration, delay: 0, options: [UIView.AnimationOptions.beginFromCurrentState, curveOption], animations: {
+            UIView.animate(withDuration: duration, delay: 0, options: [UIView.AnimationOptions.beginFromCurrentState, curveOption], animations: { [unowned self] in
                 
                 self.tableViewBottomConstraint.constant = 0
                 self.view.layoutIfNeeded()

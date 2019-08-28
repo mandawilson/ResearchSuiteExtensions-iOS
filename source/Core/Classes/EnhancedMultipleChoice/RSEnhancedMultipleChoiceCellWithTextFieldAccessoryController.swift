@@ -212,7 +212,10 @@ open class RSEnhancedMultipleChoiceCellWithTextFieldAccessoryController: RSEnhan
     
     open func textFieldShouldClear(_ textField: UITextField) -> Bool {
         self.currentText = nil
-        self.validatedResult = nil
+        DispatchQueue.main.async {
+            self.validatedResult = nil
+        }
+        
 //        self.updateUI()
         return true
        

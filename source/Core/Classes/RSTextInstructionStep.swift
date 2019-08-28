@@ -10,6 +10,10 @@ import UIKit
 public struct RSTextInstructionStepSection {
     public let attributedText: NSAttributedString
     public let alignment: NSTextAlignment
+    public init(attributedText: NSAttributedString, alignment: NSTextAlignment) {
+        self.attributedText = attributedText
+        self.alignment = alignment
+    }
 }
 
 open class RSTextInstructionStep: RSStep {

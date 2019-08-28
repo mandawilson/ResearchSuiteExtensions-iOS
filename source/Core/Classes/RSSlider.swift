@@ -7,11 +7,22 @@
 //
 
 import UIKit
+import SnapKit
 
 open class RSSlider: UISlider {
     
     static let LineWidth: CGFloat = 1.0
     static let LineHeight: CGFloat = 4.0
+    
+    var numberLabels: [UILabel] = []
+    var showNumbersAboveTicks = false {
+        didSet {
+            if !showNumbersAboveTicks {
+                numberLabels.forEach { $0.removeFromSuperview() }
+                numberLabels = []
+            }
+        }
+    }
     
     func centerXForValue(value: Int, trackRect: CGRect) -> CGFloat? {
         
@@ -54,13 +65,62 @@ open class RSSlider: UISlider {
             if let centerX = self.centerXForValue(value: value, trackRect: trackRect) {
                 path.move(to: CGPoint(x: centerX, y: centerY - RSSlider.LineHeight))
                 path.addLine(to: CGPoint(x: centerX, y: centerY + RSSlider.LineHeight))
+                
+                if showNumbersAboveTicks {
+                    let label = UILabel()
+                    label.text = String(value)
+                    
+                    let center = CGPoint(x: centerX-1, y: 0)
+                    self.addSubview(label)
+                    label.snp.makeConstraints { (make) in
+                        make.center.equalTo(center)
+                    }
+                    numberLabels = numberLabels + [label]
+                }
             }
+            
+            
             
         }
         
         path.stroke()
         
         UIBezierPath.init(rect: trackRect).fill()
+        
+//        if showNumbersAboveTicks {
+//            let bounds = self.bounds
+//            let trackRect = self.trackRect(forBounds: bounds)
+//
+//            let minimumValue = Int(round(self.minimumValue))
+//            let maximumValue = Int(round(self.maximumValue))
+//
+//            let filteredRange = (minimumValue...maximumValue).filter { value in
+//                let offset = value - minimumValue
+//                return offset % self.stepSize == 0
+//            }
+//
+//            filteredRange.forEach { (value) in
+//
+//                let centerY = bounds.size.height
+//
+//                if let centerX = self.centerXForValue(value: value, trackRect: trackRect) {
+//
+//                    let label = UILabel()
+//                    label.text = String(value)
+//
+//                    let center = CGPoint(x: centerX, y: centerY)
+//                    self.addSubview(label)
+//                    label.snp.makeConstraints { (make) in
+//                        make.center.equalTo(center)
+//                    }
+//                    numberLabels = numberLabels + [label]
+//                }
+//            }
+//        }
+//        else {
+//            numberLabels.forEach { $0.removeFromSuperview() }
+//            numberLabels = []
+//        }
     }
     
     open var showThumb = false

@@ -8,6 +8,7 @@
 
 import UIKit
 import ResearchKit
+import SnapKit
 
 open class RSQuestionViewController: ORKStepViewController {
     
@@ -78,6 +79,13 @@ open class RSQuestionViewController: ORKStepViewController {
         
         if let attributedText = step.attributedText {
             self.textLabel.attributedText = attributedText
+        }
+        
+        if step.attributedTitle == nil && step.title == nil &&
+            step.attributedText == nil && step.text == nil {
+            self.headerStackView.snp.makeConstraints { (make) in
+                make.height.equalTo(0.0)
+            }
         }
         
         if let buttonText = step.buttonText {

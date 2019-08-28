@@ -10,7 +10,7 @@ import ResearchKit
 
 open class RSEnhancedDayOfWeekChoiceStepViewController: RSEnhancedMultipleChoiceStepViewController {
     
-    func getAdjacentValues(value: Int, range: ClosedRange<Int>) -> (Int, Int) {
+    public func getAdjacentValues(value: Int, range: ClosedRange<Int>) -> (Int, Int) {
     
         let firstVal: Int = {
             let newVal = value - 1

@@ -54,7 +54,7 @@ open class RSLabelButton: UIButton {
     
     open var defaultFont: UIFont {
         // regular, 14
-        return RSLabelButton.defaultFont
+        return type(of: self).defaultFont
     }
     
     open class var defaultFont: UIFont {
@@ -64,4 +64,14 @@ open class RSLabelButton: UIButton {
         return UIFont.systemFont(ofSize: CGFloat(fontSize))
     }
 
+}
+
+open class RSLargeLabelButton: RSLabelButton {
+    override open class var defaultFont: UIFont {
+        if #available(iOS 11.0, *) {
+            return UIFont.preferredFont(forTextStyle: .largeTitle)
+        } else {
+            return UIFont.preferredFont(forTextStyle: .title1)
+        }
+    }
 }

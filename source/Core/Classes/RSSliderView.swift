@@ -10,23 +10,24 @@ import SnapKit
 
 open class RSSliderView: UIStackView {
     
-    open class func newView(minimumValue: Int, maximumValue: Int, stepSize: Int = 1, valueLabelHeight: Int? = nil) -> RSSliderView? {
+    open class func newView(minimumValue: Int, maximumValue: Int, stepSize: Int = 1, valueLabelHeight: Int? = nil, showNumbersAboveTicks: Bool = false) -> RSSliderView? {
         let bundle = Bundle(for: RSSliderView.self)
         guard let views = bundle.loadNibNamed("RSSliderView", owner: nil, options: nil),
             let view = views.first as? RSSliderView else {
                 return nil
         }
         
-        self.configureView(view: view, minimumValue: minimumValue, maximumValue: maximumValue, stepSize: stepSize, valueLabelHeight: valueLabelHeight)
+        self.configureView(view: view, minimumValue: minimumValue, maximumValue: maximumValue, stepSize: stepSize, valueLabelHeight: valueLabelHeight, showNumbersAboveTicks: showNumbersAboveTicks)
         
         return view
     }
     
-    open class func configureView(view: RSSliderView, minimumValue: Int, maximumValue: Int, stepSize: Int = 1, valueLabelHeight: Int? = nil) {
+    open class func configureView(view: RSSliderView, minimumValue: Int, maximumValue: Int, stepSize: Int = 1, valueLabelHeight: Int? = nil, showNumbersAboveTicks: Bool = false) {
         
         view.sliderView.stepSize = stepSize
         view.sliderView.maximumValue = Float(maximumValue)
         view.sliderView.minimumValue = Float(minimumValue)
+        view.sliderView.showNumbersAboveTicks = showNumbersAboveTicks
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: view, action: #selector(sliderTouched(_:)))
         view.sliderView.addGestureRecognizer(tapGestureRecognizer)

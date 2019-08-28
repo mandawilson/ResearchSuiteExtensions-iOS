@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,7 +24,7 @@
                     </constraints>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" axis="vertical" distribution="equalSpacing" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="zIF-ZX-fAP">
-                    <rect key="frame" x="0.0" y="114.5" width="504" height="205"/>
+                    <rect key="frame" x="0.0" y="100.5" width="504" height="233"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Rb-DZ-LR4" customClass="ORKSelectionTitleLabel">
                             <rect key="frame" x="0.0" y="0.0" width="504" height="20.5"/>
@@ -38,18 +38,25 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0kR-VV-eeg">
+                            <rect key="frame" x="0.0" y="65.5" width="504" height="0.0"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" id="RYN-j3-gW0"/>
+                            </constraints>
+                        </view>
                         <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="o78-Pt-13S">
-                            <rect key="frame" x="0.0" y="65.5" width="504" height="30"/>
+                            <rect key="frame" x="0.0" y="73.5" width="504" height="50"/>
                             <subviews>
                                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Rbo-Eg-K1z">
-                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="30"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="50"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="width" id="p8F-wa-Ipg"/>
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="-3" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3OA-KP-xRy" customClass="ORKScaleRangeLabel">
-                                    <rect key="frame" x="8" y="0.0" width="24" height="30"/>
+                                    <rect key="frame" x="8" y="0.0" width="24" height="50"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="DUN-pa-f1g"/>
                                     </constraints>
@@ -58,7 +65,10 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <slider opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="H6n-Rt-bv2" customClass="RSSlider" customModule="ResearchSuiteExtensions" customModuleProvider="target">
-                                    <rect key="frame" x="38" y="0.0" width="428" height="31"/>
+                                    <rect key="frame" x="38" y="0.0" width="428" height="51"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="iyG-at-KxO"/>
+                                    </constraints>
                                     <color key="minimumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="maximumTrackTintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <connections>
@@ -66,7 +76,7 @@
                                     </connections>
                                 </slider>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" text="3" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGm-i1-doz" userLabel="Max Value Label" customClass="ORKScaleRangeLabel">
-                                    <rect key="frame" x="472" y="0.0" width="24" height="30"/>
+                                    <rect key="frame" x="472" y="0.0" width="24" height="50"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="QYY-SJ-PcH"/>
                                     </constraints>
@@ -75,7 +85,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="uQL-wJ-tVf">
-                                    <rect key="frame" x="504" y="0.0" width="0.0" height="30"/>
+                                    <rect key="frame" x="504" y="0.0" width="0.0" height="50"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="width" id="Qpz-BR-r6j"/>
@@ -85,7 +95,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="1000" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="h8L-CT-XYX">
-                            <rect key="frame" x="0.0" y="103.5" width="504" height="101.5"/>
+                            <rect key="frame" x="0.0" y="131.5" width="504" height="101.5"/>
                             <subviews>
                                 <view contentMode="scaleToFill" horizontalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="c2X-tg-0EO">
                                     <rect key="frame" x="0.0" y="0.0" width="0.0" height="101.5"/>
