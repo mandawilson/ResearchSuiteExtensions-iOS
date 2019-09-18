@@ -1,1 +1,1 @@
-pod repo push researchsuite --allow-warnings --sources=master,researchsuite --use-json
+pod repo push researchsuite --allow-warnings --sources=master,researchsuite
