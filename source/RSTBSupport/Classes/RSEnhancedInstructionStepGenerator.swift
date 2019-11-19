@@ -66,6 +66,7 @@ open class RSEnhancedInstructionStepGenerator: RSTBBaseStepGenerator {
         
         step.audioTitle = stepDescriptor.audioTitle
         step.moveForwardOnTap = stepDescriptor.moveForwardOnTap
+        step.skipButtonText = helper.localizationHelper.localizedString(stepDescriptor.skipButtonText)
         
         return step
     }

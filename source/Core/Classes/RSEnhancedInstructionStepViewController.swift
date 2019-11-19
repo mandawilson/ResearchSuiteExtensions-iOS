@@ -55,6 +55,11 @@ open class RSEnhancedInstructionStepViewController: RSQuestionViewController {
         }
         
         self.contentView.addSubview(stackView)
+        
+        if let skipButtonText = step.skipButtonText {
+            self.skipButton.isHidden = false
+            self.setSkipButtonTitle(title: skipButtonText)
+        }
     }
     
     @objc public func stackViewTapped(_ gestureRecognizer: UIGestureRecognizer) {

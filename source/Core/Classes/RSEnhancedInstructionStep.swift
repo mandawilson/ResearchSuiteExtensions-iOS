@@ -20,5 +20,6 @@ open class RSEnhancedInstructionStep: RSStep {
     open var image: UIImage?
     open var audioTitle: String?
     open var moveForwardOnTap: Bool = false
+    open var skipButtonText: String?
 
 }

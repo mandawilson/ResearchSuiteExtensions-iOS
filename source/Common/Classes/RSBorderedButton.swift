@@ -20,7 +20,7 @@ extension UIImage {
         return img!
     }
 }
-extension UIButton {
+public extension UIButton {
     func setBackgroundColor(backgroundColor: UIColor?, for state: UIControl.State) {
         if let color = backgroundColor {
             self.setBackgroundImage(UIImage.from(color: color), for: state)

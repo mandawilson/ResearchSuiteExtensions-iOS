@@ -19,6 +19,7 @@ open class RSEnhancedInstructionStepDescriptor: RSTBInstructionStepDescriptor {
     public let gifURL: String?
     public let audioTitle: String?
     public let moveForwardOnTap: Bool
+    public let skipButtonText: String?
     
     required public init?(json: JSON) {
 
@@ -28,6 +29,7 @@ open class RSEnhancedInstructionStepDescriptor: RSTBInstructionStepDescriptor {
         self.gifTitle = "gif" <~~ json
         self.audioTitle = "audio" <~~ json
         self.moveForwardOnTap = "moveForwardOnTap" <~~ json ?? false
+        self.skipButtonText = "skipButtonText" <~~ json
         
         if let gifURLJSON: JSON = "gifURL" <~~ json,
             let urlArray: [String] = "selectOne" <~~ gifURLJSON {

@@ -74,15 +74,16 @@ open class RSQuestionTableViewController: ORKStepViewController, RSQuestionTable
         }
         
         if let buttonText = step.buttonText {
-            self.setContinueButtonTitle(title: buttonText)
+            self.setContinueButtonTitle(
+                title: NSLocalizedString(buttonText, comment: "")
+            )
         }
         else {
-            if self.hasNextStep() {
-                self.continueButton.setTitle("Next", for: .normal)
-            }
-            else {
-                self.continueButton.setTitle("Done", for: .normal)
-            }
+            let title = NSLocalizedString(
+                self.hasNextStep() ? "Next" : "Done",
+                comment: ""
+            )
+            self.continueButton.setTitle(title, for: .normal)
         }
 
         self.skipButton.isHidden = !step.isOptional

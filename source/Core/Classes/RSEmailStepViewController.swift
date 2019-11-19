@@ -80,6 +80,7 @@ open class RSEmailStepViewController: RSQuestionViewController, MFMailComposeVie
             }
             
             // Present the view controller modally.
+            composeVC.modalPresentationStyle = .fullScreen
             self.present(composeVC, animated: true, completion: nil)
         }
         else {

@@ -282,10 +282,11 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
     
     func showValidityAlertMessage(message: String) {
         
-        let title = "Invalid value"
+        let title = NSLocalizedString("Invalid value", comment: "")
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancel = NSLocalizedString("Cancel", comment: "")
+        let cancelAction = UIAlertAction(title: cancel, style: .cancel, handler: nil)
         alert.addAction(cancelAction)
         
         self.present(alert, animated: true, completion: nil)

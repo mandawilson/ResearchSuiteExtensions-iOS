@@ -89,15 +89,16 @@ open class RSQuestionViewController: ORKStepViewController {
         }
         
         if let buttonText = step.buttonText {
-            self.setContinueButtonTitle(title: buttonText)
+            self.setContinueButtonTitle(
+                title: NSLocalizedString(buttonText, comment: "")
+            )
         }
         else {
-            if self.hasNextStep() {
-                self.continueButton.setTitle("Next", for: .normal)
-            }
-            else {
-                self.continueButton.setTitle("Done", for: .normal)
-            }
+            let title = NSLocalizedString(
+                self.hasNextStep() ? "Next" : "Done",
+                comment: ""
+            )
+            self.continueButton.setTitle(title, for: .normal)
         }
         
         self.skipButton.isHidden = !step.isOptional
@@ -132,6 +133,7 @@ open class RSQuestionViewController: ORKStepViewController {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             self.containerScrollView.contentInset = UIEdgeInsets.zero
+            self.containerScrollView.setContentOffset(CGPoint.zero, animated: true)
         } else {
             let userInfo = notification.userInfo!
             let keyboardScreenEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
