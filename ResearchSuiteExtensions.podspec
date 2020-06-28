@@ -45,7 +45,6 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
     core.dependency 'ResearchKit', '~> 1.4'
     core.dependency 'SwiftyGif', '~> 4.2'
     core.dependency 'SnapKit'
-    core.dependency 'GiphyCoreSDK'
   end
 
   s.subspec 'RSTBSupport' do |rstb|
