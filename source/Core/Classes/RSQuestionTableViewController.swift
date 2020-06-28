@@ -88,6 +88,19 @@ open class RSQuestionTableViewController: ORKStepViewController, RSQuestionTable
 
         self.skipButton.isHidden = !step.isOptional
         
+        self.skipButton.isHidden = !step.isOptional
+        
+        if let skipButtonText = step.skipButtonText {
+            self.setSkipButtonTitle(
+                title: NSLocalizedString(skipButtonText, comment: "")
+            )
+        }
+        else {
+            self.setSkipButtonTitle(
+                title: NSLocalizedString("Skip this question", comment: "")
+            )
+        }
+        
         //hold this strongly
         
         self.tableView.dataSource = self.adaptor

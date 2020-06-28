@@ -112,6 +112,9 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         let enhancedMultiWithAccessoryNIB = UINib(nibName: "RSEnhancedMultipleChoiceCell", bundle: Bundle(for: RSEnhancedMultipleChoiceStepViewController.self))
         self.tableView.register(enhancedMultiWithAccessoryNIB, forCellReuseIdentifier: "enhanced_multi_choice")
         
+        let selectAllCellNIB = UINib(nibName: "RSSelectAllTableViewCell", bundle: Bundle(for: RSSelectAllTableViewCell.self))
+        self.tableView.register(selectAllCellNIB, forCellReuseIdentifier: "default")
+        
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 60
         self.tableView.separatorInset = UIEdgeInsets.zero
@@ -123,6 +126,9 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
         }
         
         self.tableView.allowsSelection = true
+        if enhancedMultiChoiceStep.hasSelectAll && answerFormat.style != .multipleChoice {
+            fatalError()
+        }
         self.tableView.allowsMultipleSelection = answerFormat.style == .multipleChoice
         
         self.selected.forEach( { index in
@@ -158,27 +164,94 @@ open class RSEnhancedMultipleChoiceStepViewController: RSQuestionTableViewContro
     }
     
     open override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.enhancedMultiChoiceStep.answerFormat?.textChoices.count ?? 0
+        
+        if let choicesCount = self.enhancedMultiChoiceStep.answerFormat?.textChoices.count {
+            if self.enhancedMultiChoiceStep.hasSelectAll {
+                return choicesCount + 1
+            }
+            else {
+                return choicesCount
+            }
+        }
+        else {
+            return 0
+        }
     }
     
     open override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let identifier = "enhanced_multi_choice"
-        guard let cellController = self.cellControllerMap[indexPath.row],
-            let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? RSEnhancedMultipleChoiceCell else {
-            let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "default")
-            cell.textLabel?.text = "Default Cell"
-            return cell
+        guard let choicesCount = self.enhancedMultiChoiceStep.answerFormat?.textChoices.count,
+            choicesCount > 0 else {
+                fatalError()
         }
         
-        
-        cellController.configureCell(cell: cell, selected: self.tableView.indexPathsForSelectedRows?.contains(indexPath) ?? false)
-        cell.setNeedsLayout()
-        return cell
-        
+        if self.enhancedMultiChoiceStep.hasSelectAll && indexPath.row == choicesCount {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "default", for: indexPath) as! RSSelectAllTableViewCell
+            if let selectAllText = self.enhancedMultiChoiceStep.selectAllText {
+                cell.label?.text = NSLocalizedString(selectAllText, comment: "")
+            }
+            else {
+                cell.label?.text = NSLocalizedString("Select All", comment: "")
+            }
+            
+            cell.selectionStyle = .none
+            
+            return cell
+        }
+        else {
+            let identifier = "enhanced_multi_choice"
+            guard let cellController = self.cellControllerMap[indexPath.row],
+                let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as? RSEnhancedMultipleChoiceCell else {
+                let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "default")
+                cell.textLabel?.text = "Default Cell"
+                return cell
+            }
+            
+            
+            cellController.configureCell(cell: cell, selected: self.tableView.indexPathsForSelectedRows?.contains(indexPath) ?? false)
+            cell.setNeedsLayout()
+            cell.configureCheckBorder(show: self.enhancedMultiChoiceStep.checkboxBordersVisible, color: UIColor.lightGray)
+            return cell
+        }
     }
     
     override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let choicesCount = self.enhancedMultiChoiceStep.answerFormat?.textChoices.count,
+            choicesCount > 0 else {
+                fatalError()
+        }
+        
+        if indexPath.row == choicesCount {
+            tableView.deselectRow(at: indexPath, animated: false)
+            
+            let shouldSelect: Bool = {
+                guard let selectedRowCount = tableView.indexPathsForSelectedRows?.count else {
+                    return true
+                }
+                return selectedRowCount != choicesCount
+            }()
+            
+            if shouldSelect {
+                (0..<choicesCount).forEach { row in
+                    tableView.selectRow(
+                        at: IndexPath(row: row, section: indexPath.section),
+                        animated: true,
+                        scrollPosition: .none
+                    )
+                }
+            }
+            else {
+                (0..<choicesCount).forEach { row in
+                    tableView.deselectRow(
+                        at: IndexPath(row: row, section: indexPath.section),
+                        animated: true
+                    )
+                }
+            }
+            
+            
+        }
 
         tableView.beginUpdates()
         tableView.endUpdates()

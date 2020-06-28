@@ -49,12 +49,18 @@ open class RSEnhancedMultipleChoiceStepDescriptor: RSTBChoiceStepDescriptor<RSEn
     public let formattedTitle: RSTemplatedTextDescriptor?
     public let formattedText: RSTemplatedTextDescriptor?
     public let allowsEmptySelection: RSEnhancedMultipleChoiceAllowsEmptySelectionDescriptor?
+    public let checkboxBordersVisible: Bool
+    public let hasSelectAll: Bool
+    public let selectAllText: String?
     
     required public init?(json: JSON) {
         
         self.formattedTitle = "formattedTitle" <~~ json
         self.formattedText = "formattedText" <~~ json
         self.allowsEmptySelection = "allowsEmptySelection" <~~ json
+        self.checkboxBordersVisible = "checkboxBordersVisible" <~~ json ?? false
+        self.hasSelectAll = "hasSelectAll" <~~ json ?? false
+        self.selectAllText = "selectAllText" <~~ json
         
         super.init(json: json)
     }

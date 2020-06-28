@@ -20,7 +20,17 @@ open class RSEnhancedChoiceItemDescriptor: RSTBChoiceItemDescriptor {
         //for backwards compatibility, use value for identifer if it's a string
         //note this might still break stuff
         let idOpt: String? = "identifier" <~~ json
-        let valueOpt: String? = "value" <~~ json
+        let valueOpt: String? = {
+            if let value: String = "value" <~~ json {
+                return value
+            }
+            else if let value: NSNumber = "value" <~~ json {
+                return "\(value)"
+            }
+            else {
+                return nil
+            }
+        }()
         
         guard let identifier: String = idOpt ?? valueOpt else {
             return nil

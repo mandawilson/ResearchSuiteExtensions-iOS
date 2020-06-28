@@ -21,6 +21,7 @@ open class RSLabelButton: UIButton {
     
     private func initButton() {
         self.titleLabel?.font = self.defaultFont
+        self.contentEdgeInsets = UIEdgeInsets(top: 8,left: 8,bottom: 8,right: 8)
     }
     
     private func setTitleColor(_ color: UIColor?) {
@@ -28,6 +29,29 @@ open class RSLabelButton: UIButton {
         self.setTitleColor(UIColor.white, for: UIControl.State.highlighted)
         self.setTitleColor(UIColor.white, for: UIControl.State.selected)
         self.setTitleColor(UIColor.black.withAlphaComponent(0.3), for: UIControl.State.disabled)
+        self.layer.borderColor = color?.cgColor
+    }
+    
+//    func setBorderEnabled(enabled: Bool) {
+//        if enabled {
+//            self.layer.borderWidth = 1.0
+//            self.layer.cornerRadius = 5.0
+//        }
+//        else {
+//            self.layer.borderWidth = 0.0
+//        }
+//    }
+    
+    var borderEnabled: Bool = false {
+        didSet {
+            if borderEnabled {
+                self.layer.borderWidth = 1.0
+                self.layer.cornerRadius = 5.0
+            }
+            else {
+                self.layer.borderWidth = 0.0
+            }
+        }
     }
     
     var configuredColor: UIColor? {

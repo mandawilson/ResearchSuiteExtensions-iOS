@@ -41,6 +41,21 @@ open class RSEnhancedMultipleChoiceCell: UITableViewCell {
         super.prepareForReuse()
     }
     
+    open func configureCheckBorder(show: Bool, color: UIColor?) {
+        
+        if show {
+            self.checkImageView.layer.borderWidth = 2.0
+            self.checkImageView.layer.cornerRadius = 0.0
+            self.checkImageView.layer.borderColor = color?.cgColor
+            self.checkImageView.layer.masksToBounds = true
+        }
+        else {
+            self.checkImageView.layer.borderWidth = 0.0
+            self.checkImageView.layer.masksToBounds = false
+        }
+        
+    }
+    
     override open func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         

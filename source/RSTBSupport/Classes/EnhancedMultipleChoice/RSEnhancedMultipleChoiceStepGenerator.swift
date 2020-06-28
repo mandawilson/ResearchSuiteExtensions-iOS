@@ -148,7 +148,11 @@ open class RSEnhancedChoiceStepGenerator: RSTBBaseStepGenerator {
             title: helper.localizationHelper.localizedString(stepDescriptor.title),
             text: helper.localizationHelper.localizedString(stepDescriptor.text),
             answer: answerFormat,
-            cellControllerGenerators: self.cellControllerGenerators)
+            cellControllerGenerators: self.cellControllerGenerators,
+            checkboxBordersVisible: stepDescriptor.checkboxBordersVisible,
+            hasSelectAll: stepDescriptor.hasSelectAll,
+            selectAllText: stepDescriptor.selectAllText
+        )
         
         if let formattedTitle = stepDescriptor.formattedTitle {
             step.attributedTitle = self.generateAttributedString(descriptor: formattedTitle, helper: helper)

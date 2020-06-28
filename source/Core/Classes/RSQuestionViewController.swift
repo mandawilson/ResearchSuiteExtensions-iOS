@@ -103,6 +103,20 @@ open class RSQuestionViewController: ORKStepViewController {
         
         self.skipButton.isHidden = !step.isOptional
         
+        if let skipButtonText = step.skipButtonText {
+            self.setSkipButtonTitle(
+                title: NSLocalizedString(skipButtonText, comment: "")
+            )
+        }
+        else {
+            self.setSkipButtonTitle(
+                title: NSLocalizedString("Skip this question", comment: "")
+            )
+        }
+        
+        let hasBorder = step.skipButtonHasBorder
+        self.skipButton.borderEnabled = hasBorder
+        
         if !type(of: self).showsContinueButton {
             self.footerHeight.constant = RSQuestionViewController.footerHeightWithoutContinueButton
         }

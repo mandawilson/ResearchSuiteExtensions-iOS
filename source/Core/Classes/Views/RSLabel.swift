@@ -21,6 +21,17 @@ open class RSLabel: UILabel {
         self.init_RSLabel()
     }
     
+    open var defaultWeight: UIFont.Weight {
+        return .regular
+    }
+    
+    open var weightOverride: UIFont.Weight?
+    public init(weightOverride: UIFont.Weight) {
+        super.init(frame: CGRect())
+        self.weightOverride = weightOverride
+        self.init_RSLabel()
+    }
+    
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.init_RSLabel()
@@ -61,7 +72,8 @@ open class RSLabel: UILabel {
     
     open var defaultFont: UIFont {
         // regular, 14
-        return RSFonts.computeFont(startingTextStyle: UIFont.TextStyle.caption1, defaultSize: 12.0, typeAdjustment: 14.0)
+        let weight: UIFont.Weight = self.weightOverride ?? self.defaultWeight
+        return RSFonts.computeFont(startingTextStyle: UIFont.TextStyle.caption1, defaultSize: 12.0, typeAdjustment: 14.0, weight: weight)
     }
     
 }
