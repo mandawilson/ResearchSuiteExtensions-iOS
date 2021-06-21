@@ -32,6 +32,11 @@ open class RSEnhancedTimePickerStepViewController: RSQuestionViewController {
         }
         
         let datePicker = UIDatePicker()
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        } else {
+            // Fallback on earlier versions
+        }
         self.datePicker = datePicker
         datePicker.datePickerMode = .time
         
