@@ -18,7 +18,7 @@ public struct RSTextInstructionStepSectionDescriptor: Gloss.JSONDecodable {
     
     
     public init?(json: JSON) {
-        
+        print("---------> RSTextInstructionStepSectionDescriptor.init")
         guard let templatedTextDescriptor: RSTemplatedTextDescriptor = RSTemplatedTextDescriptor(json: json) else {
             return nil
         }
@@ -35,17 +35,21 @@ public struct RSTextInstructionStepSectionDescriptor: Gloss.JSONDecodable {
                 case "justified":
                     return .justified
                 default:
-                    return .natural
+                    //return .natural
+                    return .left
                 }
             }
             else {
-                return .natural
+                //return .natural
+                return .left
             }
         }()
-        
         self.templatedTextDescriptor = templatedTextDescriptor
-        self.color = "color" <~~ json
-        
+        //self.color = "color" <~~ json
+        self.color = "green"
+        print("alignment = \(self.alignment)")
+        print("templatedTextDescriptor = \(self.templatedTextDescriptor)")
+        print("color = \(self.color)")
     }
     
 }
@@ -57,9 +61,10 @@ open class RSTextInstructionStepDescriptor: RSTBStepDescriptor {
     public let textSections: [RSTextInstructionStepSectionDescriptor]?
     
     required public init?(json: JSON) {
-        
+        print("---------> RSTextInstructionStepDescriptor")
         self.buttonText = "buttonText" <~~ json
         self.formattedTitle = "formattedTitle" <~~ json
+        print("formattedText = \(self.formattedTitle)")
         self.formattedText = "formattedText" <~~ json
         
         self.textSections = {

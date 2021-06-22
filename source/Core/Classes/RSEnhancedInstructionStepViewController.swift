@@ -46,6 +46,7 @@ open class RSEnhancedInstructionStepViewController: RSQuestionViewController {
         
         let stackView = UIStackView(arrangedSubviews: stackedViews)
         stackView.distribution = .equalCentering
+        //stackView.backgroundColor = .systemPink
         stackView.frame = self.contentView.bounds
         self.stackView = stackView
         

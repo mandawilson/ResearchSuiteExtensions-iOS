@@ -105,18 +105,18 @@ public extension RSTBBaseStepGenerator {
         guard let markdownString = renderedString else {
             return nil
         }
-        
+        print("markdownString=\(markdownString)")
         //finally through markdown -> NSAttributedString
         //let's make Body the same as ORKLabel
         //let's adjust headers based on other labels too
         let md = SwiftyMarkdown(string: markdownString)
 //        md.h1.fontName = UIFont.preferredFont(forTextStyle: .title1).fontName
-        
+        print("md=\(md)")
         if let color = fontColor {
             md.setFontColorForAllStyles(with: color)
         }
-        
-        let h1Font = RSFonts.computeFont(startingTextStyle: UIFont.TextStyle.headline, defaultSize: 17.0, typeAdjustment: 35.0, weight: UIFont.Weight.light)
+                
+        /*let h1Font = RSFonts.computeFont(startingTextStyle: UIFont.TextStyle.headline, defaultSize: 17.0, typeAdjustment: 35.0, weight: UIFont.Weight.light)
         
         md.h1.fontSize = h1Font.pointSize
         md.h1.fontName = h1Font.fontName
@@ -150,24 +150,31 @@ public extension RSTBBaseStepGenerator {
         
         md.body.fontSize = bodyFont.pointSize
         md.body.fontName = bodyFont.fontName
-        
-        
+        */
         let attributedString = NSMutableAttributedString(attributedString: md.attributedString())
-        
-        attributedString.enumerateAttributes(in: NSRange(location: 0, length: attributedString.length), options: []) { (attributes, range, finish) in
-            
+        print("attributedString=\(attributedString)")
+        /*attributedString.enumerateAttributes(in: NSRange(location: 0, length: attributedString.length), options: []) { (attributes, range, finish) in
+            print("attributes = \(attributes) for range =\(range)")
+            // if this is not a font attribute skip it (does that mean we lose it?)
             guard let font = attributes[NSAttributedString.Key.font] as? UIFont else {
+                print("skipping attribute")
                 return
             }
-            
+            print("old font:\(font)")
+            // this replaces the current font with the new font
+            // the new font just takes the font size of the previous font but loses
+            // formatting such as font-weight, font-style, font-family
+            // the point of this is probably to keep the system font-family
+            // but get the new font size, but we also want the font-weight and font-style so that we can use italics and bold
             let newFont = UIFont.systemFont(ofSize: font.pointSize)
-            let newAttributes = attributes.merging([NSAttributedString.Key.font: newFont]) { (first, second) -> Any in
-                second
+            //newFont.fontDescriptor = newFont.fontDescriptor.withSymbolicTraits(font.fontDescriptor.symbolicTraits)
+            let newAttributes = attributes.merging([NSAttributedString.Key.font: newFont]) { (current, new) -> Any in
+                new
             }
             attributedString.setAttributes(newAttributes, range: range)
-            
+            print("newAttributes = \(newAttributes) for range =\(range)")
         }
-        
+        print("attributedString=\(attributedString)")*/
         return attributedString
     }
 
