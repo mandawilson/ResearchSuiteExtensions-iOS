@@ -115,6 +115,8 @@ public extension RSTBBaseStepGenerator {
         if let color = fontColor {
             md.setFontColorForAllStyles(with: color)
         }
+        md.h3.color = .systemBlue // this doesn't apply if we also italicise
+        md.h3.alignment = .center
                 
         /*let h1Font = RSFonts.computeFont(startingTextStyle: UIFont.TextStyle.headline, defaultSize: 17.0, typeAdjustment: 35.0, weight: UIFont.Weight.light)
         

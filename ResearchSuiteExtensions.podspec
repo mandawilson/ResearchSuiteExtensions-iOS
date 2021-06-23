@@ -52,7 +52,7 @@ ResearchSuiteExtensions provides components and helper functions for ResearchSui
     rstb.dependency 'ResearchSuiteExtensions/Core'
     rstb.dependency 'ResearchSuiteTaskBuilder', '~> 0.13'
     rstb.dependency 'Gloss', '~> 2.0'
-    rstb.dependency 'SwiftyMarkdown', '~> 0.6.2'
+    rstb.dependency 'SwiftyMarkdown', '~> 1.2.3'
     rstb.dependency 'GRMustache.swift', '~> 4.0'
   end
 

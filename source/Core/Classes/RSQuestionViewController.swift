@@ -80,8 +80,8 @@ open class RSQuestionViewController: ORKStepViewController {
         if let attributedText = step.attributedText {
             self.textLabel.attributedText = attributedText
             // TODO make this customizable?
-            // TODO add padding
-            self.textLabel.textAlignment = .left
+            //self.textLabel.textAlignment = .right // in original code
+            //self.textLabel.backgroundColor = .systemTeal // for debugging
         }
         
         if step.attributedTitle == nil && step.title == nil &&
